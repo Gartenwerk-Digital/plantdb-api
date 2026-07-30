@@ -17,12 +17,10 @@ final class AdminUserSeeder extends Seeder
             return;
         }
 
-        $email = (string) env('ADMIN_EMAIL', '');
-        $password = (string) env('ADMIN_PASSWORD', '');
+        $email = is_string(config('admin.email')) ? config('admin.email') : '';
+        $password = is_string(config('admin.password')) ? config('admin.password') : '';
 
-        if ($email === '' || $password === '') {
-            throw new RuntimeException('ADMIN_EMAIL and ADMIN_PASSWORD must be set in .env for local seeding.');
-        }
+        throw_if($email === '' || $password === '', RuntimeException::class, 'ADMIN_EMAIL and ADMIN_PASSWORD must be set in .env for local seeding.');
 
         User::query()->updateOrCreate(
             ['email' => $email],
