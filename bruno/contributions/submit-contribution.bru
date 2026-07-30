@@ -1,0 +1,29 @@
+meta {
+  name: submit contribution
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{apiUrl}}/contributions
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "type": "plant",
+    "action": "create",
+    "payload": {
+      "botanical_name": "Solanum lycopersicum 'San Marzano'",
+      "common_name_de": "San Marzano Tomate",
+      "genus": "Solanum",
+      "family": "Solanaceae"
+    },
+    "note": "Historische italienische Sorte"
+  }
+}

@@ -1,0 +1,20 @@
+meta {
+  name: list plants
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{apiUrl}}/plants
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:query {
+  ~per_page: 25
+  ~filter[family]:
+  ~sort: -created_at
+}

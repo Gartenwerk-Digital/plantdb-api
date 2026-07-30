@@ -1,0 +1,14 @@
+meta {
+  name: list genera
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{apiUrl}}/genera
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

@@ -1,0 +1,18 @@
+meta {
+  name: get plant
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{apiUrl}}/plants/:slug
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  slug: solanum-lycopersicum
+}
