@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Fragen & Diskussion
+    url: https://github.com/Gartenwerk-Digital/plantdb-api/discussions
+    about: Allgemeine Fragen, Ideen oder Support — bitte hier statt als Issue.
