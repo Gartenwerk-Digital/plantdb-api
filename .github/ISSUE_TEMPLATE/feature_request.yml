@@ -1,0 +1,47 @@
+name: Feature Request
+description: Schlage ein neues Feature oder eine Verbesserung für die PlantDB API vor.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Danke für deinen Vorschlag! Prüfe bitte kurz die Roadmap im README, bevor du ein neues Feature vorschlägst.
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Vorab-Check
+      options:
+        - label: Ich habe die bestehenden Issues und die Roadmap geprüft.
+          required: true
+        - label: Das Feature passt zum Projekt-Scope (öffentliche Pflanzendaten-API).
+          required: true
+  - type: input
+    id: summary
+    attributes:
+      label: Zusammenfassung
+      description: Ein Satz, der das Feature beschreibt.
+      placeholder: z. B. "Endpoint für Fruchtfolge-Empfehlungen pro Familie".
+    validations:
+      required: true
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation / Use Case
+      description: Warum wird dieses Feature gebraucht? Welches Problem löst es?
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Vorgeschlagene Lösung
+      description: Wie stellst du dir die Umsetzung vor? API-Design, Datenmodell, UI-Skizzen.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternativen
+      description: Welche Alternativen hast du in Betracht gezogen? Warum passen sie nicht?
+    validations:
+      required: false

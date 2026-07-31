@@ -1,0 +1,71 @@
+name: Bug Report
+description: Melde einen reproduzierbaren Fehler in der PlantDB API.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Danke, dass du dir die Zeit nimmst, einen Bug zu melden! Bitte fülle die Felder möglichst vollständig aus.
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Vorab-Check
+      options:
+        - label: Ich habe die bestehenden Issues durchsucht und keinen Duplikat gefunden.
+          required: true
+        - label: Ich nutze eine aktuelle Version von `main` oder `develop`.
+          required: false
+  - type: textarea
+    id: description
+    attributes:
+      label: Beschreibung
+      description: Was ist passiert? Was hast du erwartet?
+      placeholder: Kurze, präzise Beschreibung des Fehlers.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Schritte zur Reproduktion
+      description: Wie kann der Fehler reproduziert werden?
+      placeholder: |
+        1. Endpunkt `GET /api/v1/...` aufrufen mit Payload `...`
+        2. ...
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Erwartetes Verhalten
+      placeholder: Was hättest du erwartet?
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Tatsächliches Verhalten
+      placeholder: Was ist stattdessen passiert? HTTP-Status, Fehlermeldung, Body.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Umgebung
+      description: PHP-Version, Laravel-Version, PostgreSQL-Version, OS.
+      value: |
+        - PHP:
+        - Laravel:
+        - PostgreSQL:
+        - OS:
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / Stack Trace (optional)
+      description: Relevanter Log-Auszug oder Stack Trace. Bitte sensible Daten entfernen.
+      render: shell
+    validations:
+      required: false
