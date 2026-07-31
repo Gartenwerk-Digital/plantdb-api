@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Health / liveness probe — public, no auth, no throttle
+Route::get('ping', fn () => response()->json(['status' => 'ok']))
+    ->name('api.v1.ping');
+
 // Public routes with auth rate limiter (5/min - brute force protection)
 Route::middleware('throttle:auth')->group(function (): void {
     Route::post('register', [AuthController::class, 'register'])->name('api.v1.register');
