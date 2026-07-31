@@ -67,3 +67,22 @@ php artisan filament:make-resource # Filament Resource generator
 - Kein hardcoded Secret — immer via `.env`
 - Kein `--no-verify` bei Commits
 - Nichts pushen, was `composer test` bricht
+
+## Git-Workflow (immer einhalten)
+
+Jedes Issue wird nach diesem Schema abgearbeitet:
+
+1. **Branch:** `git checkout develop && git pull && git checkout -b feat/<issue-nr>-<kurz-slug>`
+2. **Implementieren** — Code, Tests, `composer test` grün
+3. **Commit:** Conventional Commits auf Englisch (`feat:`, `fix:`, `chore:`, `test:`, `docs:`)
+4. **Push:** `git push -u origin feat/<issue-nr>-<kurz-slug>`
+5. **PR erstellen** via `gh pr create` mit:
+   - `--base develop`
+   - `--title` passend zum Issue
+   - `--body` enthält zwingend `Closes #<nr>` (schließt Issue automatisch beim Merge)
+   - `--label` dieselben Labels wie das Issue
+   - `--milestone` derselbe Milestone wie das Issue
+   - `--assignee ChrisPuh`
+6. **PR-URL ausgeben**
+
+Nie direkt auf `develop` oder `main` pushen. Alles über PRs.
