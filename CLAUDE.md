@@ -86,3 +86,50 @@ Jedes Issue wird nach diesem Schema abgearbeitet:
 6. **PR-URL ausgeben**
 
 Nie direkt auf `develop` oder `main` pushen. Alles über PRs.
+
+## Sprint-Abschluss-Workflow (Release)
+
+Wenn alle Issues eines Milestones geschlossen sind und Sprint N released werden soll:
+
+1. **Version bestimmen** (SemVer)
+   - Pro Sprint: MINOR-Bump auf `develop` (`v0.2.0` nach Sprint 1, `v0.3.0` nach Sprint 2, …)
+   - Hotfixes zwischen Sprints: PATCH (`v0.1.1`)
+   - Erst `v1.0.0`, wenn die öffentliche `/api/v1/*`-Oberfläche stabil ist (voraussichtlich nach Sprint 7)
+
+2. **CHANGELOG-Eintrag** (Keep a Changelog Format)
+   - Eigener Branch: `chore/release-vX.Y.Z-changelog` von `develop`
+   - `## [Unreleased]` in `## [X.Y.Z] — YYYY-MM-DD` umbenennen
+   - Neue leere `## [Unreleased]` Section darüber anlegen
+   - Compare-Links am Datei-Ende aktualisieren
+   - PR gegen `develop`, Titel `chore: changelog for vX.Y.Z`
+
+3. **Release-PR** `develop → main`
+   ```bash
+   gh pr create --base main --head develop \
+     --title "Release vX.Y.Z — Sprint N <Name>" \
+     --body "Sprint N release. See CHANGELOG.md."
+   ```
+   Merge **via GitHub UI** mit „Create a merge commit" (nicht Squash, nicht Rebase). Der Merge-Commit ist der Release-Marker auf `main`.
+
+4. **Tag + GitHub Release** auf `main`
+   ```bash
+   git checkout main && git pull
+   git tag -a vX.Y.Z -m "Sprint N — <Name>"
+   git push origin vX.Y.Z
+   gh release create vX.Y.Z \
+     --title "vX.Y.Z — Sprint N: <Name>" \
+     --notes-file <(awk '/## \[X.Y.Z\]/,/## \[/{if(/## \[/ && !/X.Y.Z/)exit; print}' CHANGELOG.md) \
+     --latest
+   ```
+
+5. **Milestone schließen**
+   ```bash
+   gh api -X PATCH repos/Gartenwerk-Digital/plantdb-api/milestones/<N> -f state=closed
+   ```
+
+6. **Sprint N+1 vorbereiten**
+   - `git checkout develop && git pull` (Merge-Commit von `main` zurückholen, falls nötig)
+   - Offene Issues im nächsten Milestone sichten, Reihenfolge klären
+   - Ersten Feature-Branch nach dem Standard-Git-Workflow starten
+
+Während eines Sprints: nichts davon — nur der Feature-Branch/PR-Workflow oben.
