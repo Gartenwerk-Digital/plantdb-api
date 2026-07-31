@@ -1,0 +1,66 @@
+name: Plant Data Contribution
+description: Beitrag zu Pflanzendaten — neue Pflanze, Korrektur oder Bild.
+title: "[Plant]: "
+labels: ["plant-data", "contribution"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Vielen Dank für deinen Beitrag zur Pflanzendatenbank! Bitte gib nur Daten weiter, deren Quellen mit unserer Datenlizenz (siehe [DATA_LICENSE.md](https://github.com/Gartenwerk-Digital/plantdb-api/blob/main/DATA_LICENSE.md)) kompatibel sind (z. B. CC-BY-SA, Public Domain, eigene Beobachtungen).
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Vorab-Check
+      options:
+        - label: Meine Quellen sind mit der Datenlizenz kompatibel (CC-BY-SA / Public Domain / Eigene Arbeit).
+          required: true
+        - label: Ich habe geprüft, ob die Pflanze bereits existiert.
+          required: true
+  - type: input
+    id: botanical_name
+    attributes:
+      label: Botanischer Name
+      description: Wissenschaftlicher Name der Pflanze (Genus + species).
+      placeholder: z. B. "Solanum lycopersicum"
+    validations:
+      required: true
+  - type: input
+    id: family_genus
+    attributes:
+      label: Familie / Gattung
+      placeholder: z. B. "Solanaceae / Solanum"
+    validations:
+      required: true
+  - type: dropdown
+    id: change_type
+    attributes:
+      label: Art der Änderung
+      options:
+        - Neue Pflanze
+        - Korrektur bestehender Daten
+        - Bild-Upload
+        - Übersetzung / mehrsprachiger Name
+        - Sonstiges
+    validations:
+      required: true
+  - type: textarea
+    id: data_description
+    attributes:
+      label: Beschreibung der Daten
+      description: Welche Felder sollen hinzugefügt oder geändert werden? Aktueller vs. neuer Wert.
+      placeholder: |
+        - Feld: `common_names.de`
+        - Aktuell: —
+        - Neu: "Tomate", "Paradeiser"
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Quellen / Belege
+      description: URLs, Bücher (ISBN), botanische Datenbanken, eigene Beobachtungen. Bitte Lizenz der Quelle nennen.
+      placeholder: |
+        - https://... (CC-BY-SA)
+        - "Handbuch der Botanik", ISBN 978-...
+    validations:
+      required: true
