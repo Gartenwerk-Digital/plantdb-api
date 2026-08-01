@@ -5,14 +5,14 @@ meta {
 }
 
 get {
-  url: {{apiUrl}}/plants/:slug
-  auth: bearer
-}
-
-auth:bearer {
-  token: {{token}}
+  url: {{apiUrl}}/plants/:slug?include=images,companions,care_tasks,translations
+  auth: none
 }
 
 params:path {
   slug: solanum-lycopersicum
+}
+
+params:query {
+  ~include: images,companions,care_tasks,translations
 }
