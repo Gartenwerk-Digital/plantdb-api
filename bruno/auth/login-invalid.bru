@@ -1,0 +1,30 @@
+meta {
+  name: login (invalid credentials — error demo)
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{apiUrl}}/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "chrisganzert@gmail.com",
+    "password": "wrong-password"
+  }
+}
+
+tests {
+  test("responds 401", function () {
+    expect(res.getStatus()).to.equal(401);
+  });
+
+  test("returns { error: { code: unauthenticated } }", function () {
+    const body = res.getBody();
+    expect(body.error.code).to.equal("unauthenticated");
+    expect(body.error.message).to.equal("Invalid credentials");
+  });
+}

@@ -27,10 +27,7 @@ describe('Email Verification', function (): void {
             ->postJson($verificationUrl);
 
         $response->assertStatus(200)
-            ->assertJson([
-                'success' => true,
-                'message' => 'Email verified successfully',
-            ]);
+            ->assertJsonPath('meta.message', 'Email verified successfully');
 
         $this->assertNotNull($user->fresh()->email_verified_at);
         Event::assertDispatched(Verified::class);
@@ -52,10 +49,7 @@ describe('Email Verification', function (): void {
             ->postJson($verificationUrl);
 
         $response->assertStatus(200)
-            ->assertJson([
-                'success' => true,
-                'message' => 'Email already verified',
-            ]);
+            ->assertJsonPath('meta.message', 'Email already verified');
     });
 
     it('fails verification without authentication', function (): void {
@@ -69,7 +63,8 @@ describe('Email Verification', function (): void {
 
         $response = $this->postJson($verificationUrl);
 
-        $response->assertStatus(401);
+        $response->assertStatus(401)
+            ->assertJsonPath('error.code', 'unauthenticated');
     });
 
     it('fails verification with invalid signature', function (): void {
@@ -80,7 +75,8 @@ describe('Email Verification', function (): void {
         $response = $this->withHeader('Authorization', 'Bearer '.$token)
             ->postJson(sprintf('/api/v1/email/verify/%d/invalid-hash', $user->id));
 
-        $response->assertStatus(403);
+        $response->assertStatus(403)
+            ->assertJsonPath('error.code', 'forbidden');
     });
 });
 
@@ -95,10 +91,7 @@ describe('Resend Verification Email', function (): void {
             ]);
 
         $response->assertStatus(200)
-            ->assertJson([
-                'success' => true,
-                'message' => 'Verification email sent successfully',
-            ]);
+            ->assertJsonPath('meta.message', 'Verification email sent successfully');
     });
 
     it('fails to resend if email is already verified', function (): void {
@@ -114,8 +107,10 @@ describe('Resend Verification Email', function (): void {
 
         $response->assertStatus(400)
             ->assertJson([
-                'success' => false,
-                'message' => 'Email already verified',
+                'error' => [
+                    'code' => 'bad_request',
+                    'message' => 'Email already verified',
+                ],
             ]);
     });
 
@@ -128,7 +123,8 @@ describe('Resend Verification Email', function (): void {
                 'email' => 'nonexistent@example.com',
             ]);
 
-        $response->assertStatus(422);
+        $response->assertStatus(422)
+            ->assertJsonPath('error.code', 'validation_failed');
     });
 
     it('requires authentication', function (): void {
@@ -154,6 +150,7 @@ describe('Resend Verification Email', function (): void {
         }
 
         // Last request should be rate limited
-        $response->assertStatus(429);
+        $response->assertStatus(429)
+            ->assertJsonPath('error.code', 'too_many_requests');
     });
 });

@@ -8,3 +8,17 @@ get {
   url: {{apiUrl}}/ping
   auth: none
 }
+
+tests {
+  test("responds 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("sets X-API-Version header", function () {
+    expect(res.getHeader("x-api-version")).to.equal("v1");
+  });
+
+  test("returns { status: ok }", function () {
+    expect(res.getBody().status).to.equal("ok");
+  });
+}

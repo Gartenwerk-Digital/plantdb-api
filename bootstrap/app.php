@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Exceptions\ApiExceptionRenderer;
+use App\Http\Middleware\ApiVersion;
 use App\Http\Middleware\EnsureEmailVerified;
 use App\Http\Middleware\ForceJsonResponse;
 use App\Http\Middleware\LogApiRequests;
@@ -18,11 +20,12 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
+            'api.version' => ApiVersion::class,
             'force.json' => ForceJsonResponse::class,
             'log.api' => LogApiRequests::class,
             'verified' => EnsureEmailVerified::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        $exceptions->render(new ApiExceptionRenderer());
     })->create();

@@ -18,10 +18,7 @@ describe('Forgot Password', function (): void {
         ]);
 
         $response->assertStatus(200)
-            ->assertJson([
-                'success' => true,
-                'message' => 'Password reset link sent to your email',
-            ]);
+            ->assertJsonPath('meta.message', 'Password reset link sent to your email');
     });
 
     it('fails with non-existent email', function (): void {
@@ -29,7 +26,8 @@ describe('Forgot Password', function (): void {
             'email' => 'nonexistent@example.com',
         ]);
 
-        $response->assertStatus(422);
+        $response->assertStatus(422)
+            ->assertJsonPath('error.code', 'validation_failed');
     });
 
     it('respects rate limiting', function (): void {
@@ -43,7 +41,8 @@ describe('Forgot Password', function (): void {
         }
 
         // Last request should be rate limited
-        $response->assertStatus(429);
+        $response->assertStatus(429)
+            ->assertJsonPath('error.code', 'too_many_requests');
     });
 });
 
@@ -61,10 +60,7 @@ describe('Reset Password', function (): void {
         ]);
 
         $response->assertStatus(200)
-            ->assertJson([
-                'success' => true,
-                'message' => 'Password reset successfully',
-            ]);
+            ->assertJsonPath('meta.message', 'Password reset successfully');
 
         // Verify password was changed
         $this->assertTrue(Hash::check('newpassword123', $user->fresh()->password));
@@ -85,8 +81,10 @@ describe('Reset Password', function (): void {
 
         $response->assertStatus(400)
             ->assertJson([
-                'success' => false,
-                'message' => 'Invalid or expired reset token',
+                'error' => [
+                    'code' => 'bad_request',
+                    'message' => 'Invalid or expired reset token',
+                ],
             ]);
     });
 
@@ -101,7 +99,8 @@ describe('Reset Password', function (): void {
             'password_confirmation' => 'differentpassword',
         ]);
 
-        $response->assertStatus(422);
+        $response->assertStatus(422)
+            ->assertJsonPath('error.code', 'validation_failed');
     });
 
     it('fails with non-existent email', function (): void {
@@ -114,8 +113,10 @@ describe('Reset Password', function (): void {
 
         $response->assertStatus(400)
             ->assertJson([
-                'success' => false,
-                'message' => 'User not found',
+                'error' => [
+                    'code' => 'bad_request',
+                    'message' => 'User not found',
+                ],
             ]);
     });
 });
