@@ -14,7 +14,13 @@ auth:bearer {
 }
 
 params:query {
-  ~per_page: 25
-  ~filter[family]:
+  ~per_page: 20
   ~sort: -created_at
+  ~filter[q]: rosa
+  ~filter[life_cycle]: perennial
+  ~filter[sun_requirement]: full_sun
+  ~filter[soil_moisture]: moist
+  ~filter[bloom_month]: 6
+  ~filter[edible]: true
+  ~filter[toxic_to_pets]: false
 }
