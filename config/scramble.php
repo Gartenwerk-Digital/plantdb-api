@@ -31,7 +31,48 @@ return [
         /*
          * Description rendered on the home page of the API documentation (`/docs/api`).
          */
-        'description' => 'PlantDB API — central community-curated plant database for garden management applications.',
+        'description' => <<<'MD'
+            PlantDB API — central community-curated plant database for garden management applications.
+
+            ## Response envelope
+
+            **Success (single resource)**
+            ```json
+            { "data": { ... } }
+            ```
+
+            **Success (paginated collection)**
+            ```json
+            {
+              "data": [ ... ],
+              "meta": { "pagination": { "current_page": 1, "per_page": 20, "total": 100, "last_page": 5 } },
+              "links": { "first": "...", "last": "...", "prev": null, "next": "..." }
+            }
+            ```
+
+            Success responses may also carry a human-readable `meta.message` (e.g. after login).
+
+            ## Error envelope
+
+            Every non-2xx response uses the unified shape:
+            ```json
+            { "error": { "code": "validation_failed", "message": "...", "details": { "email": ["..."] } } }
+            ```
+
+            `code` is a stable snake_case slug clients can switch on. `details` is only present for `422 validation_failed`.
+
+            | Status | `error.code`         | When                                        |
+            | ------ | -------------------- | ------------------------------------------- |
+            | 400    | `bad_request`        | Malformed request or business rule refusal. |
+            | 401    | `unauthenticated`    | Missing / invalid bearer token.             |
+            | 403    | `forbidden`          | Authenticated but not permitted.            |
+            | 404    | `not_found`          | Unknown route or unpublished resource.      |
+            | 422    | `validation_failed`  | Payload failed validation.                  |
+            | 429    | `too_many_requests`  | Rate limit exceeded.                        |
+            | 500    | `server_error`       | Unexpected server error.                    |
+
+            Every v1 response also carries the `X-API-Version: v1` header.
+            MD,
     ],
 
     /*
