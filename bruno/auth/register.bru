@@ -18,3 +18,16 @@ body:json {
     "password_confirmation": "password"
   }
 }
+
+tests {
+  test("responds 201", function () {
+    expect(res.getStatus()).to.equal(201);
+  });
+
+  test("returns { data: { user, token } } + meta.message", function () {
+    const body = res.getBody();
+    expect(body.data.user).to.have.property("email");
+    expect(body.data.token).to.be.a("string");
+    expect(body.meta).to.have.property("message");
+  });
+}

@@ -1,0 +1,32 @@
+meta {
+  name: register (validation error — error demo)
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{apiUrl}}/register
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "",
+    "email": "not-an-email",
+    "password": "short"
+  }
+}
+
+tests {
+  test("responds 422", function () {
+    expect(res.getStatus()).to.equal(422);
+  });
+
+  test("returns { error: { code: validation_failed, details } }", function () {
+    const body = res.getBody();
+    expect(body.error.code).to.equal("validation_failed");
+    expect(body.error.details).to.have.property("email");
+    expect(body.error.details).to.have.property("password");
+  });
+}
