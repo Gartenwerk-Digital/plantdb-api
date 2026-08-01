@@ -18,17 +18,13 @@ describe('Registration', function (): void {
 
         $response->assertStatus(201)
             ->assertJsonStructure([
-                'success',
-                'message',
                 'data' => [
                     'user' => ['id', 'name', 'email'],
                     'token',
                 ],
+                'meta' => ['message'],
             ])
-            ->assertJson([
-                'success' => true,
-                'message' => 'User registered successfully. Please check your email to verify your account.',
-            ]);
+            ->assertJsonPath('meta.message', 'User registered successfully. Please check your email to verify your account.');
 
         $this->assertDatabaseHas('users', [
             'email' => 'test@example.com',
@@ -42,7 +38,8 @@ describe('Registration', function (): void {
             'password' => 'short',
         ]);
 
-        $response->assertStatus(422);
+        $response->assertStatus(422)
+            ->assertJsonPath('error.code', 'validation_failed');
     });
 
     it('fails registration with duplicate email', function (): void {
@@ -55,7 +52,8 @@ describe('Registration', function (): void {
             'password_confirmation' => 'password123',
         ]);
 
-        $response->assertStatus(422);
+        $response->assertStatus(422)
+            ->assertJsonPath('error.code', 'validation_failed');
     });
 });
 
@@ -72,17 +70,13 @@ describe('Login', function (): void {
 
         $response->assertStatus(200)
             ->assertJsonStructure([
-                'success',
-                'message',
                 'data' => [
                     'user' => ['id', 'name', 'email'],
                     'token',
                 ],
+                'meta' => ['message'],
             ])
-            ->assertJson([
-                'success' => true,
-                'message' => 'Login successful',
-            ]);
+            ->assertJsonPath('meta.message', 'Login successful');
     });
 
     it('fails login with invalid credentials', function (): void {
@@ -97,8 +91,10 @@ describe('Login', function (): void {
 
         $response->assertStatus(401)
             ->assertJson([
-                'success' => false,
-                'message' => 'Invalid credentials',
+                'error' => [
+                    'code' => 'unauthenticated',
+                    'message' => 'Invalid credentials',
+                ],
             ]);
     });
 
@@ -121,16 +117,14 @@ describe('Logout', function (): void {
             ->postJson('/api/v1/logout');
 
         $response->assertStatus(200)
-            ->assertJson([
-                'success' => true,
-                'message' => 'Logged out successfully',
-            ]);
+            ->assertJsonPath('meta.message', 'Logged out successfully');
     });
 
     it('fails logout without authentication', function (): void {
         $response = $this->postJson('/api/v1/logout');
 
-        $response->assertStatus(401);
+        $response->assertStatus(401)
+            ->assertJsonPath('error.code', 'unauthenticated');
     });
 });
 
@@ -144,17 +138,10 @@ describe('Me', function (): void {
 
         $response->assertStatus(200)
             ->assertJsonStructure([
-                'success',
-                'message',
                 'data' => ['id', 'name', 'email'],
             ])
-            ->assertJson([
-                'success' => true,
-                'data' => [
-                    'id' => $user->id,
-                    'email' => $user->email,
-                ],
-            ]);
+            ->assertJsonPath('data.id', $user->id)
+            ->assertJsonPath('data.email', $user->email);
     });
 
     it('fails without authentication', function (): void {
