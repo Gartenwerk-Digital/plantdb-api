@@ -7,6 +7,24 @@ und dieses Projekt hält sich an [Semantic Versioning](https://semver.org/lang/d
 
 ## [Unreleased]
 
+## [0.2.0] — 2026-08-01
+
+Sprint 1 — Core API. Lesende v1-Endpunkte für Plants, Genera, Families
+und einheitliches Response-Envelope.
+
+### Added
+- Einheitliches API-Response-Envelope `{data, meta, links}` und
+  globaler Error-Shape `{error: {code, message, details}}`;
+  Exception-Handler für 401/403/404/422/429/500;
+  Scramble-Docs mit globalen Error-Schemas (#8)
+- `GET /api/v1/families` und `GET /api/v1/genera` — Read-Endpunkte
+  mit Pagination, Filter und plants_count (#7)
+- `GET /api/v1/plants/{slug}` — Pflanzensteckbrief mit optionalen
+  Includes `?include=images,companions,care_tasks,translations` (#6)
+- `GET /api/v1/plants` — Pflanzenliste mit Filtern (life_cycle,
+  sun_requirement, soil_moisture, bloom_month, edible,
+  toxic_to_pets, q-Freitextsuche via PostgreSQL tsvector) (#5)
+
 ## [0.1.0] — 2026-07-31
 
 Sprint 0 — Foundation. Erstes lauffähiges Skeleton der PlantDB API.
@@ -22,5 +40,6 @@ Sprint 0 — Foundation. Erstes lauffähiges Skeleton der PlantDB API.
 - Bruno-Collection für lokale API-Exploration
 - `CLAUDE.md` mit Projekt-Konventionen und Git-Workflow
 
-[Unreleased]: https://github.com/Gartenwerk-Digital/plantdb-api/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/Gartenwerk-Digital/plantdb-api/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/Gartenwerk-Digital/plantdb-api/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/Gartenwerk-Digital/plantdb-api/releases/tag/v0.1.0

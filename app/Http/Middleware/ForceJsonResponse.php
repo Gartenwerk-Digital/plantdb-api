@@ -24,12 +24,13 @@ final class ForceJsonResponse
             return $response;
         }
 
-        // Convert non-JSON responses to JSON
+        // Convert unexpected non-JSON responses to the unified error envelope.
         if ($response instanceof Response) {
             return response()->json([
-                'success' => false,
-                'message' => 'An error occurred',
-                'data' => $response->getContent(),
+                'error' => [
+                    'code' => 'unexpected_response',
+                    'message' => 'An error occurred',
+                ],
             ], $response->getStatusCode());
         }
 
