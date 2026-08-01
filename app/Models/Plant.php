@@ -22,6 +22,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Support\Carbon;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -33,6 +35,47 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property string $genus_id
  * @property string|null $cultivar
  * @property PlantStatus $status
+ * @property LifeCycle|null $life_cycle
+ * @property bool $deciduous
+ * @property array<int, string>|null $native_regions
+ * @property int|null $height_min_cm
+ * @property int|null $height_max_cm
+ * @property int|null $width_min_cm
+ * @property int|null $width_max_cm
+ * @property GrowthRate|null $growth_rate
+ * @property RootDepth|null $root_depth
+ * @property SunRequirement|null $sun_requirement
+ * @property int|null $hardiness_zone_min
+ * @property int|null $hardiness_zone_max
+ * @property bool $suitable_for_pot
+ * @property array<int, string>|null $soil_types
+ * @property float|null $soil_ph_min
+ * @property float|null $soil_ph_max
+ * @property SoilMoisture|null $soil_moisture
+ * @property int|null $bloom_start_month
+ * @property int|null $bloom_end_month
+ * @property array<int, string>|null $bloom_colors
+ * @property bool $fragrant
+ * @property int|null $fruit_season_start
+ * @property int|null $fruit_season_end
+ * @property array<int, string>|null $edible_parts
+ * @property string|null $harvest_notes
+ * @property WateringFrequency|null $watering_frequency
+ * @property FertilizingFrequency|null $fertilizing_frequency
+ * @property bool $pruning_required
+ * @property MaintenanceLevel|null $maintenance_level
+ * @property bool $toxic_to_humans
+ * @property bool $toxic_to_pets
+ * @property bool $toxic_to_livestock
+ * @property bool $invasive
+ * @property AllergyPotential|null $allergy_potential
+ * @property bool $attracts_bees
+ * @property bool $attracts_butterflies
+ * @property bool $deer_resistant
+ * @property array<int, string>|null $propagation_methods
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Pivot|null $pivot
  */
 #[Guarded(['id'])]
 final class Plant extends Model implements HasMedia

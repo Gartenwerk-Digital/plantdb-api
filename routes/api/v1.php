@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\FamilyController;
 use App\Http\Controllers\Api\V1\GenusController;
+use App\Http\Controllers\Api\V1\PlantController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,6 +34,7 @@ Route::middleware('api.version:v1')->group(function (): void {
         Route::get('families/{slug}', [FamilyController::class, 'show'])->name('api.v1.families.show');
         Route::get('genera', [GenusController::class, 'index'])->name('api.v1.genera.index');
         Route::get('genera/{slug}', [GenusController::class, 'show'])->name('api.v1.genera.show');
+        Route::get('plants/{slug}', [PlantController::class, 'show'])->name('api.v1.plants.show');
     });
 
     // Protected routes with authenticated rate limiter (120/min)
