@@ -34,6 +34,7 @@ Route::middleware('api.version:v1')->group(function (): void {
         Route::get('families/{slug}', [FamilyController::class, 'show'])->name('api.v1.families.show');
         Route::get('genera', [GenusController::class, 'index'])->name('api.v1.genera.index');
         Route::get('genera/{slug}', [GenusController::class, 'show'])->name('api.v1.genera.show');
+        Route::get('plants', [PlantController::class, 'index'])->name('api.v1.plants.index');
         Route::get('plants/{slug}', [PlantController::class, 'show'])->name('api.v1.plants.show');
     });
 
