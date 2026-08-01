@@ -1,0 +1,14 @@
+meta {
+  name: get family
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{apiUrl}}/families/:slug
+  auth: none
+}
+
+params:path {
+  slug: rosaceae
+}
