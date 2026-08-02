@@ -10,4 +10,12 @@ enum ContributionType: string
     case Update = 'update';
     case Image = 'image';
     case Correction = 'correction';
+
+    /**
+     * @return array<int, string>
+     */
+    public static function values(): array
+    {
+        return array_map(static fn (self $case): string => $case->value, self::cases());
+    }
 }

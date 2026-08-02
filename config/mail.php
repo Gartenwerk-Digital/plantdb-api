@@ -117,4 +117,16 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Admin Notification Address
+    |--------------------------------------------------------------------------
+    |
+    | Recipient for internal admin notifications (e.g. new contributions).
+    | Falls back to the global from-address when unset.
+    |
+    */
+
+    'admin_address' => env('MAIL_ADMIN_ADDRESS'),
+
 ];

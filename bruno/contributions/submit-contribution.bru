@@ -16,14 +16,31 @@ auth:bearer {
 
 body:json {
   {
-    "type": "plant",
-    "action": "create",
+    "type": "new_plant",
     "payload": {
-      "botanical_name": "Solanum lycopersicum 'San Marzano'",
-      "common_name_de": "San Marzano Tomate",
-      "genus": "Solanum",
-      "family": "Solanaceae"
-    },
-    "note": "Historische italienische Sorte"
+      "scientific_name": "Solanum lycopersicum 'San Marzano'",
+      "common_name": "San Marzano Tomate",
+      "family_id": "{{familyId}}",
+      "genus_id": "{{genusId}}"
+    }
   }
+}
+
+tests {
+  test("responds 201", function () {
+    expect(res.getStatus()).to.equal(201);
+  });
+
+  test("returns contribution id and pending status", function () {
+    const body = res.getBody();
+    expect(body.data).to.have.property("id");
+    expect(body.data.status).to.equal("pending");
+    expect(body.data.type).to.equal("new_plant");
+  });
+}
+
+docs {
+  Requires familyId and genusId env vars.
+  Run "list families" and "list genera" once — their post-response
+  scripts populate the vars automatically.
 }

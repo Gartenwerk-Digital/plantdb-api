@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Api\V1\ApiKeyController;
 use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\V1\ContributionController;
 use App\Http\Controllers\Api\V1\FamilyController;
 use App\Http\Controllers\Api\V1\GenusController;
 use App\Http\Controllers\Api\V1\PlantController;
@@ -59,6 +60,10 @@ Route::middleware('api.version:v1')->group(function (): void {
             Route::delete('api-keys/{id}', [ApiKeyController::class, 'destroy'])
                 ->whereNumber('id')
                 ->name('api.v1.api-keys.destroy');
+
+            // Community contributions
+            Route::post('contributions', [ContributionController::class, 'store'])
+                ->name('api.v1.contributions.store');
         });
     });
 
