@@ -7,6 +7,8 @@ use App\Enums\ContributionType;
 use App\Mail\ContributionReceived;
 use App\Mail\NewContributionSubmitted;
 use App\Models\Contribution;
+use App\Models\Family;
+use App\Models\Genus;
 use App\Models\Plant;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -75,20 +77,96 @@ describe('POST /api/v1/contributions: validation', function (): void {
     });
 
     it('rejects new_plant with a plant_id', function (): void {
+        $family = Family::factory()->create();
+        $genus = Genus::factory()->create(['family_id' => $family->id]);
+
         $this->withHeaders(authHeader($this->user))
             ->postJson('/api/v1/contributions', [
                 'type' => 'new_plant',
                 'plant_id' => Plant::factory()->create()->id,
-                'payload' => ['scientific_name' => 'Foo bar'],
+                'payload' => [
+                    'scientific_name' => 'Foo bar',
+                    'family_id' => $family->id,
+                    'genus_id' => $genus->id,
+                ],
             ])
             ->assertStatus(422);
     });
 
     it('rejects new_plant without a scientific_name in payload', function (): void {
+        $family = Family::factory()->create();
+        $genus = Genus::factory()->create(['family_id' => $family->id]);
+
         $this->withHeaders(authHeader($this->user))
             ->postJson('/api/v1/contributions', [
                 'type' => 'new_plant',
-                'payload' => ['common_name' => 'Foo'],
+                'payload' => [
+                    'common_name' => 'Foo',
+                    'family_id' => $family->id,
+                    'genus_id' => $genus->id,
+                ],
+            ])
+            ->assertStatus(422);
+    });
+
+    it('rejects new_plant without a family_id in payload', function (): void {
+        $family = Family::factory()->create();
+        $genus = Genus::factory()->create(['family_id' => $family->id]);
+
+        $this->withHeaders(authHeader($this->user))
+            ->postJson('/api/v1/contributions', [
+                'type' => 'new_plant',
+                'payload' => [
+                    'scientific_name' => 'Foo bar',
+                    'genus_id' => $genus->id,
+                ],
+            ])
+            ->assertStatus(422)
+            ->assertJsonFragment(['payload.family_id' => ['payload.family_id is required for new_plant contributions.']]);
+    });
+
+    it('rejects new_plant with a non-existent family_id', function (): void {
+        $family = Family::factory()->create();
+        $genus = Genus::factory()->create(['family_id' => $family->id]);
+
+        $this->withHeaders(authHeader($this->user))
+            ->postJson('/api/v1/contributions', [
+                'type' => 'new_plant',
+                'payload' => [
+                    'scientific_name' => 'Foo bar',
+                    'family_id' => '00000000-0000-0000-0000-000000000000',
+                    'genus_id' => $genus->id,
+                ],
+            ])
+            ->assertStatus(422);
+    });
+
+    it('rejects new_plant without a genus_id in payload', function (): void {
+        $family = Family::factory()->create();
+
+        $this->withHeaders(authHeader($this->user))
+            ->postJson('/api/v1/contributions', [
+                'type' => 'new_plant',
+                'payload' => [
+                    'scientific_name' => 'Foo bar',
+                    'family_id' => $family->id,
+                ],
+            ])
+            ->assertStatus(422)
+            ->assertJsonFragment(['payload.genus_id' => ['payload.genus_id is required for new_plant contributions.']]);
+    });
+
+    it('rejects new_plant with a non-existent genus_id', function (): void {
+        $family = Family::factory()->create();
+
+        $this->withHeaders(authHeader($this->user))
+            ->postJson('/api/v1/contributions', [
+                'type' => 'new_plant',
+                'payload' => [
+                    'scientific_name' => 'Foo bar',
+                    'family_id' => $family->id,
+                    'genus_id' => '00000000-0000-0000-0000-000000000000',
+                ],
             ])
             ->assertStatus(422);
     });
@@ -129,6 +207,8 @@ describe('POST /api/v1/contributions: success', function (): void {
 
     it('creates a new_plant contribution and dispatches both mails', function (): void {
         $user = User::factory()->create();
+        $family = Family::factory()->create();
+        $genus = Genus::factory()->create(['family_id' => $family->id]);
 
         $response = $this->withHeaders(authHeader($user))
             ->postJson('/api/v1/contributions', [
@@ -136,6 +216,8 @@ describe('POST /api/v1/contributions: success', function (): void {
                 'payload' => [
                     'scientific_name' => 'Solanum lycopersicum',
                     'common_name' => 'Tomato',
+                    'family_id' => $family->id,
+                    'genus_id' => $genus->id,
                 ],
             ]);
 
