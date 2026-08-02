@@ -4,16 +4,23 @@ declare(strict_types=1);
 
 namespace App\Filament\Admin\Resources\ContributionResource\Pages;
 
+use App\Actions\Contributions\ApproveContribution;
+use App\Actions\Contributions\RejectContribution;
+use App\Enums\ContributionStatus;
 use App\Enums\ContributionType;
 use App\Filament\Admin\Resources\ContributionResource;
 use App\Models\Contribution;
+use App\Models\User;
 use Filament\Actions\Action;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\Textarea;
 use Filament\Infolists\Components\KeyValueEntry;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ViewRecord;
+use Throwable;
 
 final class ViewContribution extends ViewRecord
 {
@@ -61,9 +68,56 @@ final class ViewContribution extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            EditAction::make()->visible(fn (Contribution $record): bool => $record->status->value === 'pending'),
-            ContributionResource::approveTableAction(),
-            ContributionResource::rejectTableAction(),
+            EditAction::make()->visible(fn (Contribution $record): bool => $record->status === ContributionStatus::Pending),
+            Action::make('approve')
+                ->label('Approve')
+                ->icon('heroicon-o-check-circle')
+                ->color('success')
+                ->visible(fn (Contribution $record): bool => $record->status === ContributionStatus::Pending)
+                ->requiresConfirmation()
+                ->action(function (Contribution $record): void {
+                    /** @var User $reviewer */
+                    $reviewer = auth()->user();
+
+                    try {
+                        resolve(ApproveContribution::class)($record, $reviewer);
+                    } catch (Throwable $throwable) {
+                        Notification::make()
+                            ->title('Approve failed')
+                            ->body($throwable->getMessage())
+                            ->danger()
+                            ->send();
+
+                        return;
+                    }
+
+                    Notification::make()
+                        ->title('Contribution approved')
+                        ->success()
+                        ->send();
+                }),
+            Action::make('reject')
+                ->label('Reject')
+                ->icon('heroicon-o-x-circle')
+                ->color('danger')
+                ->visible(fn (Contribution $record): bool => $record->status === ContributionStatus::Pending)
+                ->form([
+                    Textarea::make('review_notes')
+                        ->required()
+                        ->rows(3)
+                        ->label('Reviewer notes (sent to submitter)'),
+                ])
+                ->action(function (array $data, Contribution $record): void {
+                    /** @var User $reviewer */
+                    $reviewer = auth()->user();
+
+                    resolve(RejectContribution::class)($record, $reviewer, (string) $data['review_notes']);
+
+                    Notification::make()
+                        ->title('Contribution rejected')
+                        ->success()
+                        ->send();
+                }),
         ];
     }
 
