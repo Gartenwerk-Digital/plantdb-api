@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use RuntimeException;
+use Spatie\Permission\PermissionRegistrar;
 
 final class AdminUserSeeder extends Seeder
 {
@@ -22,7 +23,9 @@ final class AdminUserSeeder extends Seeder
 
         throw_if($email === '' || $password === '', RuntimeException::class, 'ADMIN_EMAIL and ADMIN_PASSWORD must be set in .env for local seeding.');
 
-        User::query()->updateOrCreate(
+        resolve(PermissionRegistrar::class)->forgetCachedPermissions();
+
+        $user = User::query()->updateOrCreate(
             ['email' => $email],
             [
                 'name' => 'Chris Ganzert',
@@ -30,5 +33,7 @@ final class AdminUserSeeder extends Seeder
                 'email_verified_at' => now(),
             ],
         );
+
+        $user->syncRoles(['admin']);
     }
 }

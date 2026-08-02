@@ -16,6 +16,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 /**
  * @property int $id
@@ -44,6 +45,7 @@ final class User extends Authenticatable implements FilamentUser, MustVerifyEmai
     /** @use HasFactory<UserFactory> */
     use HasFactory;
 
+    use HasRoles;
     use Notifiable;
 
     /** @var array<string, mixed> */
@@ -53,7 +55,7 @@ final class User extends Authenticatable implements FilamentUser, MustVerifyEmai
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return app()->isLocal();
+        return $this->hasRole('admin');
     }
 
     /**
