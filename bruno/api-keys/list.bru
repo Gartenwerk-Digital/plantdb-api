@@ -1,0 +1,31 @@
+meta {
+  name: list
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{apiUrl}}/api-keys
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("responds 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("returns array of keys without plaintext", function () {
+    const body = res.getBody();
+    expect(body.data).to.be.an("array");
+    body.data.forEach((k) => {
+      expect(k).to.have.property("id");
+      expect(k).to.have.property("name");
+      expect(k).to.have.property("abilities");
+      expect(k).to.not.have.property("plain_text_token");
+    });
+  });
+}
