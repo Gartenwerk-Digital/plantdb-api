@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
+use Stringable;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
@@ -26,7 +27,7 @@ final class ApiExceptionRenderer
             return null;
         }
 
-        return match (true) {
+        $response = match (true) {
             $e instanceof ValidationException => $this->json(Response::HTTP_UNPROCESSABLE_ENTITY, 'validation_failed', $e->getMessage(), $e->errors()),
             $e instanceof AuthenticationException => $this->json(Response::HTTP_UNAUTHORIZED, 'unauthenticated', $e->getMessage() !== '' ? $e->getMessage() : 'Unauthenticated.'),
             $e instanceof AuthorizationException,
@@ -38,6 +39,18 @@ final class ApiExceptionRenderer
             $e instanceof HttpExceptionInterface => $this->json($e->getStatusCode(), $this->codeForStatus($e->getStatusCode()), $e->getMessage() !== '' ? $e->getMessage() : Response::$statusTexts[$e->getStatusCode()] ?? 'Error'),
             default => $this->json(Response::HTTP_INTERNAL_SERVER_ERROR, 'server_error', config('app.debug') === true ? $e->getMessage() : 'Server error.'),
         };
+
+        if ($e instanceof HttpExceptionInterface) {
+            foreach ($e->getHeaders() as $name => $value) {
+                if (is_array($value)) {
+                    $response->headers->set((string) $name, array_map($this->headerValue(...), $value));
+                } else {
+                    $response->headers->set((string) $name, $this->headerValue($value));
+                }
+            }
+        }
+
+        return $response;
     }
 
     private function isApiRequest(Request $request): bool
@@ -64,6 +77,11 @@ final class ApiExceptionRenderer
         }
 
         return response()->json(['error' => $payload], $status);
+    }
+
+    private function headerValue(mixed $value): string
+    {
+        return is_scalar($value) || $value instanceof Stringable ? (string) $value : '';
     }
 
     private function codeForStatus(int $status): string

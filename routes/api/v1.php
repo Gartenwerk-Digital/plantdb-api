@@ -39,8 +39,8 @@ Route::middleware('api.version:v1')->group(function (): void {
         Route::get('plants/{slug}', [PlantController::class, 'show'])->name('api.v1.plants.show');
     });
 
-    // Protected routes with authenticated rate limiter (120/min)
-    Route::middleware(['auth:sanctum', 'throttle:authenticated'])->group(function (): void {
+    // Protected routes — tier-based per-token daily quota via 'api' limiter.
+    Route::middleware(['auth:sanctum', 'throttle:api'])->group(function (): void {
         Route::post('logout', [AuthController::class, 'logout'])->name('api.v1.logout');
         Route::get('me', [AuthController::class, 'me'])->name('api.v1.me');
 

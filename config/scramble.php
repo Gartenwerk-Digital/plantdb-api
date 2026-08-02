@@ -72,6 +72,25 @@ return [
             | 500    | `server_error`       | Unexpected server error.                    |
 
             Every v1 response also carries the `X-API-Version: v1` header.
+
+            ## Rate limits
+
+            Requests are rate-limited **per API key** (Sanctum token id) on a rolling 24-hour window. The daily quota depends on the user's tier:
+
+            | Tier         | Requests / 24 h |
+            | ------------ | --------------- |
+            | `free`       | 1 000           |
+            | `pro`        | 50 000          |
+            | `enterprise` | unlimited       |
+
+            Unauthenticated public reads are limited to **100 requests / 24 h per IP**. Login / register share a separate 5/min brute-force limiter.
+
+            Every rate-limited response carries:
+
+            - `X-RateLimit-Limit` — the tier's ceiling for the current window
+            - `X-RateLimit-Remaining` — requests left before the next reset
+
+            When the quota is exhausted the API returns `429 too_many_requests` and adds `Retry-After` (seconds until the counter resets).
             MD,
     ],
 
