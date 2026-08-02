@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property array<string, mixed> $payload
  * @property ContributionStatus $status
  * @property int|null $reviewed_by
+ * @property string|null $review_notes
  */
 #[Guarded(['id'])]
 final class Contribution extends Model
