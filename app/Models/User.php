@@ -46,6 +46,11 @@ final class User extends Authenticatable implements FilamentUser, MustVerifyEmai
 
     use Notifiable;
 
+    /** @var array<string, mixed> */
+    protected $attributes = [
+        'tier' => UserTier::Free->value,
+    ];
+
     public function canAccessPanel(Panel $panel): bool
     {
         return app()->isLocal();
