@@ -1,0 +1,31 @@
+meta {
+  name: rate-limit headers (auth'd)
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{apiUrl}}/me
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+docs {
+  Every rate-limited response carries `X-RateLimit-Limit` (the tier ceiling) and
+  `X-RateLimit-Remaining` (requests left in the current 24 h window). Free = 1000,
+  Pro = 50000, Enterprise = unlimited.
+}
+
+tests {
+  test("responds 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("exposes X-RateLimit-Limit and Remaining headers", function () {
+    expect(res.getHeader("x-ratelimit-limit")).to.not.be.undefined;
+    expect(res.getHeader("x-ratelimit-remaining")).to.not.be.undefined;
+  });
+}

@@ -1,0 +1,40 @@
+meta {
+  name: rate-limit exceeded (429 demo)
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{apiUrl}}/me
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+docs {
+  Simulate the daily limit by exhausting the token's counter in tinker before
+  running this request:
+
+  php artisan tinker
+  > RateLimiter::hit(md5('apitoken:'.<TOKEN_ID>), 86400)  // repeat for the tier's ceiling
+
+  The response then returns 429 with the unified error envelope,
+  code `too_many_requests`, and a `Retry-After` header (seconds until reset).
+}
+
+tests {
+  test("responds 429", function () {
+    expect(res.getStatus()).to.equal(429);
+  });
+
+  test("returns unified error envelope with too_many_requests", function () {
+    const body = res.getBody();
+    expect(body.error.code).to.equal("too_many_requests");
+  });
+
+  test("carries Retry-After header", function () {
+    expect(res.getHeader("retry-after")).to.not.be.undefined;
+  });
+}
