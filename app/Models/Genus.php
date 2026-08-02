@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Policies\GenusPolicy;
 use Database\Factories\GenusFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Table;
+use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -21,6 +23,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 #[Fillable(['family_id', 'name', 'slug'])]
 #[Table(name: 'genera')]
+#[UsePolicy(GenusPolicy::class)]
 final class Genus extends Model
 {
     /** @use HasFactory<GenusFactory> */
