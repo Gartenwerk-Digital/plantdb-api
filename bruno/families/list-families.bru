@@ -13,3 +13,12 @@ params:query {
   ~filter[name]:
   ~sort: name
 }
+
+script:post-response {
+  if (res.getStatus() === 200) {
+    const data = res.getBody().data;
+    if (Array.isArray(data) && data.length > 0 && data[0].id) {
+      bru.setEnvVar("familyId", data[0].id);
+    }
+  }
+}

@@ -38,3 +38,9 @@ tests {
     expect(body.data.type).to.equal("new_plant");
   });
 }
+
+docs {
+  Requires familyId and genusId env vars.
+  Run "list families" and "list genera" once — their post-response
+  scripts populate the vars automatically.
+}
