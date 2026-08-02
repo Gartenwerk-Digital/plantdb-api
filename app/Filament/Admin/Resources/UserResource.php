@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace App\Filament\Admin\Resources;
 
+use App\Enums\UserTier;
+use App\Filament\Admin\Resources\UserResource\Pages\EditUser;
 use App\Filament\Admin\Resources\UserResource\Pages\ListUsers;
 use App\Filament\Admin\Resources\UserResource\Pages\ViewUser;
 use App\Filament\Admin\Resources\UserResource\RelationManagers\TokensRelationManager;
 use App\Models\User;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\PageRegistration;
@@ -31,6 +34,10 @@ final class UserResource extends Resource
         return $form->schema([
             TextInput::make('name')->disabled(),
             TextInput::make('email')->disabled(),
+            Select::make('tier')
+                ->options(UserTier::class)
+                ->required()
+                ->native(false),
         ]);
     }
 
@@ -44,6 +51,9 @@ final class UserResource extends Resource
                 IconColumn::make('email_verified_at')
                     ->label('Verified')
                     ->boolean(),
+                TextColumn::make('tier')
+                    ->badge()
+                    ->sortable(),
                 TextColumn::make('tokens_count')
                     ->label('API keys')
                     ->counts('tokens')
@@ -70,6 +80,7 @@ final class UserResource extends Resource
         return [
             'index' => ListUsers::route('/'),
             'view' => ViewUser::route('/{record}'),
+            'edit' => EditUser::route('/{record}/edit'),
         ];
     }
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\UserTier;
 use Database\Factories\UserFactory;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
@@ -22,6 +23,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string $email
  * @property Carbon|null $email_verified_at
  * @property string $password
+ * @property UserTier $tier
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
@@ -29,6 +31,7 @@ use Laravel\Sanctum\HasApiTokens;
     'name',
     'email',
     'password',
+    'tier',
 ])]
 #[Hidden([
     'password',
@@ -58,6 +61,7 @@ final class User extends Authenticatable implements FilamentUser, MustVerifyEmai
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'tier' => UserTier::class,
         ];
     }
 }
