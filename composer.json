@@ -82,7 +82,7 @@
         ],
         "dev": [
             "Composer\\Config::disableProcessTimeout",
-            "npx concurrently -c \"#c4b5fd,#93c5fd,#fdba74\" \"mailpit\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" --names=mail,queue,logs --kill-others-on-fail"
+            "npx concurrently -c \"#93c5fd,#fdba74\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" --names=queue,logs --kill-others-on-fail"
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
