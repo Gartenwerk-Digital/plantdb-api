@@ -7,6 +7,25 @@ und dieses Projekt hält sich an [Semantic Versioning](https://semver.org/lang/d
 
 ## [Unreleased]
 
+## [0.5.0] — 2026-08-02
+
+Sprint 4 — Community Contributions. Öffentlicher Einreiche-Endpoint
+für Pflanzenvorschläge inkl. Admin-Review-Workflow.
+
+### Added
+- `POST /api/v1/contributions` — authentifizierter Endpoint zum
+  Einreichen von Community-Vorschlägen (neue Pflanze oder Update zu
+  bestehender Pflanze), Payload-Validierung inkl. Pflichtfelder
+  `family_id`/`genus_id` bei `new_plant`, Persistenz als
+  `Contribution` mit Status `pending` (#14)
+- Filament Contribution-Review-Queue unter „Moderation": Listenansicht
+  mit Status-Filter, Detail-View mit Payload-Diff sowie
+  Approve/Reject-Actions (Reject verlangt `review_notes`, setzt
+  `reviewed_by`/`reviewed_at`) (#15)
+- Composer-Skript `composer dev` für lokalen Entwicklungs-Stack
+- Bruno-Collection `bruno/contributions/` inkl. Auto-Populate von
+  `familyId`/`genusId` für Sample-Requests
+
 ## [0.4.0] — 2026-08-02
 
 Sprint 3 — Admin Panel. Filament-basierte Verwaltung für Taxonomie
@@ -84,7 +103,8 @@ Sprint 0 — Foundation. Erstes lauffähiges Skeleton der PlantDB API.
 - Bruno-Collection für lokale API-Exploration
 - `CLAUDE.md` mit Projekt-Konventionen und Git-Workflow
 
-[Unreleased]: https://github.com/Gartenwerk-Digital/plantdb-api/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/Gartenwerk-Digital/plantdb-api/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/Gartenwerk-Digital/plantdb-api/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/Gartenwerk-Digital/plantdb-api/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/Gartenwerk-Digital/plantdb-api/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/Gartenwerk-Digital/plantdb-api/compare/v0.1.0...v0.2.0
