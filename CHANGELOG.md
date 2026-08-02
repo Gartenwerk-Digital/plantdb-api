@@ -7,6 +7,29 @@ und dieses Projekt hält sich an [Semantic Versioning](https://semver.org/lang/d
 
 ## [Unreleased]
 
+## [0.4.0] — 2026-08-02
+
+Sprint 3 — Admin Panel. Filament-basierte Verwaltung für Taxonomie
+und Pflanzen inkl. Moderations-Workflow.
+
+### Added
+- Filament-Panel hinter der `admin`-Rolle (spatie/permission) statt
+  `app()->isLocal()`, `RolesAndPermissionsSeeder` legt die Rolle an
+  und `AdminUserSeeder` weist sie dem lokalen Admin zu; Panel-Branding
+  als „PlantDB Admin" (#11)
+- Filament `FamilyResource` und `GenusResource` unter Navigations-
+  Gruppe „Taxonomy" mit vollem CRUD, `plants_count`-Spalte (nur
+  `PlantStatus::Approved`), `GeneraRelationManager` auf `Family` sowie
+  Delete-Schutz via `FamilyPolicy`/`GenusPolicy`, sobald verknüpfte
+  Plants existieren (#13)
+- Filament `PlantResource` mit Tab-Formular (Botanik, Standort, Wuchs,
+  Blüte/Frucht, Pflege, Eigenschaften, Moderation), Status-Badge-Spalte
+  und Filtern (`status`, `family_id`, `life_cycle`); Approve/Reject als
+  Row-, Bulk- und Header-Action (setzt `reviewed_by`/`reviewed_at`,
+  Reject verlangt `review_notes`); RelationManagers für Images,
+  Companions (self-referencing pivot mit `relationship`/`notes`) und
+  CareTasks (#12)
+
 ## [0.3.0] — 2026-08-02
 
 Sprint 2 — Auth & Rate Limiting. Named API-Keys via Sanctum und
@@ -61,7 +84,8 @@ Sprint 0 — Foundation. Erstes lauffähiges Skeleton der PlantDB API.
 - Bruno-Collection für lokale API-Exploration
 - `CLAUDE.md` mit Projekt-Konventionen und Git-Workflow
 
-[Unreleased]: https://github.com/Gartenwerk-Digital/plantdb-api/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/Gartenwerk-Digital/plantdb-api/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/Gartenwerk-Digital/plantdb-api/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/Gartenwerk-Digital/plantdb-api/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/Gartenwerk-Digital/plantdb-api/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/Gartenwerk-Digital/plantdb-api/releases/tag/v0.1.0
