@@ -7,6 +7,11 @@ und dieses Projekt hält sich an [Semantic Versioning](https://semver.org/lang/d
 
 ## [Unreleased]
 
+## [0.3.0] — 2026-08-02
+
+Sprint 2 — Auth & Rate Limiting. Named API-Keys via Sanctum und
+tier-basierte Tageskontingente pro Token.
+
 ### Added
 - Named-API-Key-Verwaltung via Sanctum: `GET/POST /api/v1/api-keys`
   und `DELETE /api/v1/api-keys/{id}`. Plaintext-Token wird nur einmal
@@ -15,6 +20,13 @@ und dieses Projekt hält sich an [Semantic Versioning](https://semver.org/lang/d
 - Filament `UserResource` im Admin-Panel mit Read-only-Übersicht
   und `TokensRelationManager` zum Widerrufen einzelner API-Keys (#9)
 - Bruno-Collection `bruno/api-keys/` (list, create, revoke) (#9)
+- Tier-basierte Rate Limits pro API-Token via `UserTier`-Enum
+  (free/pro/enterprise) mit täglichem Quota, `X-RateLimit-*`-Response-
+  Headers und 429-Handling im globalen Error-Shape (#10)
+- `tier`-Feld in `UserResource` und `/api/v1/me`-Response (#10)
+- Filament: Tier auf `UserResource` Edit-Page verwaltbar (#10)
+- Bruno-Requests `bruno/system/rate-limit-headers.bru` und
+  `rate-limit-exceeded.bru` sowie Scramble-Doku zu Tier-Limits (#10)
 
 ## [0.2.0] — 2026-08-01
 
@@ -49,6 +61,7 @@ Sprint 0 — Foundation. Erstes lauffähiges Skeleton der PlantDB API.
 - Bruno-Collection für lokale API-Exploration
 - `CLAUDE.md` mit Projekt-Konventionen und Git-Workflow
 
-[Unreleased]: https://github.com/Gartenwerk-Digital/plantdb-api/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/Gartenwerk-Digital/plantdb-api/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/Gartenwerk-Digital/plantdb-api/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/Gartenwerk-Digital/plantdb-api/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/Gartenwerk-Digital/plantdb-api/releases/tag/v0.1.0
