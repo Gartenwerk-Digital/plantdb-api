@@ -1,0 +1,42 @@
+meta {
+  name: create
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{apiUrl}}/api-keys
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "name": "my-app",
+    "abilities": ["read"]
+  }
+}
+
+script:post-response {
+  if (res.getStatus() === 201) {
+    bru.setEnvVar("apiKeyId", res.getBody().data.id);
+    bru.setEnvVar("apiKeyPlain", res.getBody().data.plain_text_token);
+  }
+}
+
+tests {
+  test("responds 201", function () {
+    expect(res.getStatus()).to.equal(201);
+  });
+
+  test("returns plaintext token once", function () {
+    const body = res.getBody();
+    expect(body.data).to.have.property("id");
+    expect(body.data.plain_text_token).to.be.a("string");
+    expect(body.data.abilities).to.deep.equal(["read"]);
+  });
+}

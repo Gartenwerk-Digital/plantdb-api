@@ -7,6 +7,15 @@ und dieses Projekt hält sich an [Semantic Versioning](https://semver.org/lang/d
 
 ## [Unreleased]
 
+### Added
+- Named-API-Key-Verwaltung via Sanctum: `GET/POST /api/v1/api-keys`
+  und `DELETE /api/v1/api-keys/{id}`. Plaintext-Token wird nur einmal
+  bei Erstellung zurückgegeben; Abilities via Enum `TokenAbility`
+  (`read`, `write`). Erfordert verifizierte E-Mail (#9)
+- Filament `UserResource` im Admin-Panel mit Read-only-Übersicht
+  und `TokensRelationManager` zum Widerrufen einzelner API-Keys (#9)
+- Bruno-Collection `bruno/api-keys/` (list, create, revoke) (#9)
+
 ## [0.2.0] — 2026-08-01
 
 Sprint 1 — Core API. Lesende v1-Endpunkte für Plants, Genera, Families

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Api\V1\ApiKeyController;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\FamilyController;
 use App\Http\Controllers\Api\V1\GenusController;
@@ -50,6 +51,15 @@ Route::middleware('api.version:v1')->group(function (): void {
         Route::post('email/resend', [AuthController::class, 'resendVerificationEmail'])
             ->middleware('throttle:6,1')
             ->name('verification.send');
+
+        // API key management (requires verified email)
+        Route::middleware('verified')->group(function (): void {
+            Route::get('api-keys', [ApiKeyController::class, 'index'])->name('api.v1.api-keys.index');
+            Route::post('api-keys', [ApiKeyController::class, 'store'])->name('api.v1.api-keys.store');
+            Route::delete('api-keys/{id}', [ApiKeyController::class, 'destroy'])
+                ->whereNumber('id')
+                ->name('api.v1.api-keys.destroy');
+        });
     });
 
     // Password reset routes (public with rate limiting)
