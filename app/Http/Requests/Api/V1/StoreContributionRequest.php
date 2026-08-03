@@ -14,6 +14,7 @@ use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 /**
@@ -77,6 +78,8 @@ final class StoreContributionRequest extends FormRequest
     {
         if (! is_string($plantId) || $plantId === '') {
             $validator->errors()->add('plant_id', 'plant_id is required for image contributions.');
+        } elseif (! Str::isUuid($plantId)) {
+            $validator->errors()->add('plant_id', 'plant_id must be a valid UUID.');
         } elseif (! Plant::query()->whereKey($plantId)->exists()) {
             $validator->errors()->add('plant_id', 'The selected plant does not exist.');
         }
@@ -158,9 +161,13 @@ final class StoreContributionRequest extends FormRequest
             return;
         }
 
-        $exists = Plant::query()->whereKey($plantId)->exists();
+        if (! Str::isUuid($plantId)) {
+            $validator->errors()->add('plant_id', 'plant_id must be a valid UUID.');
 
-        if (! $exists) {
+            return;
+        }
+
+        if (! Plant::query()->whereKey($plantId)->exists()) {
             $validator->errors()->add('plant_id', 'The selected plant does not exist.');
         }
     }

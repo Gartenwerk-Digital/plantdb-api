@@ -91,6 +91,21 @@ describe('POST /api/v1/contributions: image validation', function (): void {
             ->assertJsonPath('error.code', 'validation_failed');
     });
 
+    it('rejects non-uuid plant_id without hitting the database', function (): void {
+        $this->withHeaders(imageAuthHeader($this->user))
+            ->post('/api/v1/contributions', [
+                'type' => 'image',
+                'plant_id' => 'not-a-uuid',
+                'image' => UploadedFile::fake()->image('a.jpg', 800, 1200),
+                'payload' => [
+                    'collection' => 'portrait',
+                    'license' => PlantImageLicense::Cc0->value,
+                ],
+            ], ['Accept' => 'application/json'])
+            ->assertStatus(422)
+            ->assertJsonPath('error.code', 'validation_failed');
+    });
+
     it('rejects invalid license', function (): void {
         $this->withHeaders(imageAuthHeader($this->user))
             ->post('/api/v1/contributions', [
