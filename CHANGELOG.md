@@ -27,6 +27,10 @@ und dieses Projekt hält sich an [Semantic Versioning](https://semver.org/lang/d
 - **Breaking:** `PlantImage`-Modell, Resource, RelationManager,
   Factory und Tabelle `plant_images` entfernt. Bilder liegen jetzt
   ausschließlich als Spatie-Media am Plant (#16)
+- Lizenzwerte in `data.images[].license` folgen jetzt SPDX-ähnlichen
+  Slugs (`CC-BY-4.0`, `CC0-1.0`, `public-domain`, …) statt Freitext.
+  Auswahl im Admin über `PlantImageLicense`-Enum, Attribution wird bei
+  Public-Domain-Lizenzen automatisch nicht abgefragt (#16)
 
 ## [0.5.0] — 2026-08-02
 

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Enums\PlantImageLicense;
 use App\Enums\PlantStatus;
 use App\Models\Plant;
 use App\Models\PlantCareTask;
@@ -54,7 +55,7 @@ describe('GET /api/v1/plants/{slug}', function (): void {
         foreach (['portrait', 'flower', 'leaf'] as $collection) {
             $plant->addMedia(UploadedFile::fake()->image($collection.'.jpg', 800, 1200))
                 ->withCustomProperties([
-                    'license' => 'CC BY 4.0',
+                    'license' => PlantImageLicense::CcBy->value,
                     'attribution' => 'Test Photographer',
                 ])
                 ->toMediaCollection($collection);
@@ -67,7 +68,7 @@ describe('GET /api/v1/plants/{slug}', function (): void {
                 'id', 'type', 'urls' => ['original', 'portrait', 'thumb'],
                 'license', 'attribution',
             ]]]])
-            ->assertJsonPath('data.images.0.license', 'CC BY 4.0')
+            ->assertJsonPath('data.images.0.license', PlantImageLicense::CcBy->value)
             ->assertJsonPath('data.images.0.attribution', 'Test Photographer');
     });
 

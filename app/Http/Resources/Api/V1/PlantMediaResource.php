@@ -24,6 +24,7 @@ final class PlantMediaResource extends JsonResource
                 'portrait' => $this->getUrl('portrait'),
                 'thumb' => $this->getUrl('thumb'),
             ],
+            // SPDX-like slug, see App\Enums\PlantImageLicense
             'license' => $this->getCustomProperty('license'),
             'attribution' => $this->getCustomProperty('attribution'),
             'created_at' => $this->created_at?->toIso8601String(),
