@@ -7,6 +7,12 @@ und dieses Projekt hält sich an [Semantic Versioning](https://semver.org/lang/d
 
 ## [Unreleased]
 
+## [0.6.0] — 2026-08-03
+
+Sprint 5 — Bilder & CDN. Echte Bild-Uploads am `Plant`-Modell via
+Spatie Media Library mit R2-kompatibler S3-Disk sowie Community-
+Bild-Einreichungen via `Contribution` mit Approve/Reject-Workflow.
+
 ### Added
 - Echte Bild-Uploads via `spatie/laravel-medialibrary` am `Plant`-Modell,
   mit Media-Collections pro `PlantImageType` (`portrait`, `detail`,
@@ -22,6 +28,21 @@ und dieses Projekt hält sich an [Semantic Versioning](https://semver.org/lang/d
 - API-Response `data.images[]` in `GET /api/v1/plants/{slug}` liefert
   `type`, `urls.original|portrait|thumb`, `license`, `attribution`
   (#16)
+- Community-Bild-Einreichungen via `POST /api/v1/contributions` mit
+  `type=image` (multipart/form-data). `Contribution` implementiert jetzt
+  `HasMedia`; hochgeladene Bilder werden temporär auf der Contribution
+  in der Collection `pending_image` abgelegt (#17)
+- Admin-Approve verschiebt das Pending-Image in die passende Plant-
+  Media-Collection und übernimmt `license`, `attribution` und
+  `submitted_by` als Custom-Properties (#17)
+- Admin-Reject clearert die `pending_image`-Collection der Contribution
+  (#17)
+- `GET /api/v1/contributions` — authentifizierte User können ihre
+  eigenen Contributions listen (#17)
+- Filament `ContributionResource`: Bild-Preview für `type=image`
+  Einträge (#17)
+- Bruno-Requests `submit-image-contribution.bru` und
+  `list-contributions.bru` inkl. Fixture `rose.jpg` (#17)
 
 ### Changed
 - **Breaking:** `PlantImage`-Modell, Resource, RelationManager,
@@ -31,6 +52,16 @@ und dieses Projekt hält sich an [Semantic Versioning](https://semver.org/lang/d
   Slugs (`CC-BY-4.0`, `CC0-1.0`, `public-domain`, …) statt Freitext.
   Auswahl im Admin über `PlantImageLicense`-Enum, Attribution wird bei
   Public-Domain-Lizenzen automatisch nicht abgefragt (#16)
+- `StoreContributionRequest` akzeptiert jetzt `type=image` (vorher
+  422) und validiert die zugehörigen Multipart-Felder (#17)
+- `ApproveContribution` implementiert den Image-Case (vorher
+  `LogicException`) (#17)
+- `RejectContribution` clearert bei Image-Contributions die
+  `pending_image`-Collection (#17)
+
+### Fixed
+- `POST /api/v1/contributions` liefert 422 statt 500, wenn `plant_id`
+  keine gültige UUID ist (#17)
 
 ## [0.5.0] — 2026-08-02
 
@@ -128,7 +159,8 @@ Sprint 0 — Foundation. Erstes lauffähiges Skeleton der PlantDB API.
 - Bruno-Collection für lokale API-Exploration
 - `CLAUDE.md` mit Projekt-Konventionen und Git-Workflow
 
-[Unreleased]: https://github.com/Gartenwerk-Digital/plantdb-api/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/Gartenwerk-Digital/plantdb-api/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/Gartenwerk-Digital/plantdb-api/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/Gartenwerk-Digital/plantdb-api/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/Gartenwerk-Digital/plantdb-api/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/Gartenwerk-Digital/plantdb-api/compare/v0.2.0...v0.3.0
