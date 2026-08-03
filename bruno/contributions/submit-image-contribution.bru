@@ -37,7 +37,10 @@ tests {
 }
 
 docs {
-  Requires plantId env var and a file at bruno/contributions/fixtures/rose.jpg.
+  Requires the plantId env var. The image path @file(./fixtures/rose.jpg)
+  is resolved relative to the Bruno collection root, i.e. bruno/fixtures/rose.jpg
+  — a small sample JPEG is committed there.
+
   Uploads a temporary image attached to the contribution — an admin then
   approves it (moves it onto the plant) or rejects it (deletes the media).
 }
