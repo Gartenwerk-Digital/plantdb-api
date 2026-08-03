@@ -62,6 +62,8 @@ Route::middleware('api.version:v1')->group(function (): void {
                 ->name('api.v1.api-keys.destroy');
 
             // Community contributions
+            Route::get('contributions', [ContributionController::class, 'index'])
+                ->name('api.v1.contributions.index');
             Route::post('contributions', [ContributionController::class, 'store'])
                 ->name('api.v1.contributions.store');
         });

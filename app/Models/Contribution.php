@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * @property string $id
@@ -24,12 +26,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string|null $review_notes
  */
 #[Guarded(['id'])]
-final class Contribution extends Model
+final class Contribution extends Model implements HasMedia
 {
     /** @use HasFactory<ContributionFactory> */
     use HasFactory;
 
     use HasUuids;
+    use InteractsWithMedia;
+
+    public const string MEDIA_PENDING_IMAGE = 'pending_image';
 
     /** @return BelongsTo<Plant, $this> */
     public function plant(): BelongsTo
@@ -47,6 +52,13 @@ final class Contribution extends Model
     public function reviewer(): BelongsTo
     {
         return $this->belongsTo(User::class, 'reviewed_by');
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection(self::MEDIA_PENDING_IMAGE)
+            ->singleFile()
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp', 'image/avif']);
     }
 
     /** @return array<string, string> */

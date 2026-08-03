@@ -20,7 +20,7 @@ use App\Filament\Admin\Resources\PlantResource\Pages\ListPlants;
 use App\Filament\Admin\Resources\PlantResource\Pages\ViewPlant;
 use App\Filament\Admin\Resources\PlantResource\RelationManagers\CareTasksRelationManager;
 use App\Filament\Admin\Resources\PlantResource\RelationManagers\CompanionsRelationManager;
-use App\Filament\Admin\Resources\PlantResource\RelationManagers\ImagesRelationManager;
+use App\Filament\Admin\Resources\PlantResource\RelationManagers\MediaRelationManager;
 use App\Models\Plant;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
@@ -151,7 +151,7 @@ final class PlantResource extends Resource
     public static function getRelations(): array
     {
         return [
-            ImagesRelationManager::class,
+            MediaRelationManager::class,
             CompanionsRelationManager::class,
             CareTasksRelationManager::class,
         ];

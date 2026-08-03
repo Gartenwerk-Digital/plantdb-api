@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Contributions;
 
 use App\Enums\ContributionStatus;
+use App\Enums\ContributionType;
 use App\Mail\ContributionRejected;
 use App\Models\Contribution;
 use App\Models\User;
@@ -20,6 +21,10 @@ final class RejectContribution
             'reviewed_at' => now(),
             'review_notes' => $reviewNotes,
         ])->save();
+
+        if ($contribution->type === ContributionType::Image) {
+            $contribution->clearMediaCollection(Contribution::MEDIA_PENDING_IMAGE);
+        }
 
         if ($contribution->submitter !== null) {
             Mail::to($contribution->submitter->email)->queue(new ContributionRejected($contribution));

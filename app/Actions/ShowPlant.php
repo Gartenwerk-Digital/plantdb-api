@@ -20,7 +20,7 @@ final class ShowPlant
         /** @var Plant $plant */
         $plant = QueryBuilder::for($query)
             ->allowedIncludes(
-                AllowedInclude::relationship('images'),
+                AllowedInclude::relationship('images', 'media'),
                 AllowedInclude::relationship('companions'),
                 AllowedInclude::relationship('care_tasks', 'careTasks'),
                 AllowedInclude::relationship('translations'),

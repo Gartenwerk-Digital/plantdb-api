@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use LogicException;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 final class ApproveContribution
 {
@@ -24,7 +25,7 @@ final class ApproveContribution
             $plant = match ($contribution->type) {
                 ContributionType::NewPlant => $this->createPlantFromPayload($contribution, $reviewer),
                 ContributionType::Update, ContributionType::Correction => $this->applyUpdateToPlant($contribution),
-                ContributionType::Image => throw new LogicException('Image contributions cannot be approved via this workflow.'),
+                ContributionType::Image => $this->attachImageToPlant($contribution),
             };
 
             $contribution->forceFill([
@@ -67,6 +68,28 @@ final class ApproveContribution
         throw_unless($plant instanceof Plant, LogicException::class, 'Contribution has no associated plant.');
 
         $plant->update($contribution->payload);
+
+        return $plant;
+    }
+
+    private function attachImageToPlant(Contribution $contribution): Plant
+    {
+        $plant = $contribution->plant;
+        throw_unless($plant instanceof Plant, LogicException::class, 'Image contribution has no associated plant.');
+
+        $media = $contribution->getFirstMedia(Contribution::MEDIA_PENDING_IMAGE);
+        throw_unless($media instanceof Media, LogicException::class, 'Image contribution has no pending image attached.');
+
+        $payload = $contribution->payload;
+        $collection = is_string($payload['collection'] ?? null) ? $payload['collection'] : '';
+        $license = is_string($payload['license'] ?? null) ? $payload['license'] : null;
+        $attribution = is_string($payload['attribution'] ?? null) ? $payload['attribution'] : null;
+
+        $moved = $media->move($plant, $collection);
+        $moved->setCustomProperty('license', $license);
+        $moved->setCustomProperty('attribution', $attribution);
+        $moved->setCustomProperty('submitted_by', $contribution->submitted_by);
+        $moved->save();
 
         return $plant;
     }
