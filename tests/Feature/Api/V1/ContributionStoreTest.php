@@ -65,17 +65,6 @@ describe('POST /api/v1/contributions: validation', function (): void {
             ->assertStatus(422);
     });
 
-    it('rejects image type as unsupported', function (): void {
-        $this->withHeaders(authHeader($this->user))
-            ->postJson('/api/v1/contributions', [
-                'type' => 'image',
-                'plant_id' => Plant::factory()->create()->id,
-                'payload' => ['url' => 'https://example.com/x.jpg'],
-            ])
-            ->assertStatus(422)
-            ->assertJsonPath('error.code', 'validation_failed');
-    });
-
     it('rejects new_plant with a plant_id', function (): void {
         $family = Family::factory()->create();
         $genus = Genus::factory()->create(['family_id' => $family->id]);

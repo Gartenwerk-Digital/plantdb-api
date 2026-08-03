@@ -5,12 +5,16 @@ declare(strict_types=1);
 namespace App\Http\Requests\Api\V1;
 
 use App\Enums\ContributionType;
+use App\Enums\PlantImageLicense;
+use App\Enums\PlantImageType;
 use App\Models\Family;
 use App\Models\Genus;
 use App\Models\Plant;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 /**
@@ -30,10 +34,19 @@ final class StoreContributionRequest extends FormRequest
      */
     public function rules(): array
     {
+        $isImage = $this->input('type') === ContributionType::Image->value;
+
         return [
             'type' => ['required', 'string', Rule::in(ContributionType::values())],
             'plant_id' => ['nullable', 'uuid'],
             'payload' => ['required', 'array', 'min:1'],
+            'image' => [
+                Rule::requiredIf($isImage),
+                'file',
+                'image',
+                'mimes:jpg,jpeg,png,webp,avif',
+                'max:10240',
+            ],
         ];
     }
 
@@ -51,14 +64,61 @@ final class StoreContributionRequest extends FormRequest
             $payload = $this->input('payload', []);
 
             match ($type) {
-                ContributionType::Image => $validator->errors()->add(
-                    'type',
-                    'Image contributions are not yet supported via the API. Coming in a future release.',
-                ),
+                ContributionType::Image => $this->validateImage($validator, $plantId, $payload),
                 ContributionType::NewPlant => $this->validateNewPlant($validator, $plantId, $payload),
                 ContributionType::Update, ContributionType::Correction => $this->validateUpdate($validator, $plantId),
             };
         });
+    }
+
+    /**
+     * @param  array<string, mixed>|mixed  $payload
+     */
+    private function validateImage(Validator $validator, mixed $plantId, mixed $payload): void
+    {
+        if (! is_string($plantId) || $plantId === '') {
+            $validator->errors()->add('plant_id', 'plant_id is required for image contributions.');
+        } elseif (! Str::isUuid($plantId)) {
+            $validator->errors()->add('plant_id', 'plant_id must be a valid UUID.');
+        } elseif (! Plant::query()->whereKey($plantId)->exists()) {
+            $validator->errors()->add('plant_id', 'The selected plant does not exist.');
+        }
+
+        if (! $this->file('image') instanceof UploadedFile) {
+            $validator->errors()->add('image', 'An image file is required for image contributions.');
+        }
+
+        if (! is_array($payload)) {
+            return;
+        }
+
+        $collection = $payload['collection'] ?? null;
+        if (! is_string($collection) || ! in_array($collection, PlantImageType::values(), true)) {
+            $validator->errors()->add(
+                'payload.collection',
+                'payload.collection must be one of: '.implode(', ', PlantImageType::values()).'.',
+            );
+        }
+
+        $license = $payload['license'] ?? null;
+        if (! is_string($license) || ! in_array($license, PlantImageLicense::values(), true)) {
+            $validator->errors()->add(
+                'payload.license',
+                'payload.license must be one of: '.implode(', ', PlantImageLicense::values()).'.',
+            );
+
+            return;
+        }
+
+        $licenseEnum = PlantImageLicense::from($license);
+        $attribution = $payload['attribution'] ?? null;
+
+        if ($licenseEnum->requiresAttribution() && (! is_string($attribution) || mb_trim($attribution) === '')) {
+            $validator->errors()->add(
+                'payload.attribution',
+                'payload.attribution is required for the selected license.',
+            );
+        }
     }
 
     /**
@@ -101,9 +161,13 @@ final class StoreContributionRequest extends FormRequest
             return;
         }
 
-        $exists = Plant::query()->whereKey($plantId)->exists();
+        if (! Str::isUuid($plantId)) {
+            $validator->errors()->add('plant_id', 'plant_id must be a valid UUID.');
 
-        if (! $exists) {
+            return;
+        }
+
+        if (! Plant::query()->whereKey($plantId)->exists()) {
             $validator->errors()->add('plant_id', 'The selected plant does not exist.');
         }
     }

@@ -16,6 +16,7 @@ use Filament\Actions\EditAction;
 use Filament\Forms\Components\Textarea;
 use Filament\Infolists\Components\KeyValueEntry;
 use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Notifications\Notification;
@@ -47,6 +48,14 @@ final class ViewContribution extends ViewRecord
                         KeyValueEntry::make('payload')
                             ->keyLabel('Field')
                             ->valueLabel('Proposed value'),
+                    ]),
+                Section::make('Pending image')
+                    ->visible(fn (Contribution $record): bool => $record->type === ContributionType::Image)
+                    ->schema([
+                        SpatieMediaLibraryImageEntry::make('pending_image')
+                            ->collection(Contribution::MEDIA_PENDING_IMAGE)
+                            ->height(300)
+                            ->label('Uploaded image'),
                     ]),
                 Section::make('Current plant values')
                     ->visible(fn (Contribution $record): bool => in_array($record->type, [ContributionType::Update, ContributionType::Correction], true) && $record->plant !== null)

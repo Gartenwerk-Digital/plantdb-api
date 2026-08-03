@@ -14,6 +14,14 @@ enum PlantImageLicense: string
     case PublicDomain = 'public-domain';
     case AllRightsReserved = 'all-rights-reserved';
 
+    /**
+     * @return array<int, string>
+     */
+    public static function values(): array
+    {
+        return array_map(static fn (self $case): string => $case->value, self::cases());
+    }
+
     /** @return array<string, string> */
     public static function options(): array
     {
