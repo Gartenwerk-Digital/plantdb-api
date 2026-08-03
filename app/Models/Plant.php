@@ -9,6 +9,7 @@ use App\Enums\FertilizingFrequency;
 use App\Enums\GrowthRate;
 use App\Enums\LifeCycle;
 use App\Enums\MaintenanceLevel;
+use App\Enums\PlantImageType;
 use App\Enums\PlantStatus;
 use App\Enums\RootDepth;
 use App\Enums\SoilMoisture;
@@ -24,8 +25,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Support\Carbon;
+use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * @property string $id
@@ -104,12 +107,6 @@ final class Plant extends Model implements HasMedia
         return $this->hasMany(PlantTranslation::class);
     }
 
-    /** @return HasMany<PlantImage, $this> */
-    public function images(): HasMany
-    {
-        return $this->hasMany(PlantImage::class);
-    }
-
     /** @return HasMany<PlantCareTask, $this> */
     public function careTasks(): HasMany
     {
@@ -140,6 +137,31 @@ final class Plant extends Model implements HasMedia
     public function reviewer(): BelongsTo
     {
         return $this->belongsTo(User::class, 'reviewed_by');
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $mimes = ['image/jpeg', 'image/png', 'image/webp', 'image/avif'];
+
+        foreach (PlantImageType::cases() as $type) {
+            $this->addMediaCollection($type->value)
+                ->acceptsMimeTypes($mimes);
+        }
+    }
+
+    public function registerMediaConversions(?Media $media = null): void
+    {
+        $this->addMediaConversion('portrait')
+            ->nonQueued()
+            ->fit(Fit::Crop, 400, 600)
+            ->format('webp')
+            ->quality(85);
+
+        $this->addMediaConversion('thumb')
+            ->nonQueued()
+            ->fit(Fit::Crop, 200, 200)
+            ->format('webp')
+            ->quality(80);
     }
 
     /** @return array<string, string> */
