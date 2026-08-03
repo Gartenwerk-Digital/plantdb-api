@@ -9,13 +9,32 @@ use App\Enums\ContributionType;
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\Api\V1\StoreContributionRequest;
 use App\Http\Resources\Api\V1\ContributionResource;
+use App\Models\Contribution;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 final class ContributionController extends ApiController
 {
     /**
-     * Submit a new community contribution (new plant, update, or correction).
+     * List the authenticated user's own contributions (most recent first).
+     */
+    public function index(Request $request): AnonymousResourceCollection
+    {
+        /** @var User $user */
+        $user = $request->user();
+
+        $contributions = Contribution::query()
+            ->where('submitted_by', $user->id)
+            ->latest()
+            ->paginate(20);
+
+        return ContributionResource::collection($contributions);
+    }
+
+    /**
+     * Submit a new community contribution (new plant, update, correction, or image).
      */
     public function store(StoreContributionRequest $request, CreateContribution $createContribution): JsonResponse
     {
@@ -29,6 +48,7 @@ final class ContributionController extends ApiController
             $type,
             $request->plant_id,
             $request->payload,
+            $request->file('image'),
         );
 
         return $this->created(

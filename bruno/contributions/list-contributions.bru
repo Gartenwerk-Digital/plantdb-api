@@ -1,0 +1,32 @@
+meta {
+  name: list my contributions
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{apiUrl}}/contributions
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("responds 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("returns a paginated list", function () {
+    const body = res.getBody();
+    expect(body).to.have.property("data");
+    expect(body.data).to.be.an("array");
+  });
+}
+
+docs {
+  Returns the authenticated user's own contributions, most recent first,
+  paginated (20 per page).
+}

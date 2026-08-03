@@ -10,6 +10,7 @@ use App\Mail\ContributionReceived;
 use App\Mail\NewContributionSubmitted;
 use App\Models\Contribution;
 use App\Models\User;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Mail;
 
 final class CreateContribution
@@ -22,6 +23,7 @@ final class CreateContribution
         ContributionType $type,
         ?string $plantId,
         array $payload,
+        ?UploadedFile $image = null,
     ): Contribution {
         $contribution = new Contribution();
         $contribution->type = $type;
@@ -30,6 +32,13 @@ final class CreateContribution
         $contribution->payload = $payload;
         $contribution->status = ContributionStatus::Pending;
         $contribution->save();
+
+        if ($type === ContributionType::Image && $image instanceof UploadedFile) {
+            $contribution
+                ->addMedia($image)
+                ->preservingOriginal()
+                ->toMediaCollection(Contribution::MEDIA_PENDING_IMAGE);
+        }
 
         $configured = config('mail.admin_address');
         $adminAddress = is_string($configured) && $configured !== ''

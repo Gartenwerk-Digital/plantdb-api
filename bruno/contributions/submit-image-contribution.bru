@@ -1,0 +1,43 @@
+meta {
+  name: submit image contribution
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{apiUrl}}/contributions
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:multipart-form {
+  type: image
+  plant_id: {{plantId}}
+  image: @file(./fixtures/rose.jpg)
+  payload[collection]: portrait
+  payload[license]: CC-BY-4.0
+  payload[attribution]: Jane Photographer
+}
+
+tests {
+  test("responds 201", function () {
+    expect(res.getStatus()).to.equal(201);
+  });
+
+  test("returns pending image contribution", function () {
+    const body = res.getBody();
+    expect(body.data.type).to.equal("image");
+    expect(body.data.status).to.equal("pending");
+    expect(body.data.payload.collection).to.equal("portrait");
+  });
+}
+
+docs {
+  Requires plantId env var and a file at bruno/contributions/fixtures/rose.jpg.
+  Uploads a temporary image attached to the contribution — an admin then
+  approves it (moves it onto the plant) or rejects it (deletes the media).
+}
