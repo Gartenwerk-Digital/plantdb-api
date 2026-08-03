@@ -7,6 +7,27 @@ und dieses Projekt hält sich an [Semantic Versioning](https://semver.org/lang/d
 
 ## [Unreleased]
 
+### Added
+- Echte Bild-Uploads via `spatie/laravel-medialibrary` am `Plant`-Modell,
+  mit Media-Collections pro `PlantImageType` (`portrait`, `detail`,
+  `flower`, `fruit`, `leaf`, `bark`) und automatischen WebP-Conversions
+  `portrait` (400×600) und `thumb` (200×200) (#16)
+- R2-kompatible S3-Disk `r2` in `config/filesystems.php` und passende
+  Env-Vars (`R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET`,
+  `R2_ENDPOINT`, `R2_URL`, `MEDIA_DISK`) in `.env.example`; lokal
+  bleibt `public` der Default (#16)
+- Filament `MediaRelationManager` für Plant: Upload mit Auswahl der
+  Collection, `license` und `attribution` als Custom-Properties,
+  `submitted_by` wird automatisch gesetzt (#16)
+- API-Response `data.images[]` in `GET /api/v1/plants/{slug}` liefert
+  `type`, `urls.original|portrait|thumb`, `license`, `attribution`
+  (#16)
+
+### Changed
+- **Breaking:** `PlantImage`-Modell, Resource, RelationManager,
+  Factory und Tabelle `plant_images` entfernt. Bilder liegen jetzt
+  ausschließlich als Spatie-Media am Plant (#16)
+
 ## [0.5.0] — 2026-08-02
 
 Sprint 4 — Community Contributions. Öffentlicher Einreiche-Endpoint

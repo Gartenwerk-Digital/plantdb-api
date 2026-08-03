@@ -5,9 +5,10 @@ declare(strict_types=1);
 use App\Enums\PlantStatus;
 use App\Models\Plant;
 use App\Models\PlantCareTask;
-use App\Models\PlantImage;
 use App\Models\PlantTranslation;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 uses(RefreshDatabase::class);
 
@@ -46,13 +47,28 @@ describe('GET /api/v1/plants/{slug}', function (): void {
     });
 
     it('includes images when requested', function (): void {
+        Storage::fake('public');
+
         $plant = Plant::factory()->create(['slug' => 'with-images', 'status' => PlantStatus::Approved->value]);
-        PlantImage::factory()->count(3)->create(['plant_id' => $plant->id]);
+
+        foreach (['portrait', 'flower', 'leaf'] as $collection) {
+            $plant->addMedia(UploadedFile::fake()->image($collection.'.jpg', 800, 1200))
+                ->withCustomProperties([
+                    'license' => 'CC BY 4.0',
+                    'attribution' => 'Test Photographer',
+                ])
+                ->toMediaCollection($collection);
+        }
 
         $this->getJson('/api/v1/plants/with-images?include=images')
             ->assertOk()
             ->assertJsonCount(3, 'data.images')
-            ->assertJsonStructure(['data' => ['images' => [['id', 'url', 'type', 'license', 'attribution']]]]);
+            ->assertJsonStructure(['data' => ['images' => [[
+                'id', 'type', 'urls' => ['original', 'portrait', 'thumb'],
+                'license', 'attribution',
+            ]]]])
+            ->assertJsonPath('data.images.0.license', 'CC BY 4.0')
+            ->assertJsonPath('data.images.0.attribution', 'Test Photographer');
     });
 
     it('includes companions when requested', function (): void {

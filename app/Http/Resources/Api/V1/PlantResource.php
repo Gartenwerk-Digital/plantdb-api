@@ -69,7 +69,7 @@ final class PlantResource extends JsonResource
 
             'propagation_methods' => $this->propagation_methods,
 
-            'images' => PlantImageResource::collection($this->whenLoaded('images')),
+            'images' => PlantMediaResource::collection($this->whenLoaded('media')),
             'companions' => PlantCompanionResource::collection($this->whenLoaded('companions')),
             'care_tasks' => PlantCareTaskResource::collection($this->whenLoaded('careTasks')),
             'translations' => PlantTranslationResource::collection($this->whenLoaded('translations')),

@@ -18,7 +18,7 @@ it('creates all core tables', function (): void {
         'genera',
         'plants',
         'plant_translations',
-        'plant_images',
+        'media',
         'plant_companions',
         'plant_care_tasks',
         'plant_pests_diseases',
