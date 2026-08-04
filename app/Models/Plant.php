@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\App;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -107,6 +108,20 @@ final class Plant extends Model implements HasMedia
     public function translations(): HasMany
     {
         return $this->hasMany(PlantTranslation::class);
+    }
+
+    public function localizedTranslation(?string $locale = null): ?PlantTranslation
+    {
+        $active = $locale ?? App::getLocale();
+        /** @var string $fallback */
+        $fallback = config('i18n.fallback');
+
+        $collection = $this->relationLoaded('translations')
+            ? $this->translations
+            : $this->translations()->whereIn('locale', [$active, $fallback])->get();
+
+        return $collection->firstWhere('locale', $active)
+            ?? $collection->firstWhere('locale', $fallback);
     }
 
     /** @return HasMany<PlantCareTask, $this> */

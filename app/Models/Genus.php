@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\App;
 
 /**
  * @property string $id
@@ -47,5 +48,19 @@ final class Genus extends Model
     public function translations(): HasMany
     {
         return $this->hasMany(GenusTranslation::class);
+    }
+
+    public function localizedTranslation(?string $locale = null): ?GenusTranslation
+    {
+        $active = $locale ?? App::getLocale();
+        /** @var string $fallback */
+        $fallback = config('i18n.fallback');
+
+        $collection = $this->relationLoaded('translations')
+            ? $this->translations
+            : $this->translations()->whereIn('locale', [$active, $fallback])->get();
+
+        return $collection->firstWhere('locale', $active)
+            ?? $collection->firstWhere('locale', $fallback);
     }
 }

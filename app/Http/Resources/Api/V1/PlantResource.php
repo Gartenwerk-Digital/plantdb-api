@@ -16,6 +16,8 @@ final class PlantResource extends JsonResource
     /** @return array<string, mixed> */
     public function toArray(Request $request): array
     {
+        $translation = $this->localizedTranslation();
+
         return [
             'id' => $this->id,
             'slug' => $this->slug,
@@ -24,6 +26,8 @@ final class PlantResource extends JsonResource
             'genus_id' => $this->genus_id,
             'cultivar' => $this->cultivar,
             'status' => $this->status->value,
+            'common_name' => $translation?->common_name,
+            'description' => $translation?->description,
 
             'life_cycle' => $this->life_cycle?->value,
             'deciduous' => $this->deciduous,
@@ -72,7 +76,10 @@ final class PlantResource extends JsonResource
             'images' => PlantMediaResource::collection($this->whenLoaded('media')),
             'companions' => PlantCompanionResource::collection($this->whenLoaded('companions')),
             'care_tasks' => PlantCareTaskResource::collection($this->whenLoaded('careTasks')),
-            'translations' => PlantTranslationResource::collection($this->whenLoaded('translations')),
+            'translations' => $this->when(
+                str_contains((string) $request->query('include', ''), 'translations'),
+                fn () => PlantTranslationResource::collection($this->translations),
+            ),
 
             'created_at' => $this->created_at?->toIso8601String(),
             'updated_at' => $this->updated_at?->toIso8601String(),

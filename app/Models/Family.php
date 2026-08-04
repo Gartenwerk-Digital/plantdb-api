@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\App;
 
 /**
  * @property string $id
@@ -44,5 +45,19 @@ final class Family extends Model
     public function translations(): HasMany
     {
         return $this->hasMany(FamilyTranslation::class);
+    }
+
+    public function localizedTranslation(?string $locale = null): ?FamilyTranslation
+    {
+        $active = $locale ?? App::getLocale();
+        /** @var string $fallback */
+        $fallback = config('i18n.fallback');
+
+        $collection = $this->relationLoaded('translations')
+            ? $this->translations
+            : $this->translations()->whereIn('locale', [$active, $fallback])->get();
+
+        return $collection->firstWhere('locale', $active)
+            ?? $collection->firstWhere('locale', $fallback);
     }
 }
