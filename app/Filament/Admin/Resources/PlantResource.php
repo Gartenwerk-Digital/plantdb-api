@@ -22,6 +22,7 @@ use App\Filament\Admin\Resources\PlantResource\RelationManagers\CareTasksRelatio
 use App\Filament\Admin\Resources\PlantResource\RelationManagers\CompanionsRelationManager;
 use App\Filament\Admin\Resources\PlantResource\RelationManagers\MediaRelationManager;
 use App\Models\Plant;
+use Filament\Actions\Action as HeaderAction;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
@@ -32,6 +33,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\PageRegistration;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\Action as TableAction;
@@ -98,7 +100,9 @@ final class PlantResource extends Resource
             ])
             ->defaultSort('scientific_name')
             ->filters([
-                SelectFilter::make('status')->options(PlantStatus::class),
+                SelectFilter::make('status')
+                    ->options(PlantStatus::class)
+                    ->default(PlantStatus::PendingReview->value),
                 SelectFilter::make('family_id')
                     ->relationship('family', 'name')
                     ->label('Family')
@@ -121,11 +125,12 @@ final class PlantResource extends Resource
                         ->color('success')
                         ->requiresConfirmation()
                         ->action(function (EloquentCollection $records): void {
-                            $records->each(fn (Plant $plant) => $plant->forceFill([
-                                'status' => PlantStatus::Approved,
-                                'reviewed_by' => auth()->id(),
-                                'reviewed_at' => now(),
-                            ])->save());
+                            $records->each(fn (Plant $plant) => self::markApproved($plant));
+
+                            Notification::make()
+                                ->title($records->count().' plants approved')
+                                ->success()
+                                ->send();
                         }),
                     BulkAction::make('reject')
                         ->label('Reject')
@@ -135,12 +140,12 @@ final class PlantResource extends Resource
                             Textarea::make('review_notes')->required()->rows(3),
                         ])
                         ->action(function (array $data, EloquentCollection $records): void {
-                            $records->each(fn (Plant $plant) => $plant->forceFill([
-                                'status' => PlantStatus::Rejected,
-                                'reviewed_by' => auth()->id(),
-                                'reviewed_at' => now(),
-                                'review_notes' => $data['review_notes'],
-                            ])->save());
+                            $records->each(fn (Plant $plant) => self::markRejected($plant, (string) $data['review_notes']));
+
+                            Notification::make()
+                                ->title($records->count().' plants rejected')
+                                ->success()
+                                ->send();
                         }),
                     DeleteBulkAction::make()->requiresConfirmation(),
                 ]),
@@ -177,11 +182,12 @@ final class PlantResource extends Resource
             ->visible(fn (Plant $record): bool => $record->status !== PlantStatus::Approved)
             ->requiresConfirmation()
             ->action(function (Plant $record): void {
-                $record->forceFill([
-                    'status' => PlantStatus::Approved,
-                    'reviewed_by' => auth()->id(),
-                    'reviewed_at' => now(),
-                ])->save();
+                self::markApproved($record);
+
+                Notification::make()
+                    ->title('Plant approved')
+                    ->success()
+                    ->send();
             });
     }
 
@@ -196,13 +202,70 @@ final class PlantResource extends Resource
                 Textarea::make('review_notes')->required()->rows(3),
             ])
             ->action(function (array $data, Plant $record): void {
-                $record->forceFill([
-                    'status' => PlantStatus::Rejected,
-                    'reviewed_by' => auth()->id(),
-                    'reviewed_at' => now(),
-                    'review_notes' => $data['review_notes'],
-                ])->save();
+                self::markRejected($record, (string) $data['review_notes']);
+
+                Notification::make()
+                    ->title('Plant rejected')
+                    ->success()
+                    ->send();
             });
+    }
+
+    public static function approveHeaderAction(): HeaderAction
+    {
+        return HeaderAction::make('approve')
+            ->label('Approve')
+            ->icon('heroicon-o-check-circle')
+            ->color('success')
+            ->visible(fn (Plant $record): bool => $record->status !== PlantStatus::Approved)
+            ->requiresConfirmation()
+            ->action(function (Plant $record): void {
+                self::markApproved($record);
+
+                Notification::make()
+                    ->title('Plant approved')
+                    ->success()
+                    ->send();
+            });
+    }
+
+    public static function rejectHeaderAction(): HeaderAction
+    {
+        return HeaderAction::make('reject')
+            ->label('Reject')
+            ->icon('heroicon-o-x-circle')
+            ->color('danger')
+            ->visible(fn (Plant $record): bool => $record->status !== PlantStatus::Rejected)
+            ->form([
+                Textarea::make('review_notes')->required()->rows(3),
+            ])
+            ->action(function (array $data, Plant $record): void {
+                self::markRejected($record, (string) $data['review_notes']);
+
+                Notification::make()
+                    ->title('Plant rejected')
+                    ->success()
+                    ->send();
+            });
+    }
+
+    private static function markApproved(Plant $plant): void
+    {
+        $plant->forceFill([
+            'status' => PlantStatus::Approved,
+            'reviewed_by' => auth()->id(),
+            'reviewed_at' => now(),
+        ])->save();
+    }
+
+    private static function markRejected(Plant $plant, string $reviewNotes): void
+    {
+        $plant->forceFill([
+            'status' => PlantStatus::Rejected,
+            'reviewed_by' => auth()->id(),
+            'reviewed_at' => now(),
+            'review_notes' => $reviewNotes,
+        ])->save();
     }
 
     /** @return array<int, mixed> */

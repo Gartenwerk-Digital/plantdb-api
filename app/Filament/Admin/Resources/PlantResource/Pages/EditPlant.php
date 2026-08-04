@@ -19,6 +19,8 @@ final class EditPlant extends EditRecord
     {
         return [
             ViewAction::make(),
+            PlantResource::approveHeaderAction(),
+            PlantResource::rejectHeaderAction(),
             DeleteAction::make(),
         ];
     }
