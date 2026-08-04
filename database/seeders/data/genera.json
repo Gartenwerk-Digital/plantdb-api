@@ -1,0 +1,557 @@
+[
+    {
+        "slug": "acidianus",
+        "name": "Acidianus",
+        "family_slug": "sulfolobaceae"
+    },
+    {
+        "slug": "acidilobus",
+        "name": "Acidilobus",
+        "family_slug": "acidilobaceae"
+    },
+    {
+        "slug": "acyclus",
+        "name": "Acyclus",
+        "family_slug": "atrochidae"
+    },
+    {
+        "slug": "adineta",
+        "name": "Adineta",
+        "family_slug": "adinetidae"
+    },
+    {
+        "slug": "aeropyrum",
+        "name": "Aeropyrum",
+        "family_slug": "acidilobaceae"
+    },
+    {
+        "slug": "anchitestudinella",
+        "name": "Anchitestudinella",
+        "family_slug": "testudinellidae"
+    },
+    {
+        "slug": "archaeoglobus",
+        "name": "Archaeoglobus",
+        "family_slug": "archaeoglobaceae"
+    },
+    {
+        "slug": "atrochus",
+        "name": "Atrochus",
+        "family_slug": "atrochidae"
+    },
+    {
+        "slug": "bradyscela",
+        "name": "Bradyscela",
+        "family_slug": "adinetidae"
+    },
+    {
+        "slug": "caldisphaera",
+        "name": "Caldisphaera",
+        "family_slug": "acidilobaceae"
+    },
+    {
+        "slug": "caldivirga",
+        "name": "Caldivirga",
+        "family_slug": "thermocladiaceae"
+    },
+    {
+        "slug": "ceratotrocha",
+        "name": "Ceratotrocha",
+        "family_slug": "philodinidae"
+    },
+    {
+        "slug": "collotheca",
+        "name": "Collotheca",
+        "family_slug": "collothecidae"
+    },
+    {
+        "slug": "conochilopsis",
+        "name": "Conochilopsis",
+        "family_slug": "conochilidae"
+    },
+    {
+        "slug": "conochilus",
+        "name": "Conochilus",
+        "family_slug": "conochilidae"
+    },
+    {
+        "slug": "cupelopagis",
+        "name": "Cupelopagis",
+        "family_slug": "atrochidae"
+    },
+    {
+        "slug": "desulfurococcus",
+        "name": "Desulfurococcus",
+        "family_slug": "desulfurococcaceae"
+    },
+    {
+        "slug": "didymodactylos",
+        "name": "Didymodactylos",
+        "family_slug": "philodinidae"
+    },
+    {
+        "slug": "embata",
+        "name": "Embata",
+        "family_slug": "philodinidae"
+    },
+    {
+        "slug": "ferroglobus",
+        "name": "Ferroglobus",
+        "family_slug": "archaeoglobaceae"
+    },
+    {
+        "slug": "ferroplasma",
+        "name": "Ferroplasma",
+        "family_slug": "thermoplasmataceae"
+    },
+    {
+        "slug": "filinia",
+        "name": "Filinia",
+        "family_slug": "trochosphaeridae"
+    },
+    {
+        "slug": "floscularia",
+        "name": "Floscularia",
+        "family_slug": "flosculariidae"
+    },
+    {
+        "slug": "geoglobus",
+        "name": "Geoglobus",
+        "family_slug": "archaeoglobaceae"
+    },
+    {
+        "slug": "halalkalicoccus",
+        "name": "Halalkalicoccus",
+        "family_slug": "halalkalicoccaceae"
+    },
+    {
+        "slug": "haloarcula",
+        "name": "Haloarcula",
+        "family_slug": "haloarculaceae"
+    },
+    {
+        "slug": "halobacterium",
+        "name": "Halobacterium",
+        "family_slug": "halobacteriaceae"
+    },
+    {
+        "slug": "halobaculum",
+        "name": "Halobaculum",
+        "family_slug": "haloferacaceae"
+    },
+    {
+        "slug": "halobiforma",
+        "name": "Halobiforma",
+        "family_slug": "natrialbaceae"
+    },
+    {
+        "slug": "haloferax",
+        "name": "Haloferax",
+        "family_slug": "haloferacaceae"
+    },
+    {
+        "slug": "halogeometricum",
+        "name": "Halogeometricum",
+        "family_slug": "haloferacaceae"
+    },
+    {
+        "slug": "halomicrobium",
+        "name": "Halomicrobium",
+        "family_slug": "haloarculaceae"
+    },
+    {
+        "slug": "halorhabdus",
+        "name": "Halorhabdus",
+        "family_slug": "haloarculaceae"
+    },
+    {
+        "slug": "halorubrum",
+        "name": "Halorubrum",
+        "family_slug": "haloferacaceae"
+    },
+    {
+        "slug": "halosimplex",
+        "name": "Halosimplex",
+        "family_slug": "haloarculaceae"
+    },
+    {
+        "slug": "halostagnicola",
+        "name": "Halostagnicola",
+        "family_slug": "natrialbaceae"
+    },
+    {
+        "slug": "haloterrigena",
+        "name": "Haloterrigena",
+        "family_slug": "natrialbaceae"
+    },
+    {
+        "slug": "halovivax",
+        "name": "Halovivax",
+        "family_slug": "natrialbaceae"
+    },
+    {
+        "slug": "hexarthra",
+        "name": "Hexarthra",
+        "family_slug": "hexarthridae"
+    },
+    {
+        "slug": "horaella",
+        "name": "Horaella",
+        "family_slug": "trochosphaeridae"
+    },
+    {
+        "slug": "hyperthermus",
+        "name": "Hyperthermus",
+        "family_slug": "pyrodictiaceae"
+    },
+    {
+        "slug": "ignicoccus",
+        "name": "Ignicoccus",
+        "family_slug": "ignicoccaceae"
+    },
+    {
+        "slug": "lavandula",
+        "name": "Lavandula",
+        "family_slug": "lamiaceae"
+    },
+    {
+        "slug": "macrotrachela",
+        "name": "Macrotrachela",
+        "family_slug": "philodinidae"
+    },
+    {
+        "slug": "metallosphaera",
+        "name": "Metallosphaera",
+        "family_slug": "sulfolobaceae"
+    },
+    {
+        "slug": "methanobacterium",
+        "name": "Methanobacterium",
+        "family_slug": "methanobacteriaceae"
+    },
+    {
+        "slug": "methanobrevibacter",
+        "name": "Methanobrevibacter",
+        "family_slug": "methanobacteriaceae"
+    },
+    {
+        "slug": "methanocalculus",
+        "name": "Methanocalculus",
+        "family_slug": "methanocorpusculaceae"
+    },
+    {
+        "slug": "methanocaldococcus",
+        "name": "Methanocaldococcus",
+        "family_slug": "methanocaldococcaceae"
+    },
+    {
+        "slug": "methanococcoides",
+        "name": "Methanococcoides",
+        "family_slug": "methanosarcinaceae"
+    },
+    {
+        "slug": "methanococcus",
+        "name": "Methanococcus",
+        "family_slug": "methanococcaceae"
+    },
+    {
+        "slug": "methanocorpusculum",
+        "name": "Methanocorpusculum",
+        "family_slug": "methanocorpusculaceae"
+    },
+    {
+        "slug": "methanoculleus",
+        "name": "Methanoculleus",
+        "family_slug": "methanoculleaceae"
+    },
+    {
+        "slug": "methanofollis",
+        "name": "Methanofollis",
+        "family_slug": "methanofollaceae"
+    },
+    {
+        "slug": "methanogenium",
+        "name": "Methanogenium",
+        "family_slug": "methanomicrobiaceae"
+    },
+    {
+        "slug": "methanohalophilus",
+        "name": "Methanohalophilus",
+        "family_slug": "methanosarcinaceae"
+    },
+    {
+        "slug": "methanolacinia",
+        "name": "Methanolacinia",
+        "family_slug": "methanomicrobiaceae"
+    },
+    {
+        "slug": "methanolobus",
+        "name": "Methanolobus",
+        "family_slug": "methanosarcinaceae"
+    },
+    {
+        "slug": "methanomethylovorans",
+        "name": "Methanomethylovorans",
+        "family_slug": "methanosarcinaceae"
+    },
+    {
+        "slug": "methanomicrobium",
+        "name": "Methanomicrobium",
+        "family_slug": "methanomicrobiaceae"
+    },
+    {
+        "slug": "methanoplanus",
+        "name": "Methanoplanus",
+        "family_slug": "methanomicrobiaceae"
+    },
+    {
+        "slug": "methanopyrus",
+        "name": "Methanopyrus",
+        "family_slug": "methanopyraceae"
+    },
+    {
+        "slug": "methanosalsum",
+        "name": "Methanosalsum",
+        "family_slug": "methanosarcinaceae"
+    },
+    {
+        "slug": "methanosarcina",
+        "name": "Methanosarcina",
+        "family_slug": "methanosarcinaceae"
+    },
+    {
+        "slug": "methanosphaera",
+        "name": "Methanosphaera",
+        "family_slug": "methanobacteriaceae"
+    },
+    {
+        "slug": "methanothermobacter",
+        "name": "Methanothermobacter",
+        "family_slug": "methanothermobacteraceae"
+    },
+    {
+        "slug": "methanothermococcus",
+        "name": "Methanothermococcus",
+        "family_slug": "methanococcaceae"
+    },
+    {
+        "slug": "methanothermus",
+        "name": "Methanothermus",
+        "family_slug": "methanothermaceae"
+    },
+    {
+        "slug": "methanothrix",
+        "name": "Methanothrix",
+        "family_slug": "methanotrichaceae"
+    },
+    {
+        "slug": "methanotorris",
+        "name": "Methanotorris",
+        "family_slug": "methanococcaceae"
+    },
+    {
+        "slug": "mniobia",
+        "name": "Mniobia",
+        "family_slug": "philodinidae"
+    },
+    {
+        "slug": "natrialba",
+        "name": "Natrialba",
+        "family_slug": "natrialbaceae"
+    },
+    {
+        "slug": "natrinema",
+        "name": "Natrinema",
+        "family_slug": "natrialbaceae"
+    },
+    {
+        "slug": "natronobacterium",
+        "name": "Natronobacterium",
+        "family_slug": "natrialbaceae"
+    },
+    {
+        "slug": "natronococcus",
+        "name": "Natronococcus",
+        "family_slug": "natrialbaceae"
+    },
+    {
+        "slug": "natronolimnobius",
+        "name": "Natronolimnobius",
+        "family_slug": "natrialbaceae"
+    },
+    {
+        "slug": "natronomonas",
+        "name": "Natronomonas",
+        "family_slug": "haloarculaceae"
+    },
+    {
+        "slug": "natronorubrum",
+        "name": "Natronorubrum",
+        "family_slug": "natrialbaceae"
+    },
+    {
+        "slug": "octotrocha",
+        "name": "Octotrocha",
+        "family_slug": "flosculariidae"
+    },
+    {
+        "slug": "pentatrocha",
+        "name": "Pentatrocha",
+        "family_slug": "flosculariidae"
+    },
+    {
+        "slug": "picrophilus",
+        "name": "Picrophilus",
+        "family_slug": "thermoplasmataceae"
+    },
+    {
+        "slug": "pleuretra",
+        "name": "Pleuretra",
+        "family_slug": "philodinidae"
+    },
+    {
+        "slug": "pompholyx",
+        "name": "Pompholyx",
+        "family_slug": "testudinellidae"
+    },
+    {
+        "slug": "pseudoembata",
+        "name": "Pseudoembata",
+        "family_slug": "philodinidae"
+    },
+    {
+        "slug": "ptygura",
+        "name": "Ptygura",
+        "family_slug": "flosculariidae"
+    },
+    {
+        "slug": "pyrobaculum",
+        "name": "Pyrobaculum",
+        "family_slug": "thermoproteaceae"
+    },
+    {
+        "slug": "pyrococcus",
+        "name": "Pyrococcus",
+        "family_slug": "thermococcaceae"
+    },
+    {
+        "slug": "pyrodictium",
+        "name": "Pyrodictium",
+        "family_slug": "pyrodictiaceae"
+    },
+    {
+        "slug": "pyrolobus",
+        "name": "Pyrolobus",
+        "family_slug": "pyrodictiaceae"
+    },
+    {
+        "slug": "rosa",
+        "name": "Rosa",
+        "family_slug": "rosaceae"
+    },
+    {
+        "slug": "rotaria",
+        "name": "Rotaria",
+        "family_slug": "philodinidae"
+    },
+    {
+        "slug": "sinantherina",
+        "name": "Sinantherina",
+        "family_slug": "flosculariidae"
+    },
+    {
+        "slug": "solanum",
+        "name": "Solanum",
+        "family_slug": "solanaceae"
+    },
+    {
+        "slug": "staphylothermus",
+        "name": "Staphylothermus",
+        "family_slug": "desulfurococcaceae"
+    },
+    {
+        "slug": "stephanoceros",
+        "name": "Stephanoceros",
+        "family_slug": "collothecidae"
+    },
+    {
+        "slug": "stetteria",
+        "name": "Stetteria",
+        "family_slug": "desulfurococcaceae"
+    },
+    {
+        "slug": "stygiolobus",
+        "name": "Stygiolobus",
+        "family_slug": "sulfolobaceae"
+    },
+    {
+        "slug": "sulfolobus",
+        "name": "Sulfolobus",
+        "family_slug": "sulfolobaceae"
+    },
+    {
+        "slug": "sulfophobococcus",
+        "name": "Sulfophobococcus",
+        "family_slug": "desulfurococcaceae"
+    },
+    {
+        "slug": "sulfurisphaera",
+        "name": "Sulfurisphaera",
+        "family_slug": "sulfolobaceae"
+    },
+    {
+        "slug": "sulfurococcus",
+        "name": "Sulfurococcus",
+        "family_slug": "sulfolobaceae"
+    },
+    {
+        "slug": "thermocladium",
+        "name": "Thermocladium",
+        "family_slug": "thermocladiaceae"
+    },
+    {
+        "slug": "thermococcus",
+        "name": "Thermococcus",
+        "family_slug": "thermococcaceae"
+    },
+    {
+        "slug": "thermodiscus",
+        "name": "Thermodiscus",
+        "family_slug": "desulfurococcaceae"
+    },
+    {
+        "slug": "thermofilum",
+        "name": "Thermofilum",
+        "family_slug": "thermofilaceae"
+    },
+    {
+        "slug": "thermoplasma",
+        "name": "Thermoplasma",
+        "family_slug": "thermoplasmataceae"
+    },
+    {
+        "slug": "thermoproteus",
+        "name": "Thermoproteus",
+        "family_slug": "thermoproteaceae"
+    },
+    {
+        "slug": "thermosphaera",
+        "name": "Thermosphaera",
+        "family_slug": "desulfurococcaceae"
+    },
+    {
+        "slug": "trochosphaera",
+        "name": "Trochosphaera",
+        "family_slug": "trochosphaeridae"
+    },
+    {
+        "slug": "vulcanisaeta",
+        "name": "Vulcanisaeta",
+        "family_slug": "thermocladiaceae"
+    },
+    {
+        "slug": "zelinkiella",
+        "name": "Zelinkiella",
+        "family_slug": "philodinidae"
+    }
+]
