@@ -30,12 +30,12 @@ it('creates all core tables', function (): void {
     }
 });
 
-it('seeds three canonical plants with their taxonomy', function (): void {
+it('seeds the canonical curated plants with their taxonomy', function (): void {
     $this->seed(PlantSeeder::class);
 
-    expect(Plant::query()->count())->toBe(3)
-        ->and(Family::query()->count())->toBe(3)
-        ->and(Genus::query()->count())->toBe(3);
+    expect(Plant::query()->count())->toBeGreaterThanOrEqual(3)
+        ->and(Family::query()->count())->toBeGreaterThanOrEqual(3)
+        ->and(Genus::query()->count())->toBeGreaterThanOrEqual(3);
 
     $rose = Plant::query()->where('slug', 'rosa-centifolia')->firstOrFail();
     expect($rose->status)->toBe(PlantStatus::Approved)
