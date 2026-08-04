@@ -39,4 +39,10 @@ final class Family extends Model
     {
         return $this->hasMany(Plant::class);
     }
+
+    /** @return HasMany<FamilyTranslation, $this> */
+    public function translations(): HasMany
+    {
+        return $this->hasMany(FamilyTranslation::class);
+    }
 }
