@@ -2,621 +2,1117 @@
     {
         "slug": "acer",
         "name": "Acer",
-        "family_slug": "sapindaceae"
+        "family_slug": "sapindaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Ahorn", "description": null },
+            { "locale": "en", "common_name": "Maple", "description": null }
+        ]
     },
     {
         "slug": "achillea",
         "name": "Achillea",
-        "family_slug": "asteraceae"
+        "family_slug": "asteraceae",
+        "translations": [
+            { "locale": "de", "common_name": "Schafgarbe", "description": null },
+            { "locale": "en", "common_name": "Yarrow", "description": null }
+        ]
     },
     {
         "slug": "actinidia",
         "name": "Actinidia",
-        "family_slug": "actinidiaceae"
+        "family_slug": "actinidiaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Strahlengriffel", "description": null },
+            { "locale": "en", "common_name": "Kiwifruit", "description": null }
+        ]
     },
     {
         "slug": "aesculus",
         "name": "Aesculus",
-        "family_slug": "sapindaceae"
+        "family_slug": "sapindaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Rosskastanie", "description": null },
+            { "locale": "en", "common_name": "Horse chestnut", "description": null }
+        ]
     },
     {
         "slug": "allium",
         "name": "Allium",
-        "family_slug": "amaryllidaceae"
+        "family_slug": "amaryllidaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Lauch", "description": null },
+            { "locale": "en", "common_name": "Onion", "description": null }
+        ]
     },
     {
         "slug": "aloe",
         "name": "Aloe",
-        "family_slug": "asphodelaceae"
+        "family_slug": "asphodelaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Aloe", "description": null },
+            { "locale": "en", "common_name": "Aloe", "description": null }
+        ]
     },
     {
         "slug": "amelanchier",
         "name": "Amelanchier",
-        "family_slug": "rosaceae"
+        "family_slug": "rosaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Felsenbirne", "description": null },
+            { "locale": "en", "common_name": "Serviceberry", "description": null }
+        ]
     },
     {
         "slug": "ananas",
         "name": "Ananas",
-        "family_slug": "bromeliaceae"
+        "family_slug": "bromeliaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Ananas", "description": null },
+            { "locale": "en", "common_name": "Pineapple", "description": null }
+        ]
     },
     {
         "slug": "anethum",
         "name": "Anethum",
-        "family_slug": "apiaceae"
+        "family_slug": "apiaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Dill", "description": null },
+            { "locale": "en", "common_name": "Dill", "description": null }
+        ]
     },
     {
         "slug": "apium",
         "name": "Apium",
-        "family_slug": "apiaceae"
+        "family_slug": "apiaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Sellerie", "description": null },
+            { "locale": "en", "common_name": "Celery", "description": null }
+        ]
     },
     {
         "slug": "aquilegia",
         "name": "Aquilegia",
-        "family_slug": "ranunculaceae"
+        "family_slug": "ranunculaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Akelei", "description": null },
+            { "locale": "en", "common_name": "Columbine", "description": null }
+        ]
     },
     {
         "slug": "arachis",
         "name": "Arachis",
-        "family_slug": "fabaceae"
+        "family_slug": "fabaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Erdnuss", "description": null },
+            { "locale": "en", "common_name": "Peanut", "description": null }
+        ]
     },
     {
         "slug": "aronia",
         "name": "Aronia",
-        "family_slug": "rosaceae"
+        "family_slug": "rosaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Apfelbeere", "description": null },
+            { "locale": "en", "common_name": "Chokeberry", "description": null }
+        ]
     },
     {
         "slug": "artemisia",
         "name": "Artemisia",
-        "family_slug": "asteraceae"
+        "family_slug": "asteraceae",
+        "translations": [
+            { "locale": "de", "common_name": "Beifuß", "description": null },
+            { "locale": "en", "common_name": "Mugwort", "description": null }
+        ]
     },
     {
         "slug": "asparagus",
         "name": "Asparagus",
-        "family_slug": "asparagaceae"
+        "family_slug": "asparagaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Spargel", "description": null },
+            { "locale": "en", "common_name": "Asparagus", "description": null }
+        ]
     },
     {
         "slug": "bellis",
         "name": "Bellis",
-        "family_slug": "asteraceae"
+        "family_slug": "asteraceae",
+        "translations": [
+            { "locale": "de", "common_name": "Gänseblümchen", "description": null },
+            { "locale": "en", "common_name": "Daisy", "description": null }
+        ]
     },
     {
         "slug": "beta",
         "name": "Beta",
-        "family_slug": "amaranthaceae"
+        "family_slug": "amaranthaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Rübe", "description": null },
+            { "locale": "en", "common_name": "Beet", "description": null }
+        ]
     },
     {
         "slug": "betula",
         "name": "Betula",
-        "family_slug": "betulaceae"
+        "family_slug": "betulaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Birke", "description": null },
+            { "locale": "en", "common_name": "Birch", "description": null }
+        ]
     },
     {
         "slug": "borago",
         "name": "Borago",
-        "family_slug": "boraginaceae"
+        "family_slug": "boraginaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Borretsch", "description": null },
+            { "locale": "en", "common_name": "Borage", "description": null }
+        ]
     },
     {
         "slug": "brassica",
         "name": "Brassica",
-        "family_slug": "brassicaceae"
+        "family_slug": "brassicaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Kohl", "description": null },
+            { "locale": "en", "common_name": "Cabbage", "description": null }
+        ]
     },
     {
         "slug": "buxus",
         "name": "Buxus",
-        "family_slug": "buxaceae"
+        "family_slug": "buxaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Buchsbaum", "description": null },
+            { "locale": "en", "common_name": "Box", "description": null }
+        ]
     },
     {
         "slug": "calendula",
         "name": "Calendula",
-        "family_slug": "asteraceae"
+        "family_slug": "asteraceae",
+        "translations": [
+            { "locale": "de", "common_name": "Ringelblume", "description": null },
+            { "locale": "en", "common_name": "Marigold", "description": null }
+        ]
     },
     {
         "slug": "camellia",
         "name": "Camellia",
-        "family_slug": "theaceae"
+        "family_slug": "theaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Kamelie", "description": null },
+            { "locale": "en", "common_name": "Camellia", "description": null }
+        ]
     },
     {
         "slug": "capsicum",
         "name": "Capsicum",
-        "family_slug": "solanaceae"
+        "family_slug": "solanaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Paprika", "description": null },
+            { "locale": "en", "common_name": "Pepper", "description": null }
+        ]
     },
     {
         "slug": "castanea",
         "name": "Castanea",
-        "family_slug": "fagaceae"
+        "family_slug": "fagaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Edelkastanie", "description": null },
+            { "locale": "en", "common_name": "Chestnut", "description": null }
+        ]
     },
     {
         "slug": "chamaemelum",
         "name": "Chamaemelum",
-        "family_slug": "asteraceae"
+        "family_slug": "asteraceae",
+        "translations": [
+            { "locale": "de", "common_name": "Römische Kamille", "description": null },
+            { "locale": "en", "common_name": "Roman chamomile", "description": null }
+        ]
     },
     {
         "slug": "cichorium",
         "name": "Cichorium",
-        "family_slug": "asteraceae"
+        "family_slug": "asteraceae",
+        "translations": [
+            { "locale": "de", "common_name": "Zichorie", "description": null },
+            { "locale": "en", "common_name": "Chicory", "description": null }
+        ]
     },
     {
         "slug": "citrullus",
         "name": "Citrullus",
-        "family_slug": "cucurbitaceae"
+        "family_slug": "cucurbitaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Wassermelone", "description": null },
+            { "locale": "en", "common_name": "Watermelon", "description": null }
+        ]
     },
     {
         "slug": "citrus",
         "name": "Citrus",
-        "family_slug": "rutaceae"
+        "family_slug": "rutaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Zitrus", "description": null },
+            { "locale": "en", "common_name": "Citrus", "description": null }
+        ]
     },
     {
         "slug": "clematis",
         "name": "Clematis",
-        "family_slug": "ranunculaceae"
+        "family_slug": "ranunculaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Waldrebe", "description": null },
+            { "locale": "en", "common_name": "Clematis", "description": null }
+        ]
     },
     {
         "slug": "coffea",
         "name": "Coffea",
-        "family_slug": "rubiaceae"
+        "family_slug": "rubiaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Kaffee", "description": null },
+            { "locale": "en", "common_name": "Coffee", "description": null }
+        ]
     },
     {
         "slug": "coriandrum",
         "name": "Coriandrum",
-        "family_slug": "apiaceae"
+        "family_slug": "apiaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Koriander", "description": null },
+            { "locale": "en", "common_name": "Coriander", "description": null }
+        ]
     },
     {
         "slug": "cornus",
         "name": "Cornus",
-        "family_slug": "cornaceae"
+        "family_slug": "cornaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Hartriegel", "description": null },
+            { "locale": "en", "common_name": "Dogwood", "description": null }
+        ]
     },
     {
         "slug": "corylus",
         "name": "Corylus",
-        "family_slug": "betulaceae"
+        "family_slug": "betulaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Hasel", "description": null },
+            { "locale": "en", "common_name": "Hazel", "description": null }
+        ]
     },
     {
         "slug": "crocus",
         "name": "Crocus",
-        "family_slug": "iridaceae"
+        "family_slug": "iridaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Krokus", "description": null },
+            { "locale": "en", "common_name": "Crocus", "description": null }
+        ]
     },
     {
         "slug": "cucumis",
         "name": "Cucumis",
-        "family_slug": "cucurbitaceae"
+        "family_slug": "cucurbitaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Gurke", "description": null },
+            { "locale": "en", "common_name": "Cucumber", "description": null }
+        ]
     },
     {
         "slug": "cucurbita",
         "name": "Cucurbita",
-        "family_slug": "cucurbitaceae"
+        "family_slug": "cucurbitaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Kürbis", "description": null },
+            { "locale": "en", "common_name": "Squash", "description": null }
+        ]
     },
     {
         "slug": "curcuma",
         "name": "Curcuma",
-        "family_slug": "zingiberaceae"
+        "family_slug": "zingiberaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Kurkuma", "description": null },
+            { "locale": "en", "common_name": "Turmeric", "description": null }
+        ]
     },
     {
         "slug": "cydonia",
         "name": "Cydonia",
-        "family_slug": "rosaceae"
+        "family_slug": "rosaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Quitte", "description": null },
+            { "locale": "en", "common_name": "Quince", "description": null }
+        ]
     },
     {
         "slug": "cynara",
         "name": "Cynara",
-        "family_slug": "asteraceae"
+        "family_slug": "asteraceae",
+        "translations": [
+            { "locale": "de", "common_name": "Artischocke", "description": null },
+            { "locale": "en", "common_name": "Artichoke", "description": null }
+        ]
     },
     {
         "slug": "daucus",
         "name": "Daucus",
-        "family_slug": "apiaceae"
+        "family_slug": "apiaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Möhre", "description": null },
+            { "locale": "en", "common_name": "Carrot", "description": null }
+        ]
     },
     {
         "slug": "delphinium",
         "name": "Delphinium",
-        "family_slug": "ranunculaceae"
+        "family_slug": "ranunculaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Rittersporn", "description": null },
+            { "locale": "en", "common_name": "Larkspur", "description": null }
+        ]
     },
     {
         "slug": "dianthus",
         "name": "Dianthus",
-        "family_slug": "caryophyllaceae"
+        "family_slug": "caryophyllaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Nelke", "description": null },
+            { "locale": "en", "common_name": "Pink", "description": null }
+        ]
     },
     {
         "slug": "digitalis",
         "name": "Digitalis",
-        "family_slug": "plantaginaceae"
+        "family_slug": "plantaginaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Fingerhut", "description": null },
+            { "locale": "en", "common_name": "Foxglove", "description": null }
+        ]
     },
     {
         "slug": "echinacea",
         "name": "Echinacea",
-        "family_slug": "asteraceae"
+        "family_slug": "asteraceae",
+        "translations": [
+            { "locale": "de", "common_name": "Sonnenhut", "description": null },
+            { "locale": "en", "common_name": "Coneflower", "description": null }
+        ]
     },
     {
         "slug": "euphorbia",
         "name": "Euphorbia",
-        "family_slug": "euphorbiaceae"
+        "family_slug": "euphorbiaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Wolfsmilch", "description": null },
+            { "locale": "en", "common_name": "Spurge", "description": null }
+        ]
     },
     {
         "slug": "fagus",
         "name": "Fagus",
-        "family_slug": "fagaceae"
+        "family_slug": "fagaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Buche", "description": null },
+            { "locale": "en", "common_name": "Beech", "description": null }
+        ]
     },
     {
         "slug": "ficus",
         "name": "Ficus",
-        "family_slug": "moraceae"
+        "family_slug": "moraceae",
+        "translations": [
+            { "locale": "de", "common_name": "Feige", "description": null },
+            { "locale": "en", "common_name": "Fig", "description": null }
+        ]
     },
     {
         "slug": "foeniculum",
         "name": "Foeniculum",
-        "family_slug": "apiaceae"
+        "family_slug": "apiaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Fenchel", "description": null },
+            { "locale": "en", "common_name": "Fennel", "description": null }
+        ]
     },
     {
         "slug": "forsythia",
         "name": "Forsythia",
-        "family_slug": "oleaceae"
+        "family_slug": "oleaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Forsythie", "description": null },
+            { "locale": "en", "common_name": "Forsythia", "description": null }
+        ]
     },
     {
         "slug": "fragaria",
         "name": "Fragaria",
-        "family_slug": "rosaceae"
+        "family_slug": "rosaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Erdbeere", "description": null },
+            { "locale": "en", "common_name": "Strawberry", "description": null }
+        ]
     },
     {
         "slug": "glycine",
         "name": "Glycine",
-        "family_slug": "fabaceae"
+        "family_slug": "fabaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Sojabohne", "description": null },
+            { "locale": "en", "common_name": "Soybean", "description": null }
+        ]
     },
     {
         "slug": "hedera",
         "name": "Hedera",
-        "family_slug": "araliaceae"
+        "family_slug": "araliaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Efeu", "description": null },
+            { "locale": "en", "common_name": "Ivy", "description": null }
+        ]
     },
     {
         "slug": "helianthus",
         "name": "Helianthus",
-        "family_slug": "asteraceae"
+        "family_slug": "asteraceae",
+        "translations": [
+            { "locale": "de", "common_name": "Sonnenblume", "description": null },
+            { "locale": "en", "common_name": "Sunflower", "description": null }
+        ]
     },
     {
         "slug": "hippophae",
         "name": "Hippophae",
-        "family_slug": "elaeagnaceae"
+        "family_slug": "elaeagnaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Sanddorn", "description": null },
+            { "locale": "en", "common_name": "Sea buckthorn", "description": null }
+        ]
     },
     {
         "slug": "humulus",
         "name": "Humulus",
-        "family_slug": "cannabaceae"
+        "family_slug": "cannabaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Hopfen", "description": null },
+            { "locale": "en", "common_name": "Hop", "description": null }
+        ]
     },
     {
         "slug": "hyacinthus",
         "name": "Hyacinthus",
-        "family_slug": "asparagaceae"
+        "family_slug": "asparagaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Hyazinthe", "description": null },
+            { "locale": "en", "common_name": "Hyacinth", "description": null }
+        ]
     },
     {
         "slug": "hydrangea",
         "name": "Hydrangea",
-        "family_slug": "hydrangeaceae"
+        "family_slug": "hydrangeaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Hortensie", "description": null },
+            { "locale": "en", "common_name": "Hydrangea", "description": null }
+        ]
     },
     {
         "slug": "hypericum",
         "name": "Hypericum",
-        "family_slug": "hypericaceae"
+        "family_slug": "hypericaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Johanniskraut", "description": null },
+            { "locale": "en", "common_name": "St. John's wort", "description": null }
+        ]
     },
     {
         "slug": "iris",
         "name": "Iris",
-        "family_slug": "iridaceae"
+        "family_slug": "iridaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Schwertlilie", "description": null },
+            { "locale": "en", "common_name": "Iris", "description": null }
+        ]
     },
     {
         "slug": "juglans",
         "name": "Juglans",
-        "family_slug": "juglandaceae"
+        "family_slug": "juglandaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Walnuss", "description": null },
+            { "locale": "en", "common_name": "Walnut", "description": null }
+        ]
     },
     {
         "slug": "lactuca",
         "name": "Lactuca",
-        "family_slug": "asteraceae"
+        "family_slug": "asteraceae",
+        "translations": [
+            { "locale": "de", "common_name": "Lattich", "description": null },
+            { "locale": "en", "common_name": "Lettuce", "description": null }
+        ]
     },
     {
         "slug": "lathyrus",
         "name": "Lathyrus",
-        "family_slug": "fabaceae"
+        "family_slug": "fabaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Platterbse", "description": null },
+            { "locale": "en", "common_name": "Vetchling", "description": null }
+        ]
     },
     {
         "slug": "lavandula",
         "name": "Lavandula",
-        "family_slug": "lamiaceae"
+        "family_slug": "lamiaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Lavendel", "description": null },
+            { "locale": "en", "common_name": "Lavender", "description": null }
+        ]
     },
     {
         "slug": "leucanthemum",
         "name": "Leucanthemum",
-        "family_slug": "asteraceae"
+        "family_slug": "asteraceae",
+        "translations": [
+            { "locale": "de", "common_name": "Margerite", "description": null },
+            { "locale": "en", "common_name": "Oxeye daisy", "description": null }
+        ]
     },
     {
         "slug": "levisticum",
         "name": "Levisticum",
-        "family_slug": "apiaceae"
+        "family_slug": "apiaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Liebstöckel", "description": null },
+            { "locale": "en", "common_name": "Lovage", "description": null }
+        ]
     },
     {
         "slug": "lilium",
         "name": "Lilium",
-        "family_slug": "liliaceae"
+        "family_slug": "liliaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Lilie", "description": null },
+            { "locale": "en", "common_name": "Lily", "description": null }
+        ]
     },
     {
         "slug": "lycium",
         "name": "Lycium",
-        "family_slug": "solanaceae"
+        "family_slug": "solanaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Bocksdorn", "description": null },
+            { "locale": "en", "common_name": "Wolfberry", "description": null }
+        ]
     },
     {
         "slug": "malus",
         "name": "Malus",
-        "family_slug": "rosaceae"
+        "family_slug": "rosaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Apfel", "description": null },
+            { "locale": "en", "common_name": "Apple", "description": null }
+        ]
     },
     {
         "slug": "mangifera",
         "name": "Mangifera",
-        "family_slug": "anacardiaceae"
+        "family_slug": "anacardiaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Mango", "description": null },
+            { "locale": "en", "common_name": "Mango", "description": null }
+        ]
     },
     {
         "slug": "matricaria",
         "name": "Matricaria",
-        "family_slug": "asteraceae"
+        "family_slug": "asteraceae",
+        "translations": [
+            { "locale": "de", "common_name": "Kamille", "description": null },
+            { "locale": "en", "common_name": "Chamomile", "description": null }
+        ]
     },
     {
         "slug": "melissa",
         "name": "Melissa",
-        "family_slug": "lamiaceae"
+        "family_slug": "lamiaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Melisse", "description": null },
+            { "locale": "en", "common_name": "Lemon balm", "description": null }
+        ]
     },
     {
         "slug": "mentha",
         "name": "Mentha",
-        "family_slug": "lamiaceae"
+        "family_slug": "lamiaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Minze", "description": null },
+            { "locale": "en", "common_name": "Mint", "description": null }
+        ]
     },
     {
         "slug": "mespilus",
         "name": "Mespilus",
-        "family_slug": "rosaceae"
+        "family_slug": "rosaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Mispel", "description": null },
+            { "locale": "en", "common_name": "Medlar", "description": null }
+        ]
     },
     {
         "slug": "musa",
         "name": "Musa",
-        "family_slug": "musaceae"
+        "family_slug": "musaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Banane", "description": null },
+            { "locale": "en", "common_name": "Banana", "description": null }
+        ]
     },
     {
         "slug": "narcissus",
         "name": "Narcissus",
-        "family_slug": "amaryllidaceae"
+        "family_slug": "amaryllidaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Narzisse", "description": null },
+            { "locale": "en", "common_name": "Daffodil", "description": null }
+        ]
     },
     {
         "slug": "ocimum",
         "name": "Ocimum",
-        "family_slug": "lamiaceae"
+        "family_slug": "lamiaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Basilikum", "description": null },
+            { "locale": "en", "common_name": "Basil", "description": null }
+        ]
     },
     {
         "slug": "olea",
         "name": "Olea",
-        "family_slug": "oleaceae"
+        "family_slug": "oleaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Ölbaum", "description": null },
+            { "locale": "en", "common_name": "Olive", "description": null }
+        ]
     },
     {
         "slug": "origanum",
         "name": "Origanum",
-        "family_slug": "lamiaceae"
+        "family_slug": "lamiaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Oregano", "description": null },
+            { "locale": "en", "common_name": "Oregano", "description": null }
+        ]
     },
     {
         "slug": "paeonia",
         "name": "Paeonia",
-        "family_slug": "paeoniaceae"
+        "family_slug": "paeoniaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Pfingstrose", "description": null },
+            { "locale": "en", "common_name": "Peony", "description": null }
+        ]
     },
     {
         "slug": "papaver",
         "name": "Papaver",
-        "family_slug": "papaveraceae"
+        "family_slug": "papaveraceae",
+        "translations": [
+            { "locale": "de", "common_name": "Mohn", "description": null },
+            { "locale": "en", "common_name": "Poppy", "description": null }
+        ]
     },
     {
         "slug": "passiflora",
         "name": "Passiflora",
-        "family_slug": "passifloraceae"
+        "family_slug": "passifloraceae",
+        "translations": [
+            { "locale": "de", "common_name": "Passionsblume", "description": null },
+            { "locale": "en", "common_name": "Passion flower", "description": null }
+        ]
     },
     {
         "slug": "persea",
         "name": "Persea",
-        "family_slug": "lauraceae"
+        "family_slug": "lauraceae",
+        "translations": [
+            { "locale": "de", "common_name": "Avocado", "description": null },
+            { "locale": "en", "common_name": "Avocado", "description": null }
+        ]
     },
     {
         "slug": "petroselinum",
         "name": "Petroselinum",
-        "family_slug": "apiaceae"
+        "family_slug": "apiaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Petersilie", "description": null },
+            { "locale": "en", "common_name": "Parsley", "description": null }
+        ]
     },
     {
         "slug": "phaseolus",
         "name": "Phaseolus",
-        "family_slug": "fabaceae"
+        "family_slug": "fabaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Bohne", "description": null },
+            { "locale": "en", "common_name": "Bean", "description": null }
+        ]
     },
     {
         "slug": "physalis",
         "name": "Physalis",
-        "family_slug": "solanaceae"
+        "family_slug": "solanaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Blasenkirsche", "description": null },
+            { "locale": "en", "common_name": "Groundcherry", "description": null }
+        ]
     },
     {
         "slug": "picea",
         "name": "Picea",
-        "family_slug": "pinaceae"
+        "family_slug": "pinaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Fichte", "description": null },
+            { "locale": "en", "common_name": "Spruce", "description": null }
+        ]
     },
     {
         "slug": "pinus",
         "name": "Pinus",
-        "family_slug": "pinaceae"
+        "family_slug": "pinaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Kiefer", "description": null },
+            { "locale": "en", "common_name": "Pine", "description": null }
+        ]
     },
     {
         "slug": "prunus",
         "name": "Prunus",
-        "family_slug": "rosaceae"
+        "family_slug": "rosaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Steinobst", "description": null },
+            { "locale": "en", "common_name": "Stone fruit", "description": null }
+        ]
     },
     {
         "slug": "punica",
         "name": "Punica",
-        "family_slug": "lythraceae"
+        "family_slug": "lythraceae",
+        "translations": [
+            { "locale": "de", "common_name": "Granatapfel", "description": null },
+            { "locale": "en", "common_name": "Pomegranate", "description": null }
+        ]
     },
     {
         "slug": "pyrus",
         "name": "Pyrus",
-        "family_slug": "rosaceae"
+        "family_slug": "rosaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Birne", "description": null },
+            { "locale": "en", "common_name": "Pear", "description": null }
+        ]
     },
     {
         "slug": "quercus",
         "name": "Quercus",
-        "family_slug": "fagaceae"
+        "family_slug": "fagaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Eiche", "description": null },
+            { "locale": "en", "common_name": "Oak", "description": null }
+        ]
     },
     {
         "slug": "raphanus",
         "name": "Raphanus",
-        "family_slug": "brassicaceae"
+        "family_slug": "brassicaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Rettich", "description": null },
+            { "locale": "en", "common_name": "Radish", "description": null }
+        ]
     },
     {
         "slug": "rheum",
         "name": "Rheum",
-        "family_slug": "polygonaceae"
+        "family_slug": "polygonaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Rhabarber", "description": null },
+            { "locale": "en", "common_name": "Rhubarb", "description": null }
+        ]
     },
     {
         "slug": "rhododendron",
         "name": "Rhododendron",
-        "family_slug": "ericaceae"
+        "family_slug": "ericaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Rhododendron", "description": null },
+            { "locale": "en", "common_name": "Rhododendron", "description": null }
+        ]
     },
     {
         "slug": "ribes",
         "name": "Ribes",
-        "family_slug": "grossulariaceae"
+        "family_slug": "grossulariaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Johannisbeere", "description": null },
+            { "locale": "en", "common_name": "Currant", "description": null }
+        ]
     },
     {
         "slug": "rosa",
         "name": "Rosa",
-        "family_slug": "rosaceae"
+        "family_slug": "rosaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Rose", "description": null },
+            { "locale": "en", "common_name": "Rose", "description": null }
+        ]
     },
     {
         "slug": "rubus",
         "name": "Rubus",
-        "family_slug": "rosaceae"
+        "family_slug": "rosaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Brombeere", "description": null },
+            { "locale": "en", "common_name": "Bramble", "description": null }
+        ]
     },
     {
         "slug": "rudbeckia",
         "name": "Rudbeckia",
-        "family_slug": "asteraceae"
+        "family_slug": "asteraceae",
+        "translations": [
+            { "locale": "de", "common_name": "Sonnenhut", "description": null },
+            { "locale": "en", "common_name": "Coneflower", "description": null }
+        ]
     },
     {
         "slug": "salvia",
         "name": "Salvia",
-        "family_slug": "lamiaceae"
+        "family_slug": "lamiaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Salbei", "description": null },
+            { "locale": "en", "common_name": "Sage", "description": null }
+        ]
     },
     {
         "slug": "sambucus",
         "name": "Sambucus",
-        "family_slug": "viburnaceae"
+        "family_slug": "viburnaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Holunder", "description": null },
+            { "locale": "en", "common_name": "Elder", "description": null }
+        ]
     },
     {
         "slug": "satureja",
         "name": "Satureja",
-        "family_slug": "lamiaceae"
+        "family_slug": "lamiaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Bohnenkraut", "description": null },
+            { "locale": "en", "common_name": "Savory", "description": null }
+        ]
     },
     {
         "slug": "solanum",
         "name": "Solanum",
-        "family_slug": "solanaceae"
+        "family_slug": "solanaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Nachtschatten", "description": null },
+            { "locale": "en", "common_name": "Nightshade", "description": null }
+        ]
     },
     {
         "slug": "sorbus",
         "name": "Sorbus",
-        "family_slug": "rosaceae"
+        "family_slug": "rosaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Eberesche", "description": null },
+            { "locale": "en", "common_name": "Rowan", "description": null }
+        ]
     },
     {
         "slug": "spinacia",
         "name": "Spinacia",
-        "family_slug": "amaranthaceae"
+        "family_slug": "amaranthaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Spinat", "description": null },
+            { "locale": "en", "common_name": "Spinach", "description": null }
+        ]
     },
     {
         "slug": "symphytum",
         "name": "Symphytum",
-        "family_slug": "boraginaceae"
+        "family_slug": "boraginaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Beinwell", "description": null },
+            { "locale": "en", "common_name": "Comfrey", "description": null }
+        ]
     },
     {
         "slug": "syringa",
         "name": "Syringa",
-        "family_slug": "oleaceae"
+        "family_slug": "oleaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Flieder", "description": null },
+            { "locale": "en", "common_name": "Lilac", "description": null }
+        ]
     },
     {
         "slug": "tagetes",
         "name": "Tagetes",
-        "family_slug": "asteraceae"
+        "family_slug": "asteraceae",
+        "translations": [
+            { "locale": "de", "common_name": "Studentenblume", "description": null },
+            { "locale": "en", "common_name": "Marigold", "description": null }
+        ]
     },
     {
         "slug": "taraxacum",
         "name": "Taraxacum",
-        "family_slug": "asteraceae"
+        "family_slug": "asteraceae",
+        "translations": [
+            { "locale": "de", "common_name": "Löwenzahn", "description": null },
+            { "locale": "en", "common_name": "Dandelion", "description": null }
+        ]
     },
     {
         "slug": "taxus",
         "name": "Taxus",
-        "family_slug": "taxaceae"
+        "family_slug": "taxaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Eibe", "description": null },
+            { "locale": "en", "common_name": "Yew", "description": null }
+        ]
     },
     {
         "slug": "thuja",
         "name": "Thuja",
-        "family_slug": "cupressaceae"
+        "family_slug": "cupressaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Lebensbaum", "description": null },
+            { "locale": "en", "common_name": "Arborvitae", "description": null }
+        ]
     },
     {
         "slug": "thymus",
         "name": "Thymus",
-        "family_slug": "lamiaceae"
+        "family_slug": "lamiaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Thymian", "description": null },
+            { "locale": "en", "common_name": "Thyme", "description": null }
+        ]
     },
     {
         "slug": "tilia",
         "name": "Tilia",
-        "family_slug": "malvaceae"
+        "family_slug": "malvaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Linde", "description": null },
+            { "locale": "en", "common_name": "Linden", "description": null }
+        ]
     },
     {
         "slug": "tropaeolum",
         "name": "Tropaeolum",
-        "family_slug": "tropaeolaceae"
+        "family_slug": "tropaeolaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Kapuzinerkresse", "description": null },
+            { "locale": "en", "common_name": "Nasturtium", "description": null }
+        ]
     },
     {
         "slug": "tulipa",
         "name": "Tulipa",
-        "family_slug": "liliaceae"
+        "family_slug": "liliaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Tulpe", "description": null },
+            { "locale": "en", "common_name": "Tulip", "description": null }
+        ]
     },
     {
         "slug": "urtica",
         "name": "Urtica",
-        "family_slug": "urticaceae"
+        "family_slug": "urticaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Brennnessel", "description": null },
+            { "locale": "en", "common_name": "Nettle", "description": null }
+        ]
     },
     {
         "slug": "vaccinium",
         "name": "Vaccinium",
-        "family_slug": "ericaceae"
+        "family_slug": "ericaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Heidelbeere", "description": null },
+            { "locale": "en", "common_name": "Blueberry", "description": null }
+        ]
     },
     {
         "slug": "valeriana",
         "name": "Valeriana",
-        "family_slug": "caprifoliaceae"
+        "family_slug": "caprifoliaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Baldrian", "description": null },
+            { "locale": "en", "common_name": "Valerian", "description": null }
+        ]
     },
     {
         "slug": "vicia",
         "name": "Vicia",
-        "family_slug": "fabaceae"
+        "family_slug": "fabaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Wicke", "description": null },
+            { "locale": "en", "common_name": "Vetch", "description": null }
+        ]
     },
     {
         "slug": "viola",
         "name": "Viola",
-        "family_slug": "violaceae"
+        "family_slug": "violaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Veilchen", "description": null },
+            { "locale": "en", "common_name": "Violet", "description": null }
+        ]
     },
     {
         "slug": "vitis",
         "name": "Vitis",
-        "family_slug": "vitaceae"
+        "family_slug": "vitaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Weinrebe", "description": null },
+            { "locale": "en", "common_name": "Grape", "description": null }
+        ]
     },
     {
         "slug": "wisteria",
         "name": "Wisteria",
-        "family_slug": "fabaceae"
+        "family_slug": "fabaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Blauregen", "description": null },
+            { "locale": "en", "common_name": "Wisteria", "description": null }
+        ]
     },
     {
         "slug": "zea",
         "name": "Zea",
-        "family_slug": "poaceae"
+        "family_slug": "poaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Mais", "description": null },
+            { "locale": "en", "common_name": "Maize", "description": null }
+        ]
     },
     {
         "slug": "zingiber",
         "name": "Zingiber",
-        "family_slug": "zingiberaceae"
+        "family_slug": "zingiberaceae",
+        "translations": [
+            { "locale": "de", "common_name": "Ingwer", "description": null },
+            { "locale": "en", "common_name": "Ginger", "description": null }
+        ]
     }
 ]
