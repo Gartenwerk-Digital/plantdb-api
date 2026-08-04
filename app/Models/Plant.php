@@ -76,6 +76,8 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property bool $attracts_butterflies
  * @property bool $deer_resistant
  * @property array<int, string>|null $propagation_methods
+ * @property string|null $import_source
+ * @property string|null $source_key
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Pivot|null $pivot

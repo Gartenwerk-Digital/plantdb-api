@@ -6,6 +6,7 @@ namespace App\Actions\Import;
 
 use App\DTOs\Import\ImportResult;
 use App\DTOs\Import\PlantImportData;
+use App\Enums\PlantImportSource;
 use App\Enums\PlantStatus;
 use App\Models\Family;
 use App\Models\Genus;
@@ -17,14 +18,14 @@ use Throwable;
 
 final class ImportPlantFromData
 {
-    public function __invoke(PlantImportData $data): ImportResult
+    public function __invoke(PlantImportData $data, PlantImportSource $source): ImportResult
     {
         if (Plant::query()->where('scientific_name', $data->scientificName)->exists()) {
             return ImportResult::skippedDuplicate($data->scientificName);
         }
 
         try {
-            $plant = DB::transaction(function () use ($data): Plant {
+            $plant = DB::transaction(function () use ($data, $source): Plant {
                 $family = Family::query()->firstOrCreate(
                     ['slug' => Str::slug($data->familyName)],
                     ['name' => $data->familyName],
@@ -43,6 +44,8 @@ final class ImportPlantFromData
                     'life_cycle' => $data->lifeCycle?->value,
                     'native_regions' => $data->nativeRegions,
                     'status' => PlantStatus::PendingReview->value,
+                    'import_source' => $source->value,
+                    'source_key' => $data->sourceKey,
                 ]);
 
                 foreach ($data->commonNames ?? [] as $locale => $commonName) {
