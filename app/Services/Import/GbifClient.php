@@ -38,6 +38,30 @@ final class GbifClient
     }
 
     /**
+     * Look up a single species by scientific name via the GBIF backbone match endpoint.
+     *
+     * @return array<string, mixed>|null
+     */
+    public function matchSpecies(string $scientificName): ?array
+    {
+        $payload = $this->request()
+            ->get('/species/match', [
+                'name' => $scientificName,
+                'kingdom' => 'Plantae',
+                'strict' => 'false',
+            ])
+            ->throw()
+            ->json();
+
+        if (! is_array($payload) || ($payload['matchType'] ?? null) === 'NONE') {
+            return null;
+        }
+
+        /** @var array<string, mixed> $payload */
+        return $payload;
+    }
+
+    /**
      * @return array<int, array<string, mixed>>
      */
     public function vernacularNames(int $taxonKey): array
