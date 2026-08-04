@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Models\Family;
+use App\Models\FamilyTranslation;
 use App\Models\Genus;
+use App\Models\GenusTranslation;
 use App\Models\Plant;
 use App\Models\PlantTranslation;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
 use RuntimeException;
@@ -15,6 +18,11 @@ use RuntimeException;
 final class PlantSeeder extends Seeder
 {
     private const string DATA_DIR = 'database/seeders/data';
+
+    private const array REQUIRED_LOCALES = ['de', 'en'];
+
+    /** @var list<string> */
+    private array $missingTranslations = [];
 
     public function run(): void
     {
@@ -35,6 +43,8 @@ final class PlantSeeder extends Seeder
             return;
         }
 
+        $this->missingTranslations = [];
+
         /** @var array<string, string> $familyIdBySlug */
         $familyIdBySlug = [];
         foreach ($this->readJson($familiesFile) as $row) {
@@ -44,6 +54,8 @@ final class PlantSeeder extends Seeder
                 ['name' => $this->requireString($row, 'name', 'family'), 'description' => $this->optionalString($row, 'description')],
             );
             $familyIdBySlug[$slug] = (string) $family->id;
+
+            $this->syncFamilyTranslations($family, $row['translations'] ?? [], $slug);
         }
 
         /** @var array<string, string> $genusIdBySlug */
@@ -59,6 +71,8 @@ final class PlantSeeder extends Seeder
                 ['name' => $this->requireString($row, 'name', 'genus'), 'family_id' => $familyId],
             );
             $genusIdBySlug[$slug] = (string) $genus->id;
+
+            $this->syncGenusTranslations($genus, $row['translations'] ?? [], $slug);
         }
 
         foreach ($this->readJson($plantsFile) as $row) {
@@ -95,6 +109,97 @@ final class PlantSeeder extends Seeder
                     ],
                 );
             }
+        }
+
+        $this->reportMissingTranslations();
+    }
+
+    /**
+     * @param  mixed  $translations
+     */
+    private function syncFamilyTranslations(Family $family, $translations, string $slug): void
+    {
+        $seenLocales = $this->syncTaxonomyTranslations(
+            FamilyTranslation::class,
+            'family_id',
+            (string) $family->id,
+            $translations,
+        );
+
+        foreach (self::REQUIRED_LOCALES as $locale) {
+            if (! in_array($locale, $seenLocales, true)) {
+                $this->missingTranslations[] = sprintf('family:%s|%s', $slug, $locale);
+            }
+        }
+    }
+
+    /**
+     * @param  mixed  $translations
+     */
+    private function syncGenusTranslations(Genus $genus, $translations, string $slug): void
+    {
+        $seenLocales = $this->syncTaxonomyTranslations(
+            GenusTranslation::class,
+            'genus_id',
+            (string) $genus->id,
+            $translations,
+        );
+
+        foreach (self::REQUIRED_LOCALES as $locale) {
+            if (! in_array($locale, $seenLocales, true)) {
+                $this->missingTranslations[] = sprintf('genus:%s|%s', $slug, $locale);
+            }
+        }
+    }
+
+    /**
+     * @param  class-string<Model>  $modelClass
+     * @param  mixed  $translations
+     * @return list<string>
+     */
+    private function syncTaxonomyTranslations(string $modelClass, string $parentKey, string $parentId, $translations): array
+    {
+        if (! is_array($translations)) {
+            return [];
+        }
+
+        $seen = [];
+        foreach ($translations as $translation) {
+            if (! is_array($translation)) {
+                continue;
+            }
+
+            /** @var array<string, mixed> $translation */
+            $locale = $this->requireString($translation, 'locale', 'translation');
+
+            $modelClass::query()->updateOrCreate(
+                [$parentKey => $parentId, 'locale' => $locale],
+                [
+                    'common_name' => $this->optionalString($translation, 'common_name'),
+                    'description' => $this->optionalString($translation, 'description'),
+                ],
+            );
+
+            $seen[] = $locale;
+        }
+
+        return $seen;
+    }
+
+    private function reportMissingTranslations(): void
+    {
+        if ($this->missingTranslations === [] || $this->command === null) {
+            return;
+        }
+
+        $this->command->warn(sprintf(
+            'PlantSeeder: %d missing taxonomy translation(s) for required locales [%s]:',
+            count($this->missingTranslations),
+            implode(', ', self::REQUIRED_LOCALES),
+        ));
+
+        foreach ($this->missingTranslations as $entry) {
+            $this->command->warn('  - '.$entry);
         }
     }
 

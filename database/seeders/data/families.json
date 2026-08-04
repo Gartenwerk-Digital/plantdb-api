@@ -2,296 +2,532 @@
     {
         "slug": "actinidiaceae",
         "name": "Actinidiaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Strahlengriffelgewächse", "description": null },
+            { "locale": "en", "common_name": "Chinese gooseberry family", "description": null }
+        ]
     },
     {
         "slug": "amaranthaceae",
         "name": "Amaranthaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Fuchsschwanzgewächse", "description": null },
+            { "locale": "en", "common_name": "Amaranth family", "description": null }
+        ]
     },
     {
         "slug": "amaryllidaceae",
         "name": "Amaryllidaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Amaryllisgewächse", "description": null },
+            { "locale": "en", "common_name": "Amaryllis family", "description": null }
+        ]
     },
     {
         "slug": "anacardiaceae",
         "name": "Anacardiaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Sumachgewächse", "description": null },
+            { "locale": "en", "common_name": "Cashew family", "description": null }
+        ]
     },
     {
         "slug": "apiaceae",
         "name": "Apiaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Doldenblütler", "description": null },
+            { "locale": "en", "common_name": "Carrot family", "description": null }
+        ]
     },
     {
         "slug": "araliaceae",
         "name": "Araliaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Araliengewächse", "description": null },
+            { "locale": "en", "common_name": "Ivy family", "description": null }
+        ]
     },
     {
         "slug": "asparagaceae",
         "name": "Asparagaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Spargelgewächse", "description": null },
+            { "locale": "en", "common_name": "Asparagus family", "description": null }
+        ]
     },
     {
         "slug": "asphodelaceae",
         "name": "Asphodelaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Affodillgewächse", "description": null },
+            { "locale": "en", "common_name": "Aloe family", "description": null }
+        ]
     },
     {
         "slug": "asteraceae",
         "name": "Asteraceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Korbblütler", "description": null },
+            { "locale": "en", "common_name": "Aster family", "description": null }
+        ]
     },
     {
         "slug": "betulaceae",
         "name": "Betulaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Birkengewächse", "description": null },
+            { "locale": "en", "common_name": "Birch family", "description": null }
+        ]
     },
     {
         "slug": "boraginaceae",
         "name": "Boraginaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Raublattgewächse", "description": null },
+            { "locale": "en", "common_name": "Borage family", "description": null }
+        ]
     },
     {
         "slug": "brassicaceae",
         "name": "Brassicaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Kreuzblütler", "description": null },
+            { "locale": "en", "common_name": "Cabbage family", "description": null }
+        ]
     },
     {
         "slug": "bromeliaceae",
         "name": "Bromeliaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Ananasgewächse", "description": null },
+            { "locale": "en", "common_name": "Bromeliad family", "description": null }
+        ]
     },
     {
         "slug": "buxaceae",
         "name": "Buxaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Buchsbaumgewächse", "description": null },
+            { "locale": "en", "common_name": "Box family", "description": null }
+        ]
     },
     {
         "slug": "cannabaceae",
         "name": "Cannabaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Hanfgewächse", "description": null },
+            { "locale": "en", "common_name": "Hemp family", "description": null }
+        ]
     },
     {
         "slug": "caprifoliaceae",
         "name": "Caprifoliaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Geißblattgewächse", "description": null },
+            { "locale": "en", "common_name": "Honeysuckle family", "description": null }
+        ]
     },
     {
         "slug": "caryophyllaceae",
         "name": "Caryophyllaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Nelkengewächse", "description": null },
+            { "locale": "en", "common_name": "Pink family", "description": null }
+        ]
     },
     {
         "slug": "cornaceae",
         "name": "Cornaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Hartriegelgewächse", "description": null },
+            { "locale": "en", "common_name": "Dogwood family", "description": null }
+        ]
     },
     {
         "slug": "cucurbitaceae",
         "name": "Cucurbitaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Kürbisgewächse", "description": null },
+            { "locale": "en", "common_name": "Gourd family", "description": null }
+        ]
     },
     {
         "slug": "cupressaceae",
         "name": "Cupressaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Zypressengewächse", "description": null },
+            { "locale": "en", "common_name": "Cypress family", "description": null }
+        ]
     },
     {
         "slug": "elaeagnaceae",
         "name": "Elaeagnaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Ölweidengewächse", "description": null },
+            { "locale": "en", "common_name": "Oleaster family", "description": null }
+        ]
     },
     {
         "slug": "ericaceae",
         "name": "Ericaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Heidekrautgewächse", "description": null },
+            { "locale": "en", "common_name": "Heath family", "description": null }
+        ]
     },
     {
         "slug": "euphorbiaceae",
         "name": "Euphorbiaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Wolfsmilchgewächse", "description": null },
+            { "locale": "en", "common_name": "Spurge family", "description": null }
+        ]
     },
     {
         "slug": "fabaceae",
         "name": "Fabaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Hülsenfrüchtler", "description": null },
+            { "locale": "en", "common_name": "Legume family", "description": null }
+        ]
     },
     {
         "slug": "fagaceae",
         "name": "Fagaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Buchengewächse", "description": null },
+            { "locale": "en", "common_name": "Beech family", "description": null }
+        ]
     },
     {
         "slug": "grossulariaceae",
         "name": "Grossulariaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Stachelbeergewächse", "description": null },
+            { "locale": "en", "common_name": "Currant family", "description": null }
+        ]
     },
     {
         "slug": "hydrangeaceae",
         "name": "Hydrangeaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Hortensiengewächse", "description": null },
+            { "locale": "en", "common_name": "Hydrangea family", "description": null }
+        ]
     },
     {
         "slug": "hypericaceae",
         "name": "Hypericaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Johanniskrautgewächse", "description": null },
+            { "locale": "en", "common_name": "St. John's wort family", "description": null }
+        ]
     },
     {
         "slug": "iridaceae",
         "name": "Iridaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Schwertliliengewächse", "description": null },
+            { "locale": "en", "common_name": "Iris family", "description": null }
+        ]
     },
     {
         "slug": "juglandaceae",
         "name": "Juglandaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Walnussgewächse", "description": null },
+            { "locale": "en", "common_name": "Walnut family", "description": null }
+        ]
     },
     {
         "slug": "lamiaceae",
         "name": "Lamiaceae",
-        "description": "Lippenblütler"
+        "description": "Lippenblütler",
+        "translations": [
+            { "locale": "de", "common_name": "Lippenblütler", "description": null },
+            { "locale": "en", "common_name": "Mint family", "description": null }
+        ]
     },
     {
         "slug": "lauraceae",
         "name": "Lauraceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Lorbeergewächse", "description": null },
+            { "locale": "en", "common_name": "Laurel family", "description": null }
+        ]
     },
     {
         "slug": "liliaceae",
         "name": "Liliaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Liliengewächse", "description": null },
+            { "locale": "en", "common_name": "Lily family", "description": null }
+        ]
     },
     {
         "slug": "lythraceae",
         "name": "Lythraceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Weiderichgewächse", "description": null },
+            { "locale": "en", "common_name": "Loosestrife family", "description": null }
+        ]
     },
     {
         "slug": "malvaceae",
         "name": "Malvaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Malvengewächse", "description": null },
+            { "locale": "en", "common_name": "Mallow family", "description": null }
+        ]
     },
     {
         "slug": "moraceae",
         "name": "Moraceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Maulbeergewächse", "description": null },
+            { "locale": "en", "common_name": "Mulberry family", "description": null }
+        ]
     },
     {
         "slug": "musaceae",
         "name": "Musaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Bananengewächse", "description": null },
+            { "locale": "en", "common_name": "Banana family", "description": null }
+        ]
     },
     {
         "slug": "oleaceae",
         "name": "Oleaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Ölbaumgewächse", "description": null },
+            { "locale": "en", "common_name": "Olive family", "description": null }
+        ]
     },
     {
         "slug": "paeoniaceae",
         "name": "Paeoniaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Pfingstrosengewächse", "description": null },
+            { "locale": "en", "common_name": "Peony family", "description": null }
+        ]
     },
     {
         "slug": "papaveraceae",
         "name": "Papaveraceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Mohngewächse", "description": null },
+            { "locale": "en", "common_name": "Poppy family", "description": null }
+        ]
     },
     {
         "slug": "passifloraceae",
         "name": "Passifloraceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Passionsblumengewächse", "description": null },
+            { "locale": "en", "common_name": "Passion flower family", "description": null }
+        ]
     },
     {
         "slug": "pinaceae",
         "name": "Pinaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Kieferngewächse", "description": null },
+            { "locale": "en", "common_name": "Pine family", "description": null }
+        ]
     },
     {
         "slug": "plantaginaceae",
         "name": "Plantaginaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Wegerichgewächse", "description": null },
+            { "locale": "en", "common_name": "Plantain family", "description": null }
+        ]
     },
     {
         "slug": "poaceae",
         "name": "Poaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Süßgräser", "description": null },
+            { "locale": "en", "common_name": "Grass family", "description": null }
+        ]
     },
     {
         "slug": "polygonaceae",
         "name": "Polygonaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Knöterichgewächse", "description": null },
+            { "locale": "en", "common_name": "Buckwheat family", "description": null }
+        ]
     },
     {
         "slug": "ranunculaceae",
         "name": "Ranunculaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Hahnenfußgewächse", "description": null },
+            { "locale": "en", "common_name": "Buttercup family", "description": null }
+        ]
     },
     {
         "slug": "rosaceae",
         "name": "Rosaceae",
-        "description": "Rosengewächse"
+        "description": "Rosengewächse",
+        "translations": [
+            { "locale": "de", "common_name": "Rosengewächse", "description": null },
+            { "locale": "en", "common_name": "Rose family", "description": null }
+        ]
     },
     {
         "slug": "rubiaceae",
         "name": "Rubiaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Rötegewächse", "description": null },
+            { "locale": "en", "common_name": "Coffee family", "description": null }
+        ]
     },
     {
         "slug": "rutaceae",
         "name": "Rutaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Rautengewächse", "description": null },
+            { "locale": "en", "common_name": "Rue family", "description": null }
+        ]
     },
     {
         "slug": "sapindaceae",
         "name": "Sapindaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Seifenbaumgewächse", "description": null },
+            { "locale": "en", "common_name": "Soapberry family", "description": null }
+        ]
     },
     {
         "slug": "solanaceae",
         "name": "Solanaceae",
-        "description": "Nachtschattengewächse"
+        "description": "Nachtschattengewächse",
+        "translations": [
+            { "locale": "de", "common_name": "Nachtschattengewächse", "description": null },
+            { "locale": "en", "common_name": "Nightshade family", "description": null }
+        ]
     },
     {
         "slug": "taxaceae",
         "name": "Taxaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Eibengewächse", "description": null },
+            { "locale": "en", "common_name": "Yew family", "description": null }
+        ]
     },
     {
         "slug": "theaceae",
         "name": "Theaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Teestrauchgewächse", "description": null },
+            { "locale": "en", "common_name": "Tea family", "description": null }
+        ]
     },
     {
         "slug": "tropaeolaceae",
         "name": "Tropaeolaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Kapuzinerkressengewächse", "description": null },
+            { "locale": "en", "common_name": "Nasturtium family", "description": null }
+        ]
     },
     {
         "slug": "urticaceae",
         "name": "Urticaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Brennnesselgewächse", "description": null },
+            { "locale": "en", "common_name": "Nettle family", "description": null }
+        ]
     },
     {
         "slug": "viburnaceae",
         "name": "Viburnaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Moschuskrautgewächse", "description": null },
+            { "locale": "en", "common_name": "Viburnum family", "description": null }
+        ]
     },
     {
         "slug": "violaceae",
         "name": "Violaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Veilchengewächse", "description": null },
+            { "locale": "en", "common_name": "Violet family", "description": null }
+        ]
     },
     {
         "slug": "vitaceae",
         "name": "Vitaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Weinrebengewächse", "description": null },
+            { "locale": "en", "common_name": "Grape family", "description": null }
+        ]
     },
     {
         "slug": "zingiberaceae",
         "name": "Zingiberaceae",
-        "description": null
+        "description": null,
+        "translations": [
+            { "locale": "de", "common_name": "Ingwergewächse", "description": null },
+            { "locale": "en", "common_name": "Ginger family", "description": null }
+        ]
     }
 ]
