@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace App\Filament\Admin\Resources;
 
 use App\Enums\PlantStatus;
+use App\Filament\Admin\Resources\Concerns\HasTranslationsRepeater;
 use App\Filament\Admin\Resources\GenusResource\Pages\CreateGenus;
 use App\Filament\Admin\Resources\GenusResource\Pages\EditGenus;
 use App\Filament\Admin\Resources\GenusResource\Pages\ListGenera;
 use App\Filament\Admin\Resources\GenusResource\Pages\ViewGenus;
 use App\Models\Genus;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Tabs;
+use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
@@ -26,6 +29,8 @@ use Illuminate\Support\Str;
 
 final class GenusResource extends Resource
 {
+    use HasTranslationsRepeater;
+
     protected static ?string $model = Genus::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-squares-2x2';
@@ -39,26 +44,33 @@ final class GenusResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Select::make('family_id')
-                ->relationship('family', 'name')
-                ->required()
-                ->searchable()
-                ->preload(),
-            TextInput::make('name')
-                ->required()
-                ->maxLength(255)
-                ->live(onBlur: true)
-                ->afterStateUpdated(function (?string $state, Set $set, string $operation): void {
-                    if ($operation !== 'create' || $state === null) {
-                        return;
-                    }
+            Tabs::make('Genus')
+                ->columnSpanFull()
+                ->tabs([
+                    Tab::make('Stammdaten')->schema([
+                        Select::make('family_id')
+                            ->relationship('family', 'name')
+                            ->required()
+                            ->searchable()
+                            ->preload(),
+                        TextInput::make('name')
+                            ->required()
+                            ->maxLength(255)
+                            ->live(onBlur: true)
+                            ->afterStateUpdated(function (?string $state, Set $set, string $operation): void {
+                                if ($operation !== 'create' || $state === null) {
+                                    return;
+                                }
 
-                    $set('slug', Str::slug($state));
-                }),
-            TextInput::make('slug')
-                ->required()
-                ->maxLength(255)
-                ->unique(ignoreRecord: true),
+                                $set('slug', Str::slug($state));
+                            }),
+                        TextInput::make('slug')
+                            ->required()
+                            ->maxLength(255)
+                            ->unique(ignoreRecord: true),
+                    ]),
+                    Tab::make('Übersetzungen')->schema([self::translationsRepeater()]),
+                ]),
         ]);
     }
 
