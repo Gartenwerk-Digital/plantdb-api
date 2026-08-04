@@ -7,6 +7,7 @@ use App\Http\Middleware\ApiVersion;
 use App\Http\Middleware\EnsureEmailVerified;
 use App\Http\Middleware\ForceJsonResponse;
 use App\Http\Middleware\LogApiRequests;
+use App\Http\Middleware\SetApiLocale;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -22,6 +23,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
+            'api.locale' => SetApiLocale::class,
             'api.version' => ApiVersion::class,
             'force.json' => ForceJsonResponse::class,
             'log.api' => LogApiRequests::class,
