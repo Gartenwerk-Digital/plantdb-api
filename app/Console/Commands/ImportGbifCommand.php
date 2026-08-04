@@ -7,6 +7,7 @@ namespace App\Console\Commands;
 use App\Actions\Import\ImportPlantFromData;
 use App\DTOs\Import\PlantImportData;
 use App\Enums\ImportOutcome;
+use App\Enums\PlantImportSource;
 use App\Services\Import\GbifClient;
 use App\Services\Import\Mappers\GbifPlantMapper;
 use Illuminate\Console\Command;
@@ -74,7 +75,7 @@ final class ImportGbifCommand extends Command
                     continue;
                 }
 
-                $result = $importPlant($data);
+                $result = $importPlant($data, PlantImportSource::Gbif);
                 $counts[$result->outcome->value]++;
                 if ($result->outcome === ImportOutcome::Failed) {
                     $failures[] = ['scientific_name' => $result->scientificName, 'reason' => $result->reason];

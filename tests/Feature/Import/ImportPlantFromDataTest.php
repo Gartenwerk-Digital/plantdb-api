@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Actions\Import\ImportPlantFromData;
 use App\DTOs\Import\PlantImportData;
 use App\Enums\ImportOutcome;
+use App\Enums\PlantImportSource;
 use App\Enums\PlantStatus;
 use App\Models\Family;
 use App\Models\Genus;
@@ -21,12 +22,15 @@ it('imports a new plant, auto-creating family and genus', function (): void {
         familyName: 'Fagaceae',
         genusName: 'Quercus',
         commonNames: ['de' => 'Stiel-Eiche', 'en' => 'English oak'],
-    ));
+        sourceKey: '2878688',
+    ), PlantImportSource::Gbif);
 
     expect($result->outcome)->toBe(ImportOutcome::Imported)
         ->and($result->plant)->not->toBeNull()
         ->and($result->plant->status)->toBe(PlantStatus::PendingReview)
         ->and($result->plant->scientific_name)->toBe('Quercus robur')
+        ->and($result->plant->import_source)->toBe('gbif')
+        ->and($result->plant->source_key)->toBe('2878688')
         ->and(Family::query()->where('slug', 'fagaceae')->exists())->toBeTrue()
         ->and(Genus::query()->where('slug', 'quercus')->exists())->toBeTrue()
         ->and($result->plant->translations()->count())->toBe(2);
@@ -47,7 +51,7 @@ it('skips duplicates by scientific_name', function (): void {
         scientificName: 'Rosa canina',
         familyName: 'Rosaceae',
         genusName: 'Rosa',
-    ));
+    ), PlantImportSource::Gbif);
 
     expect($result->outcome)->toBe(ImportOutcome::SkippedDuplicate)
         ->and(Plant::query()->where('scientific_name', 'Rosa canina')->count())->toBe(1);
@@ -63,7 +67,7 @@ it('reuses existing family and genus records', function (): void {
         scientificName: 'Rosa gallica',
         familyName: 'Rosaceae',
         genusName: 'Rosa',
-    ));
+    ), PlantImportSource::Gbif);
 
     expect(Family::query()->count())->toBe(1)
         ->and(Genus::query()->count())->toBe(1);

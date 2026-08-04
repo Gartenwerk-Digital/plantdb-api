@@ -23,7 +23,7 @@ final class GbifPlantMapper
             return null;
         }
 
-        $rawKey = $species['key'] ?? $species['nubKey'] ?? null;
+        $rawKey = $species['nubKey'] ?? $species['key'] ?? null;
         $taxonKey = is_int($rawKey) || is_string($rawKey) ? (string) $rawKey : null;
 
         return new PlantImportData(

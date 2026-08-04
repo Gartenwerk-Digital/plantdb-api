@@ -11,6 +11,8 @@ final class GbifClient
 {
     private const string BASE_URL = 'https://api.gbif.org/v1';
 
+    private const int PLANTAE_KINGDOM_KEY = 6;
+
     /**
      * @return array<string, mixed>
      */
@@ -18,7 +20,7 @@ final class GbifClient
     {
         $payload = $this->request()
             ->get('/species/search', [
-                'kingdom' => 'Plantae',
+                'higherTaxonKey' => self::PLANTAE_KINGDOM_KEY,
                 'rank' => 'SPECIES',
                 'status' => 'ACCEPTED',
                 'limit' => $limit,

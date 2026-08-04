@@ -8,7 +8,8 @@ it('maps a full GBIF species response to a PlantImportData DTO', function (): vo
     $mapper = new GbifPlantMapper;
 
     $data = $mapper([
-        'key' => 2705015,
+        'key' => 313595038,
+        'nubKey' => 3002461,
         'canonicalName' => 'Rosa canina',
         'scientificName' => 'Rosa canina L.',
         'family' => 'Rosaceae',
@@ -23,9 +24,22 @@ it('maps a full GBIF species response to a PlantImportData DTO', function (): vo
         ->and($data->scientificName)->toBe('Rosa canina')
         ->and($data->familyName)->toBe('Rosaceae')
         ->and($data->genusName)->toBe('Rosa')
-        ->and($data->sourceKey)->toBe('2705015')
-        ->and($data->sourceUrl)->toBe('https://www.gbif.org/species/2705015')
+        ->and($data->sourceKey)->toBe('3002461')
+        ->and($data->sourceUrl)->toBe('https://www.gbif.org/species/3002461')
         ->and($data->commonNames)->toBe(['en' => 'Dog rose', 'de' => 'Hunds-Rose']);
+});
+
+it('falls back to dataset key when nubKey is absent', function (): void {
+    $mapper = new GbifPlantMapper;
+
+    $data = $mapper([
+        'key' => 99999,
+        'canonicalName' => 'Foo bar',
+        'family' => 'Fabaceae',
+        'genus' => 'Foo',
+    ]);
+
+    expect($data?->sourceKey)->toBe('99999');
 });
 
 it('returns null when family or genus is missing', function (): void {
