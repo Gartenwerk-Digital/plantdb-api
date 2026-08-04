@@ -8,6 +8,8 @@ use App\Enums\PlantStatus;
 use App\Models\Plant;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\App;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -16,7 +18,15 @@ final class ListPlants
     /** @return LengthAwarePaginator<int, Plant> */
     public function __invoke(): LengthAwarePaginator
     {
-        $base = Plant::query()->where('status', PlantStatus::Approved->value);
+        /** @var string $fallback */
+        $fallback = config('i18n.fallback');
+
+        $base = Plant::query()
+            ->where('status', PlantStatus::Approved->value)
+            ->with(['translations' => fn (Relation $q): Relation => $q->whereIn('locale', [
+                App::getLocale(),
+                $fallback,
+            ])]);
 
         $perPage = min(max(request()->integer('per_page', 20), 1), 50);
 
