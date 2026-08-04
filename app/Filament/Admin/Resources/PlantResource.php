@@ -14,6 +14,7 @@ use App\Enums\RootDepth;
 use App\Enums\SoilMoisture;
 use App\Enums\SunRequirement;
 use App\Enums\WateringFrequency;
+use App\Filament\Admin\Resources\Concerns\HasTranslationsRepeater;
 use App\Filament\Admin\Resources\PlantResource\Pages\CreatePlant;
 use App\Filament\Admin\Resources\PlantResource\Pages\EditPlant;
 use App\Filament\Admin\Resources\PlantResource\Pages\ListPlants;
@@ -51,6 +52,8 @@ use Illuminate\Support\Str;
 
 final class PlantResource extends Resource
 {
+    use HasTranslationsRepeater;
+
     protected static ?string $model = Plant::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-sparkles';
@@ -73,6 +76,7 @@ final class PlantResource extends Resource
                     Tab::make('Blüte/Frucht')->schema(self::bluetenSchema()),
                     Tab::make('Pflege')->schema(self::pflegeSchema()),
                     Tab::make('Eigenschaften')->schema(self::eigenschaftenSchema()),
+                    Tab::make('Übersetzungen')->schema([self::translationsRepeater()]),
                     Tab::make('Moderation')->schema(self::moderationSchema()),
                 ]),
         ]);
