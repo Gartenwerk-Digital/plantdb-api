@@ -42,4 +42,10 @@ final class Genus extends Model
     {
         return $this->hasMany(Plant::class);
     }
+
+    /** @return HasMany<GenusTranslation, $this> */
+    public function translations(): HasMany
+    {
+        return $this->hasMany(GenusTranslation::class);
+    }
 }

@@ -15,7 +15,9 @@ uses(RefreshDatabase::class);
 it('creates all core tables', function (): void {
     $tables = [
         'families',
+        'family_translations',
         'genera',
+        'genus_translations',
         'plants',
         'plant_translations',
         'media',
