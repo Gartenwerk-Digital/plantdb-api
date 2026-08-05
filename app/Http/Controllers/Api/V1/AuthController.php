@@ -22,6 +22,11 @@ use Illuminate\Support\Facades\Password;
 
 final class AuthController extends ApiController
 {
+    /**
+     * Register a new user.
+     *
+     * Creates the account, sends the email verification link and returns an initial bearer token.
+     */
     public function register(RegisterRequest $request): JsonResponse
     {
         $user = User::query()->create([
@@ -40,6 +45,11 @@ final class AuthController extends ApiController
         ], 'User registered successfully. Please check your email to verify your account.');
     }
 
+    /**
+     * Log in.
+     *
+     * Exchanges email + password for a Sanctum bearer token.
+     */
     public function login(LoginRequest $request): JsonResponse
     {
         $user = User::query()->where('email', $request->email)->first();
@@ -56,6 +66,11 @@ final class AuthController extends ApiController
         ], 'Login successful');
     }
 
+    /**
+     * Log out.
+     *
+     * Revokes the bearer token used to make this request.
+     */
     public function logout(Request $request): JsonResponse
     {
         /** @var User $user */
@@ -65,11 +80,21 @@ final class AuthController extends ApiController
         return $this->success(message: 'Logged out successfully');
     }
 
+    /**
+     * Current user.
+     *
+     * Returns the profile of the authenticated user.
+     */
     public function me(Request $request): JsonResponse
     {
         return $this->success(new UserResource($request->user()));
     }
 
+    /**
+     * Verify email.
+     *
+     * Consumes the signed link from the verification email and marks the account verified.
+     */
     public function verifyEmail(VerifyEmailRequest $request): JsonResponse
     {
         /** @var User $user */
@@ -86,6 +111,11 @@ final class AuthController extends ApiController
         return $this->success(message: 'Email verified successfully');
     }
 
+    /**
+     * Resend the verification email.
+     *
+     * Sends a fresh signed verification link to the given address. Rate limited to 6 requests / minute.
+     */
     public function resendVerificationEmail(ResendVerificationRequest $request): JsonResponse
     {
         $user = User::query()->where('email', $request->email)->first();
@@ -103,6 +133,11 @@ final class AuthController extends ApiController
         return $this->success(message: 'Verification email sent successfully');
     }
 
+    /**
+     * Request a password reset.
+     *
+     * Emails a signed password-reset link to the address if an account exists.
+     */
     public function forgotPassword(ForgotPasswordRequest $request): JsonResponse
     {
         $status = Password::sendResetLink(
@@ -116,6 +151,11 @@ final class AuthController extends ApiController
         return $this->error('Unable to send reset link', 500);
     }
 
+    /**
+     * Reset the password.
+     *
+     * Consumes the token from the reset email, sets the new password and invalidates all existing bearer tokens.
+     */
     public function resetPassword(ResetPasswordRequest $request): JsonResponse
     {
         $status = Password::reset(

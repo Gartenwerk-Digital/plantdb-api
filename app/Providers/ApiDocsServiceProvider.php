@@ -11,15 +11,20 @@ use Dedoc\Scramble\Support\Generator\Parameter;
 use Dedoc\Scramble\Support\Generator\Reference;
 use Dedoc\Scramble\Support\Generator\Response;
 use Dedoc\Scramble\Support\Generator\Schema;
+use Dedoc\Scramble\Support\Generator\SecurityRequirement;
+use Dedoc\Scramble\Support\Generator\SecurityScheme;
 use Dedoc\Scramble\Support\Generator\Types\ArrayType;
 use Dedoc\Scramble\Support\Generator\Types\ObjectType;
 use Dedoc\Scramble\Support\Generator\Types\StringType;
 use Dedoc\Scramble\Support\Generator\Types\Type;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
 final class ApiDocsServiceProvider extends ServiceProvider
 {
     private const string ERROR_SCHEMA_NAME = 'ApiError';
+
+    private const string BEARER_SCHEME_NAME = 'bearerAuth';
 
     /**
      * Global error responses added to every documented operation.
@@ -47,7 +52,52 @@ final class ApiDocsServiceProvider extends ServiceProvider
             $this->attachErrorResponses($openApi, $errorRef);
             $this->attachLocaleParameters($openApi);
             $this->attachContentLanguageHeader($openApi);
+            $this->attachBearerSecurity($openApi);
         });
+    }
+
+    private function attachBearerSecurity(OpenApi $openApi): void
+    {
+        /** @var SecurityScheme $scheme */
+        $scheme = SecurityScheme::http('bearer', 'Sanctum token');
+        $scheme->as(self::BEARER_SCHEME_NAME)
+            ->setDescription('Personal access token issued by `POST /api/v1/register` or `POST /api/v1/login`. Send as `Authorization: Bearer <token>`.');
+
+        $openApi->secure($scheme);
+
+        foreach ($openApi->paths as $path) {
+            foreach ($path->operations as $operation) {
+                if (! $this->routeRequiresSanctum($operation->method, $path->path)) {
+                    continue;
+                }
+
+                $operation->addSecurity(new SecurityRequirement([self::BEARER_SCHEME_NAME => []]));
+            }
+        }
+    }
+
+    private function routeRequiresSanctum(string $method, string $path): bool
+    {
+        $uri = 'api/'.mb_ltrim($path, '/');
+        $method = mb_strtoupper($method);
+
+        foreach (Route::getRoutes()->getRoutes() as $route) {
+            if (! in_array($method, $route->methods(), true)) {
+                continue;
+            }
+
+            if ($route->uri() !== $uri) {
+                continue;
+            }
+
+            foreach ($route->gatherMiddleware() as $middleware) {
+                if (is_string($middleware) && str_starts_with($middleware, 'auth:sanctum')) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     private function attachLocaleParameters(OpenApi $openApi): void
