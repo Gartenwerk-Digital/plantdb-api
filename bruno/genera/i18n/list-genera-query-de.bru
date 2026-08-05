@@ -1,0 +1,24 @@
+meta {
+  name: list genera (?locale=de)
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{apiUrl}}/genera?locale=de
+  auth: none
+}
+
+params:query {
+  locale: de
+}
+
+tests {
+  test("responds 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Content-Language header echoes de", function () {
+    expect(res.getHeader("content-language")).to.equal("de");
+  });
+}

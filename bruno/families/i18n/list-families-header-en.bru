@@ -1,0 +1,24 @@
+meta {
+  name: list families (Accept-Language: en)
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{apiUrl}}/families
+  auth: none
+}
+
+headers {
+  Accept-Language: en
+}
+
+tests {
+  test("responds 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Content-Language header echoes en", function () {
+    expect(res.getHeader("content-language")).to.equal("en");
+  });
+}

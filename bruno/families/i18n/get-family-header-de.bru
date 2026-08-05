@@ -1,0 +1,28 @@
+meta {
+  name: get family (Accept-Language: de)
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{apiUrl}}/families/:slug
+  auth: none
+}
+
+params:path {
+  slug: rosaceae
+}
+
+headers {
+  Accept-Language: de
+}
+
+tests {
+  test("responds 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Content-Language header echoes de", function () {
+    expect(res.getHeader("content-language")).to.equal("de");
+  });
+}

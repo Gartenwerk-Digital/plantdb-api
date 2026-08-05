@@ -1,0 +1,24 @@
+meta {
+  name: list families (?locale=en)
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{apiUrl}}/families?locale=en
+  auth: none
+}
+
+params:query {
+  locale: en
+}
+
+tests {
+  test("responds 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Content-Language header echoes en", function () {
+    expect(res.getHeader("content-language")).to.equal("en");
+  });
+}

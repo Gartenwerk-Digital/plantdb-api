@@ -1,0 +1,25 @@
+meta {
+  name: list families (?locale=fr — error demo)
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{apiUrl}}/families?locale=fr
+  auth: none
+}
+
+params:query {
+  locale: fr
+}
+
+tests {
+  test("responds 400", function () {
+    expect(res.getStatus()).to.equal(400);
+  });
+
+  test("returns { error: { code: unsupported_locale } }", function () {
+    const body = res.getBody();
+    expect(body.error.code).to.equal("unsupported_locale");
+  });
+}
