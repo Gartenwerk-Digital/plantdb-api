@@ -12,11 +12,21 @@ use Illuminate\Http\JsonResponse;
 
 final class PlantController extends ApiController
 {
+    /**
+     * List plants.
+     *
+     * Paginated list of published plants. Localized via `?locale=` or `Accept-Language`.
+     */
     public function index(ListPlants $action): JsonResponse
     {
         return $this->success(PlantResource::collection($action()));
     }
 
+    /**
+     * Show a plant.
+     *
+     * Returns a single published plant identified by its slug, including taxonomy, translations and media.
+     */
     public function show(string $slug, ShowPlant $action): JsonResponse
     {
         return $this->success(new PlantResource($action($slug)));

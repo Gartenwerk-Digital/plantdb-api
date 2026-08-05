@@ -12,11 +12,21 @@ use Illuminate\Http\JsonResponse;
 
 final class GenusController extends ApiController
 {
+    /**
+     * List genera.
+     *
+     * Returns all botanical genera with their parent family, localized when available.
+     */
     public function index(ListGenera $action): JsonResponse
     {
         return $this->success(GenusResource::collection($action()));
     }
 
+    /**
+     * Show a genus.
+     *
+     * Returns a single genus identified by its slug, including its family and translations.
+     */
     public function show(string $slug, ShowGenus $action): JsonResponse
     {
         return $this->success(new GenusResource($action($slug)));

@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-use Dedoc\Scramble\Http\Middleware\RestrictedDocsAccess;
-
 return [
     /*
      * Your API path. By default, all routes starting with this path will be added to the docs.
@@ -33,6 +31,16 @@ return [
          */
         'description' => <<<'MD'
             PlantDB API — central community-curated plant database for garden management applications.
+
+            ## Authentication
+
+            Most write endpoints and account-scoped reads require a Sanctum bearer token.
+
+            1. `POST /api/v1/register` or `POST /api/v1/login` to obtain a token.
+            2. Send it on subsequent requests as `Authorization: Bearer <token>`.
+            3. In this documentation UI use the **Authorize** button (top right) and paste the token — the `Try It` panel will then attach it automatically.
+
+            Public taxonomy reads (`/families`, `/genera`, `/plants`) do not require a token.
 
             ## Response envelope
 
@@ -191,7 +199,6 @@ return [
 
     'middleware' => [
         'web',
-        RestrictedDocsAccess::class,
     ],
 
     'extensions' => [],
