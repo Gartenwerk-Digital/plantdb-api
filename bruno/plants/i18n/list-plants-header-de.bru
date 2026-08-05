@@ -1,0 +1,28 @@
+meta {
+  name: list plants (Accept-Language: de)
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{apiUrl}}/plants
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+headers {
+  Accept-Language: de
+}
+
+tests {
+  test("responds 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Content-Language header echoes de", function () {
+    expect(res.getHeader("content-language")).to.equal("de");
+  });
+}

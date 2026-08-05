@@ -1,0 +1,28 @@
+meta {
+  name: get genus (Accept-Language: en)
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{apiUrl}}/genera/:slug
+  auth: none
+}
+
+params:path {
+  slug: rosa
+}
+
+headers {
+  Accept-Language: en
+}
+
+tests {
+  test("responds 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Content-Language header echoes en", function () {
+    expect(res.getHeader("content-language")).to.equal("en");
+  });
+}

@@ -1,0 +1,29 @@
+meta {
+  name: get genus (?locale=fr — error demo)
+  type: http
+  seq: 12
+}
+
+get {
+  url: {{apiUrl}}/genera/:slug?locale=fr
+  auth: none
+}
+
+params:path {
+  slug: rosa
+}
+
+params:query {
+  locale: fr
+}
+
+tests {
+  test("responds 400", function () {
+    expect(res.getStatus()).to.equal(400);
+  });
+
+  test("returns { error: { code: unsupported_locale } }", function () {
+    const body = res.getBody();
+    expect(body.error.code).to.equal("unsupported_locale");
+  });
+}
