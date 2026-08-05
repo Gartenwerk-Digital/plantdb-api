@@ -17,20 +17,20 @@ trait HasTranslationsRepeater
             ->relationship()
             ->schema([
                 Select::make('locale')
-                    ->label('Locale')
+                    ->label(__('admin.translations.locale'))
                     ->options(fn (): array => collect(config('i18n.supported', []))
                         ->mapWithKeys(fn (string $l): array => [$l => mb_strtoupper($l)])
                         ->all())
                     ->required()
                     ->distinct()
                     ->validationMessages([
-                        'distinct' => 'Locale bereits vorhanden.',
+                        'distinct' => __('admin.translations.locale_distinct'),
                     ]),
                 TextInput::make('common_name')
-                    ->label('Common Name')
+                    ->label(__('admin.translations.common_name'))
                     ->maxLength(255),
                 Textarea::make('description')
-                    ->label('Description')
+                    ->label(__('admin.translations.description'))
                     ->rows(4),
             ])
             ->itemLabel(fn (array $state): ?string => isset($state['locale']) && $state['locale'] !== ''
@@ -38,7 +38,7 @@ trait HasTranslationsRepeater
                 : null)
             ->collapsible()
             ->defaultItems(0)
-            ->addActionLabel('Übersetzung hinzufügen')
+            ->addActionLabel(__('admin.translations.add'))
             ->columnSpanFull();
     }
 }

@@ -6,9 +6,11 @@ use App\Enums\PlantStatus;
 use App\Filament\Admin\Resources\PlantResource\Pages\CreatePlant;
 use App\Filament\Admin\Resources\PlantResource\Pages\EditPlant;
 use App\Filament\Admin\Resources\PlantResource\Pages\ListPlants;
+use App\Filament\Admin\Resources\PlantResource\Pages\ViewPlant;
 use App\Models\Family;
 use App\Models\Genus;
 use App\Models\Plant;
+use App\Models\PlantTranslation;
 use App\Models\User;
 use Filament\Facades\Filament;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -57,69 +59,6 @@ it('creates a plant with minimal required fields', function (): void {
     expect(Plant::query()->where('slug', 'rosa-damascena')->exists())->toBeTrue();
 });
 
-it('approves a plant via table action', function (): void {
-    $plant = Plant::factory()->create(['status' => PlantStatus::PendingReview->value]);
-
-    Livewire::test(ListPlants::class)
-        ->callTableAction('approve', $plant);
-
-    $plant->refresh();
-
-    expect($plant->status)->toBe(PlantStatus::Approved)
-        ->and($plant->reviewed_by)->toBe($this->admin->id)
-        ->and($plant->reviewed_at)->not->toBeNull();
-});
-
-it('rejects a plant via table action with required review_notes', function (): void {
-    $plant = Plant::factory()->create(['status' => PlantStatus::PendingReview->value]);
-
-    Livewire::test(ListPlants::class)
-        ->callTableAction('reject', $plant, data: ['review_notes' => 'Insufficient data'])
-        ->assertHasNoTableActionErrors();
-
-    $plant->refresh();
-
-    expect($plant->status)->toBe(PlantStatus::Rejected)
-        ->and($plant->reviewed_by)->toBe($this->admin->id)
-        ->and($plant->review_notes)->toBe('Insufficient data');
-});
-
-it('requires review_notes when rejecting a plant', function (): void {
-    $plant = Plant::factory()->create(['status' => PlantStatus::PendingReview->value]);
-
-    Livewire::test(ListPlants::class)
-        ->callTableAction('reject', $plant, data: ['review_notes' => ''])
-        ->assertHasTableActionErrors(['review_notes']);
-
-    expect($plant->refresh()->status)->toBe(PlantStatus::PendingReview);
-});
-
-it('bulk approves plants', function (): void {
-    $plants = Plant::factory()->count(5)->create(['status' => PlantStatus::PendingReview->value]);
-
-    Livewire::test(ListPlants::class)
-        ->callTableBulkAction('approve', $plants)
-        ->assertNotified('5 plants approved');
-
-    Plant::query()->whereIn('id', $plants->pluck('id'))->get()->each(function (Plant $plant): void {
-        expect($plant->status)->toBe(PlantStatus::Approved)
-            ->and($plant->reviewed_by)->toBe($this->admin->id);
-    });
-});
-
-it('bulk rejects plants with review_notes', function (): void {
-    $plants = Plant::factory()->count(2)->create(['status' => PlantStatus::PendingReview->value]);
-
-    Livewire::test(ListPlants::class)
-        ->callTableBulkAction('reject', $plants, data: ['review_notes' => 'Batch reject'])
-        ->assertHasNoTableBulkActionErrors();
-
-    Plant::query()->whereIn('id', $plants->pluck('id'))->get()->each(function (Plant $plant): void {
-        expect($plant->status)->toBe(PlantStatus::Rejected)
-            ->and($plant->review_notes)->toBe('Batch reject');
-    });
-});
-
 it('filters plants by status', function (): void {
     $approved = Plant::factory()->create(['status' => PlantStatus::Approved->value]);
     $drafts = Plant::factory()->count(2)->create(['status' => PlantStatus::Draft->value]);
@@ -140,12 +79,14 @@ it('defaults the status filter to pending_review on the list page', function ():
         ->assertCanNotSeeTableRecords([$approved, $draft]);
 });
 
-it('shows a success notification after approving via the table action', function (): void {
+it('does not expose approve/reject as row actions', function (): void {
     $plant = Plant::factory()->create(['status' => PlantStatus::PendingReview->value]);
 
     Livewire::test(ListPlants::class)
-        ->callTableAction('approve', $plant)
-        ->assertNotified('Plant approved');
+        ->assertTableActionDoesNotExist('approve')
+        ->assertTableActionDoesNotExist('reject');
+
+    expect($plant->refresh()->status)->toBe(PlantStatus::PendingReview);
 });
 
 it('approves a plant from the EditPlant header action', function (): void {
@@ -153,7 +94,7 @@ it('approves a plant from the EditPlant header action', function (): void {
 
     Livewire::test(EditPlant::class, ['record' => $plant->getRouteKey()])
         ->callAction('approve')
-        ->assertNotified('Plant approved');
+        ->assertNotified(__('admin.plants.notifications.approved'));
 
     $plant->refresh();
 
@@ -167,10 +108,48 @@ it('rejects a plant from the EditPlant header action with review_notes', functio
 
     Livewire::test(EditPlant::class, ['record' => $plant->getRouteKey()])
         ->callAction('reject', data: ['review_notes' => 'Missing sources'])
-        ->assertNotified('Plant rejected');
+        ->assertNotified(__('admin.plants.notifications.rejected'));
 
     $plant->refresh();
 
     expect($plant->status)->toBe(PlantStatus::Rejected)
         ->and($plant->review_notes)->toBe('Missing sources');
+});
+
+it('approves a plant from the ViewPlant header action', function (): void {
+    $plant = Plant::factory()->create(['status' => PlantStatus::PendingReview->value]);
+
+    Livewire::test(ViewPlant::class, ['record' => $plant->getRouteKey()])
+        ->callAction('approve')
+        ->assertNotified(__('admin.plants.notifications.approved'));
+
+    expect($plant->refresh()->status)->toBe(PlantStatus::Approved);
+});
+
+it('requires review_notes on the reject header action', function (): void {
+    $plant = Plant::factory()->create(['status' => PlantStatus::PendingReview->value]);
+
+    Livewire::test(EditPlant::class, ['record' => $plant->getRouteKey()])
+        ->callAction('reject', data: ['review_notes' => ''])
+        ->assertHasActionErrors(['review_notes']);
+
+    expect($plant->refresh()->status)->toBe(PlantStatus::PendingReview);
+});
+
+it('finds a plant by its german common name via the search column', function (): void {
+    $tomato = Plant::factory()->create(['scientific_name' => 'Solanum lycopersicum', 'status' => PlantStatus::Approved->value]);
+    PlantTranslation::query()->create([
+        'plant_id' => $tomato->id,
+        'locale' => 'de',
+        'common_name' => 'Tomate',
+        'description' => null,
+    ]);
+
+    $other = Plant::factory()->create(['scientific_name' => 'Zea mays', 'status' => PlantStatus::Approved->value]);
+
+    Livewire::test(ListPlants::class)
+        ->filterTable('status', PlantStatus::Approved->value)
+        ->searchTable('Tomate')
+        ->assertCanSeeTableRecords([$tomato])
+        ->assertCanNotSeeTableRecords([$other]);
 });
