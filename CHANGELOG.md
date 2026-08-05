@@ -7,6 +7,8 @@ und dieses Projekt hält sich an [Semantic Versioning](https://semver.org/lang/d
 
 ## [Unreleased]
 
+## [0.7.0] — 2026-08-05
+
 Sprint 6 — Datenimport & i18n-Grundlage. Mehrsprachige API
 (`Accept-Language` / `?locale=`) mit DE als Default und EN als Fallback,
 lokalisierte Top-Level-Felder für Plant / Family / Genus, Filament-
@@ -198,7 +200,8 @@ Sprint 0 — Foundation. Erstes lauffähiges Skeleton der PlantDB API.
 - Bruno-Collection für lokale API-Exploration
 - `CLAUDE.md` mit Projekt-Konventionen und Git-Workflow
 
-[Unreleased]: https://github.com/Gartenwerk-Digital/plantdb-api/compare/v0.6.0...HEAD
+[Unreleased]: https://github.com/Gartenwerk-Digital/plantdb-api/compare/v0.7.0...HEAD
+[0.7.0]: https://github.com/Gartenwerk-Digital/plantdb-api/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/Gartenwerk-Digital/plantdb-api/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/Gartenwerk-Digital/plantdb-api/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/Gartenwerk-Digital/plantdb-api/compare/v0.3.0...v0.4.0
