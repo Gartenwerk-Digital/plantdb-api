@@ -7,6 +7,45 @@ und dieses Projekt hält sich an [Semantic Versioning](https://semver.org/lang/d
 
 ## [Unreleased]
 
+Sprint 6 — Datenimport & i18n-Grundlage. Mehrsprachige API
+(`Accept-Language` / `?locale=`) mit DE als Default und EN als Fallback,
+lokalisierte Top-Level-Felder für Plant / Family / Genus, Filament-
+Translation-Tabs, kuratierter 159-Arten-Seed und Admin-Dashboard v1.
+
+### Added
+- `family_translations` und `genus_translations` Tabellen inkl.
+  zusätzlichem `locale`-Index auf `plant_translations` (#73)
+- DE/EN-Seeds für alle Families und Genera (#74)
+- `config/i18n.php` (`supported`, `default`, `fallback`) und
+  `SetApiLocale`-Middleware: Auflösung via `?locale=` bevorzugt,
+  sonst `Accept-Language`; ungültiges `?locale=` → 400; Response setzt
+  `Content-Language`-Header (#75)
+- Lokalisierte Top-Level-Felder `common_name` und `description` in
+  `PlantResource`, `FamilyResource` und `GenusResource`; Model-
+  Accessors mit Fallback auf `en`; Rohübersetzungen weiterhin via
+  `?include=translations` (#76)
+- Filament Translation-Tabs für Plant, Family und Genus (#77)
+- Bruno i18n-Sub-Collections (`plants/i18n`, `genera/i18n`,
+  `families/i18n`) mit Header- und Query-Varianten; Scramble-Doc-
+  Hinweise zu `Accept-Language` und `?locale=` (#78)
+- Admin-Dashboard v1: `StatsOverview`-Widget mit Kernkennzahlen sowie
+  Pending-Plants- und Pending-Contributions-Widgets (#88)
+- Kuratierter Seed-Import mit 159 Garten-Arten ersetzt den generischen
+  GBIF-Bulk-Import (#69)
+- README-Sektion „Internationalization" mit curl-Beispielen für DE/EN
+  und Hinweisen zur Erweiterung um neue Locales (#79)
+
+### Changed
+- Admin-UI durchgängig deutsch via `__()`-i18n, neue `common_name`-
+  Spalte in der Plant-Liste und aufgeräumte Plant-Actions (#86)
+- Plant-Review-Workflow im Admin gestrafft
+- GBIF-Import filtert jetzt `higherTaxonKey=6` (Plantae) und
+  persistiert den korrekten Backbone-`nubKey` (#68)
+
+### Fixed
+- GBIF-Import: fehlender Kingdom-Filter und falsche `taxonKey`-
+  Persistenz (#68)
+
 ## [0.6.0] — 2026-08-03
 
 Sprint 5 — Bilder & CDN. Echte Bild-Uploads am `Plant`-Modell via
