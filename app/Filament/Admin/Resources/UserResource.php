@@ -25,16 +25,35 @@ final class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
-    protected static ?string $navigationGroup = 'Auth';
-
     protected static ?int $navigationSort = 10;
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('admin.navigation.groups.users');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('admin.users.nav');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('admin.users.label');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('admin.users.plural');
+    }
 
     public static function form(Form $form): Form
     {
         return $form->schema([
-            TextInput::make('name')->disabled(),
-            TextInput::make('email')->disabled(),
+            TextInput::make('name')->label(__('admin.users.fields.name'))->disabled(),
+            TextInput::make('email')->label(__('admin.users.fields.email'))->disabled(),
             Select::make('tier')
+                ->label(__('admin.users.fields.tier'))
                 ->options(UserTier::class)
                 ->required()
                 ->native(false),
@@ -45,20 +64,22 @@ final class UserResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('id')->sortable(),
-                TextColumn::make('name')->searchable()->sortable(),
-                TextColumn::make('email')->searchable()->sortable(),
+                TextColumn::make('id')->label(__('admin.users.columns.id'))->sortable(),
+                TextColumn::make('name')->label(__('admin.users.columns.name'))->searchable()->sortable(),
+                TextColumn::make('email')->label(__('admin.users.columns.email'))->searchable()->sortable(),
                 IconColumn::make('email_verified_at')
-                    ->label('Verified')
+                    ->label(__('admin.users.columns.verified'))
                     ->boolean(),
                 TextColumn::make('tier')
+                    ->label(__('admin.users.columns.tier'))
                     ->badge()
                     ->sortable(),
                 TextColumn::make('tokens_count')
-                    ->label('API keys')
+                    ->label(__('admin.users.columns.tokens'))
                     ->counts('tokens')
                     ->sortable(),
                 TextColumn::make('created_at')
+                    ->label(__('admin.users.columns.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

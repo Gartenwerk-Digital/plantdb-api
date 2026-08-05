@@ -37,8 +37,6 @@ use Filament\Forms\Set;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\PageRegistration;
 use Filament\Resources\Resource;
-use Filament\Tables\Actions\Action as TableAction;
-use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
@@ -47,7 +45,7 @@ use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
 final class PlantResource extends Resource
@@ -58,11 +56,29 @@ final class PlantResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-sparkles';
 
-    protected static ?string $navigationGroup = 'Content';
-
     protected static ?int $navigationSort = 30;
 
     protected static ?string $recordTitleAttribute = 'scientific_name';
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('admin.navigation.groups.content');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('admin.plants.nav');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('admin.plants.label');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('admin.plants.plural');
+    }
 
     public static function form(Form $form): Form
     {
@@ -70,14 +86,14 @@ final class PlantResource extends Resource
             Tabs::make('Plant')
                 ->columnSpanFull()
                 ->tabs([
-                    Tab::make('Botanik')->schema(self::botanikSchema()),
-                    Tab::make('Standort')->schema(self::standortSchema()),
-                    Tab::make('Wuchs')->schema(self::wuchsSchema()),
-                    Tab::make('Blüte/Frucht')->schema(self::bluetenSchema()),
-                    Tab::make('Pflege')->schema(self::pflegeSchema()),
-                    Tab::make('Eigenschaften')->schema(self::eigenschaftenSchema()),
-                    Tab::make('Übersetzungen')->schema([self::translationsRepeater()]),
-                    Tab::make('Moderation')->schema(self::moderationSchema()),
+                    Tab::make(__('admin.plants.tabs.botanik'))->schema(self::botanikSchema()),
+                    Tab::make(__('admin.plants.tabs.standort'))->schema(self::standortSchema()),
+                    Tab::make(__('admin.plants.tabs.wuchs'))->schema(self::wuchsSchema()),
+                    Tab::make(__('admin.plants.tabs.blueten'))->schema(self::bluetenSchema()),
+                    Tab::make(__('admin.plants.tabs.pflege'))->schema(self::pflegeSchema()),
+                    Tab::make(__('admin.plants.tabs.eigenschaften'))->schema(self::eigenschaftenSchema()),
+                    Tab::make(__('admin.plants.tabs.translations'))->schema([self::translationsRepeater()]),
+                    Tab::make(__('admin.plants.tabs.moderation'))->schema(self::moderationSchema()),
                 ]),
         ]);
     }
@@ -85,11 +101,32 @@ final class PlantResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn (Builder $query): Builder => $query->with([
+                'translations' => fn ($q) => $q->where('locale', 'de'),
+            ]))
             ->columns([
-                TextColumn::make('scientific_name')->searchable()->sortable(),
-                TextColumn::make('family.name')->label('Family')->sortable()->toggleable(),
-                TextColumn::make('genus.name')->label('Genus')->sortable()->toggleable(),
+                TextColumn::make('scientific_name')
+                    ->label(__('admin.plants.fields.scientific_name'))
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('common_name_de')
+                    ->label(__('admin.plants.columns.common_name_de'))
+                    ->getStateUsing(fn (Plant $record): ?string => $record->translations->firstWhere('locale', 'de')?->common_name)
+                    ->searchable(query: fn (Builder $query, string $search): Builder => $query->whereHas(
+                        'translations',
+                        fn (Builder $q): Builder => $q->where('locale', 'de')->where('common_name', 'ilike', sprintf('%%%s%%', $search))
+                    ))
+                    ->sortable(query: fn (Builder $query, string $direction): Builder => $query
+                        ->leftJoin('plant_translations as pt_de', function ($join): void {
+                            $join->on('pt_de.plant_id', '=', 'plants.id')
+                                ->where('pt_de.locale', '=', 'de');
+                        })
+                        ->orderBy('pt_de.common_name', $direction)
+                        ->select('plants.*')),
+                TextColumn::make('family.name')->label(__('admin.plants.fields.family_id'))->sortable()->toggleable(),
+                TextColumn::make('genus.name')->label(__('admin.plants.fields.genus_id'))->sortable()->toggleable(),
                 TextColumn::make('status')
+                    ->label(__('admin.plants.fields.status'))
                     ->badge()
                     ->color(fn (PlantStatus $state): string => match ($state) {
                         PlantStatus::Draft => 'gray',
@@ -98,6 +135,7 @@ final class PlantResource extends Resource
                         PlantStatus::Rejected => 'danger',
                     }),
                 TextColumn::make('created_at')
+                    ->label(__('admin.plants.columns.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -105,52 +143,25 @@ final class PlantResource extends Resource
             ->defaultSort('scientific_name')
             ->filters([
                 SelectFilter::make('status')
+                    ->label(__('admin.plants.fields.status'))
                     ->options(PlantStatus::class)
                     ->default(PlantStatus::PendingReview->value),
                 SelectFilter::make('family_id')
                     ->relationship('family', 'name')
-                    ->label('Family')
+                    ->label(__('admin.plants.fields.family_id'))
                     ->searchable()
                     ->preload(),
-                SelectFilter::make('life_cycle')->options(LifeCycle::class),
+                SelectFilter::make('life_cycle')
+                    ->label(__('admin.plants.fields.life_cycle'))
+                    ->options(LifeCycle::class),
             ])
             ->actions([
                 ViewAction::make(),
                 EditAction::make(),
-                self::approveTableAction(),
-                self::rejectTableAction(),
                 DeleteAction::make(),
             ])
             ->bulkActions([
                 BulkActionGroup::make([
-                    BulkAction::make('approve')
-                        ->label('Approve')
-                        ->icon('heroicon-o-check-circle')
-                        ->color('success')
-                        ->requiresConfirmation()
-                        ->action(function (EloquentCollection $records): void {
-                            $records->each(fn (Plant $plant) => self::markApproved($plant));
-
-                            Notification::make()
-                                ->title($records->count().' plants approved')
-                                ->success()
-                                ->send();
-                        }),
-                    BulkAction::make('reject')
-                        ->label('Reject')
-                        ->icon('heroicon-o-x-circle')
-                        ->color('danger')
-                        ->form([
-                            Textarea::make('review_notes')->required()->rows(3),
-                        ])
-                        ->action(function (array $data, EloquentCollection $records): void {
-                            $records->each(fn (Plant $plant) => self::markRejected($plant, (string) $data['review_notes']));
-
-                            Notification::make()
-                                ->title($records->count().' plants rejected')
-                                ->success()
-                                ->send();
-                        }),
                     DeleteBulkAction::make()->requiresConfirmation(),
                 ]),
             ]);
@@ -177,48 +188,10 @@ final class PlantResource extends Resource
         ];
     }
 
-    public static function approveTableAction(): TableAction
-    {
-        return TableAction::make('approve')
-            ->label('Approve')
-            ->icon('heroicon-o-check-circle')
-            ->color('success')
-            ->visible(fn (Plant $record): bool => $record->status !== PlantStatus::Approved)
-            ->requiresConfirmation()
-            ->action(function (Plant $record): void {
-                self::markApproved($record);
-
-                Notification::make()
-                    ->title('Plant approved')
-                    ->success()
-                    ->send();
-            });
-    }
-
-    public static function rejectTableAction(): TableAction
-    {
-        return TableAction::make('reject')
-            ->label('Reject')
-            ->icon('heroicon-o-x-circle')
-            ->color('danger')
-            ->visible(fn (Plant $record): bool => $record->status !== PlantStatus::Rejected)
-            ->form([
-                Textarea::make('review_notes')->required()->rows(3),
-            ])
-            ->action(function (array $data, Plant $record): void {
-                self::markRejected($record, (string) $data['review_notes']);
-
-                Notification::make()
-                    ->title('Plant rejected')
-                    ->success()
-                    ->send();
-            });
-    }
-
     public static function approveHeaderAction(): HeaderAction
     {
         return HeaderAction::make('approve')
-            ->label('Approve')
+            ->label(__('admin.plants.actions.approve'))
             ->icon('heroicon-o-check-circle')
             ->color('success')
             ->visible(fn (Plant $record): bool => $record->status !== PlantStatus::Approved)
@@ -227,7 +200,7 @@ final class PlantResource extends Resource
                 self::markApproved($record);
 
                 Notification::make()
-                    ->title('Plant approved')
+                    ->title(__('admin.plants.notifications.approved'))
                     ->success()
                     ->send();
             });
@@ -236,18 +209,21 @@ final class PlantResource extends Resource
     public static function rejectHeaderAction(): HeaderAction
     {
         return HeaderAction::make('reject')
-            ->label('Reject')
+            ->label(__('admin.plants.actions.reject'))
             ->icon('heroicon-o-x-circle')
             ->color('danger')
             ->visible(fn (Plant $record): bool => $record->status !== PlantStatus::Rejected)
             ->form([
-                Textarea::make('review_notes')->required()->rows(3),
+                Textarea::make('review_notes')
+                    ->label(__('admin.plants.actions.rejection_reason'))
+                    ->required()
+                    ->rows(3),
             ])
             ->action(function (array $data, Plant $record): void {
                 self::markRejected($record, (string) $data['review_notes']);
 
                 Notification::make()
-                    ->title('Plant rejected')
+                    ->title(__('admin.plants.notifications.rejected'))
                     ->success()
                     ->send();
             });
@@ -277,6 +253,7 @@ final class PlantResource extends Resource
     {
         return [
             TextInput::make('scientific_name')
+                ->label(__('admin.plants.fields.scientific_name'))
                 ->required()
                 ->maxLength(255)
                 ->live(onBlur: true)
@@ -288,23 +265,26 @@ final class PlantResource extends Resource
                     $set('slug', Str::slug($state));
                 }),
             TextInput::make('slug')
+                ->label(__('admin.plants.fields.slug'))
                 ->required()
                 ->maxLength(255)
                 ->unique(ignoreRecord: true),
-            TextInput::make('cultivar')->maxLength(255),
+            TextInput::make('cultivar')->label(__('admin.plants.fields.cultivar'))->maxLength(255),
             Select::make('family_id')
+                ->label(__('admin.plants.fields.family_id'))
                 ->relationship('family', 'name')
                 ->required()
                 ->searchable()
                 ->preload(),
             Select::make('genus_id')
+                ->label(__('admin.plants.fields.genus_id'))
                 ->relationship('genus', 'name')
                 ->required()
                 ->searchable()
                 ->preload(),
-            Select::make('life_cycle')->options(LifeCycle::class),
-            Toggle::make('deciduous'),
-            TagsInput::make('native_regions')->columnSpanFull(),
+            Select::make('life_cycle')->label(__('admin.plants.fields.life_cycle'))->options(LifeCycle::class),
+            Toggle::make('deciduous')->label(__('admin.plants.fields.deciduous')),
+            TagsInput::make('native_regions')->label(__('admin.plants.fields.native_regions'))->columnSpanFull(),
         ];
     }
 
@@ -312,14 +292,14 @@ final class PlantResource extends Resource
     private static function standortSchema(): array
     {
         return [
-            Select::make('sun_requirement')->options(SunRequirement::class),
-            Select::make('soil_moisture')->options(SoilMoisture::class),
-            TextInput::make('hardiness_zone_min')->numeric()->minValue(0)->maxValue(13),
-            TextInput::make('hardiness_zone_max')->numeric()->minValue(0)->maxValue(13),
-            Toggle::make('suitable_for_pot'),
-            TagsInput::make('soil_types')->columnSpanFull(),
-            TextInput::make('soil_ph_min')->numeric()->step(0.1),
-            TextInput::make('soil_ph_max')->numeric()->step(0.1),
+            Select::make('sun_requirement')->label(__('admin.plants.fields.sun_requirement'))->options(SunRequirement::class),
+            Select::make('soil_moisture')->label(__('admin.plants.fields.soil_moisture'))->options(SoilMoisture::class),
+            TextInput::make('hardiness_zone_min')->label(__('admin.plants.fields.hardiness_zone_min'))->numeric()->minValue(0)->maxValue(13),
+            TextInput::make('hardiness_zone_max')->label(__('admin.plants.fields.hardiness_zone_max'))->numeric()->minValue(0)->maxValue(13),
+            Toggle::make('suitable_for_pot')->label(__('admin.plants.fields.suitable_for_pot')),
+            TagsInput::make('soil_types')->label(__('admin.plants.fields.soil_types'))->columnSpanFull(),
+            TextInput::make('soil_ph_min')->label(__('admin.plants.fields.soil_ph_min'))->numeric()->step(0.1),
+            TextInput::make('soil_ph_max')->label(__('admin.plants.fields.soil_ph_max'))->numeric()->step(0.1),
         ];
     }
 
@@ -327,12 +307,12 @@ final class PlantResource extends Resource
     private static function wuchsSchema(): array
     {
         return [
-            TextInput::make('height_min_cm')->numeric()->minValue(0),
-            TextInput::make('height_max_cm')->numeric()->minValue(0),
-            TextInput::make('width_min_cm')->numeric()->minValue(0),
-            TextInput::make('width_max_cm')->numeric()->minValue(0),
-            Select::make('growth_rate')->options(GrowthRate::class),
-            Select::make('root_depth')->options(RootDepth::class),
+            TextInput::make('height_min_cm')->label(__('admin.plants.fields.height_min_cm'))->numeric()->minValue(0),
+            TextInput::make('height_max_cm')->label(__('admin.plants.fields.height_max_cm'))->numeric()->minValue(0),
+            TextInput::make('width_min_cm')->label(__('admin.plants.fields.width_min_cm'))->numeric()->minValue(0),
+            TextInput::make('width_max_cm')->label(__('admin.plants.fields.width_max_cm'))->numeric()->minValue(0),
+            Select::make('growth_rate')->label(__('admin.plants.fields.growth_rate'))->options(GrowthRate::class),
+            Select::make('root_depth')->label(__('admin.plants.fields.root_depth'))->options(RootDepth::class),
         ];
     }
 
@@ -340,14 +320,14 @@ final class PlantResource extends Resource
     private static function bluetenSchema(): array
     {
         return [
-            Select::make('bloom_start_month')->options(self::monthOptions()),
-            Select::make('bloom_end_month')->options(self::monthOptions()),
-            TagsInput::make('bloom_colors')->columnSpanFull(),
-            Toggle::make('fragrant'),
-            Select::make('fruit_season_start')->options(self::monthOptions()),
-            Select::make('fruit_season_end')->options(self::monthOptions()),
-            TagsInput::make('edible_parts')->columnSpanFull(),
-            Textarea::make('harvest_notes')->rows(3)->columnSpanFull(),
+            Select::make('bloom_start_month')->label(__('admin.plants.fields.bloom_start_month'))->options(self::monthOptions()),
+            Select::make('bloom_end_month')->label(__('admin.plants.fields.bloom_end_month'))->options(self::monthOptions()),
+            TagsInput::make('bloom_colors')->label(__('admin.plants.fields.bloom_colors'))->columnSpanFull(),
+            Toggle::make('fragrant')->label(__('admin.plants.fields.fragrant')),
+            Select::make('fruit_season_start')->label(__('admin.plants.fields.fruit_season_start'))->options(self::monthOptions()),
+            Select::make('fruit_season_end')->label(__('admin.plants.fields.fruit_season_end'))->options(self::monthOptions()),
+            TagsInput::make('edible_parts')->label(__('admin.plants.fields.edible_parts'))->columnSpanFull(),
+            Textarea::make('harvest_notes')->label(__('admin.plants.fields.harvest_notes'))->rows(3)->columnSpanFull(),
         ];
     }
 
@@ -355,11 +335,11 @@ final class PlantResource extends Resource
     private static function pflegeSchema(): array
     {
         return [
-            Select::make('watering_frequency')->options(WateringFrequency::class),
-            Select::make('fertilizing_frequency')->options(FertilizingFrequency::class),
-            Select::make('maintenance_level')->options(MaintenanceLevel::class),
-            Toggle::make('pruning_required'),
-            TagsInput::make('propagation_methods')->columnSpanFull(),
+            Select::make('watering_frequency')->label(__('admin.plants.fields.watering_frequency'))->options(WateringFrequency::class),
+            Select::make('fertilizing_frequency')->label(__('admin.plants.fields.fertilizing_frequency'))->options(FertilizingFrequency::class),
+            Select::make('maintenance_level')->label(__('admin.plants.fields.maintenance_level'))->options(MaintenanceLevel::class),
+            Toggle::make('pruning_required')->label(__('admin.plants.fields.pruning_required')),
+            TagsInput::make('propagation_methods')->label(__('admin.plants.fields.propagation_methods'))->columnSpanFull(),
         ];
     }
 
@@ -367,14 +347,14 @@ final class PlantResource extends Resource
     private static function eigenschaftenSchema(): array
     {
         return [
-            Toggle::make('toxic_to_humans'),
-            Toggle::make('toxic_to_pets'),
-            Toggle::make('toxic_to_livestock'),
-            Toggle::make('invasive'),
-            Toggle::make('attracts_bees'),
-            Toggle::make('attracts_butterflies'),
-            Toggle::make('deer_resistant'),
-            Select::make('allergy_potential')->options(AllergyPotential::class),
+            Toggle::make('toxic_to_humans')->label(__('admin.plants.fields.toxic_to_humans')),
+            Toggle::make('toxic_to_pets')->label(__('admin.plants.fields.toxic_to_pets')),
+            Toggle::make('toxic_to_livestock')->label(__('admin.plants.fields.toxic_to_livestock')),
+            Toggle::make('invasive')->label(__('admin.plants.fields.invasive')),
+            Toggle::make('attracts_bees')->label(__('admin.plants.fields.attracts_bees')),
+            Toggle::make('attracts_butterflies')->label(__('admin.plants.fields.attracts_butterflies')),
+            Toggle::make('deer_resistant')->label(__('admin.plants.fields.deer_resistant')),
+            Select::make('allergy_potential')->label(__('admin.plants.fields.allergy_potential'))->options(AllergyPotential::class),
         ];
     }
 
@@ -383,12 +363,14 @@ final class PlantResource extends Resource
     {
         return [
             Select::make('status')
+                ->label(__('admin.plants.fields.status'))
                 ->options(PlantStatus::class)
                 ->required()
                 ->default(PlantStatus::Draft->value),
-            Textarea::make('review_notes')->rows(3)->columnSpanFull(),
-            DateTimePicker::make('reviewed_at')->disabled(),
+            Textarea::make('review_notes')->label(__('admin.plants.fields.review_notes'))->rows(3)->columnSpanFull(),
+            DateTimePicker::make('reviewed_at')->label(__('admin.plants.fields.reviewed_at'))->disabled(),
             Select::make('reviewed_by')
+                ->label(__('admin.plants.fields.reviewed_by'))
                 ->relationship('reviewer', 'name')
                 ->disabled(),
         ];

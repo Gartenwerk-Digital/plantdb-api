@@ -35,11 +35,27 @@ final class GenusResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-squares-2x2';
 
-    protected static ?string $navigationGroup = 'Taxonomy';
-
     protected static ?int $navigationSort = 20;
 
-    protected static ?string $pluralModelLabel = 'Genera';
+    public static function getNavigationGroup(): ?string
+    {
+        return __('admin.navigation.groups.taxonomy');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('admin.genera.nav');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('admin.genera.label');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('admin.genera.plural');
+    }
 
     public static function form(Form $form): Form
     {
@@ -47,13 +63,15 @@ final class GenusResource extends Resource
             Tabs::make('Genus')
                 ->columnSpanFull()
                 ->tabs([
-                    Tab::make('Stammdaten')->schema([
+                    Tab::make(__('admin.genera.tabs.stammdaten'))->schema([
                         Select::make('family_id')
+                            ->label(__('admin.genera.fields.family_id'))
                             ->relationship('family', 'name')
                             ->required()
                             ->searchable()
                             ->preload(),
                         TextInput::make('name')
+                            ->label(__('admin.genera.fields.name'))
                             ->required()
                             ->maxLength(255)
                             ->live(onBlur: true)
@@ -65,11 +83,12 @@ final class GenusResource extends Resource
                                 $set('slug', Str::slug($state));
                             }),
                         TextInput::make('slug')
+                            ->label(__('admin.genera.fields.slug'))
                             ->required()
                             ->maxLength(255)
                             ->unique(ignoreRecord: true),
                     ]),
-                    Tab::make('Übersetzungen')->schema([self::translationsRepeater()]),
+                    Tab::make(__('admin.genera.tabs.translations'))->schema([self::translationsRepeater()]),
                 ]),
         ]);
     }
@@ -77,24 +96,44 @@ final class GenusResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn (Builder $query): Builder => $query->with([
+                'translations' => fn ($q) => $q->where('locale', 'de'),
+            ]))
             ->columns([
                 TextColumn::make('name')
+                    ->label(__('admin.genera.fields.name'))
                     ->searchable()
                     ->sortable(),
+                TextColumn::make('common_name_de')
+                    ->label(__('admin.genera.columns.common_name_de'))
+                    ->getStateUsing(fn (Genus $record): ?string => $record->translations->firstWhere('locale', 'de')?->common_name)
+                    ->searchable(query: fn (Builder $query, string $search): Builder => $query->whereHas(
+                        'translations',
+                        fn (Builder $q): Builder => $q->where('locale', 'de')->where('common_name', 'ilike', sprintf('%%%s%%', $search))
+                    ))
+                    ->sortable(query: fn (Builder $query, string $direction): Builder => $query
+                        ->leftJoin('genus_translations as gt_de', function ($join): void {
+                            $join->on('gt_de.genus_id', '=', 'genera.id')
+                                ->where('gt_de.locale', '=', 'de');
+                        })
+                        ->orderBy('gt_de.common_name', $direction)
+                        ->select('genera.*')),
                 TextColumn::make('slug')
+                    ->label(__('admin.genera.fields.slug'))
                     ->searchable()
                     ->toggleable(),
                 TextColumn::make('family.name')
-                    ->label('Family')
+                    ->label(__('admin.genera.columns.family'))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('plants_count')
-                    ->label('Plants')
+                    ->label(__('admin.genera.columns.plants'))
                     ->counts([
                         'plants' => fn (Builder $query): Builder => $query->where('status', PlantStatus::Approved),
                     ])
                     ->sortable(),
                 TextColumn::make('created_at')
+                    ->label(__('admin.genera.columns.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -103,7 +142,7 @@ final class GenusResource extends Resource
             ->filters([
                 SelectFilter::make('family_id')
                     ->relationship('family', 'name')
-                    ->label('Family')
+                    ->label(__('admin.genera.fields.family_id'))
                     ->searchable(),
             ])
             ->bulkActions([
