@@ -1,0 +1,16 @@
+meta {
+  name: sitemap
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{apiUrl}}/plants/sitemap
+  auth: none
+}
+
+docs {
+  Lightweight list of all approved plants (slug, updated_at, available locales).
+  Public, unthrottled, cached server-side for 5 minutes. Intended for static site
+  generators (e.g. the plantdb-web Astro frontend) and search-engine sitemaps.
+}

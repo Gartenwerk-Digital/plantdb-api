@@ -24,6 +24,11 @@ Route::middleware('api.version:v1')->group(function (): void {
     Route::get('ping', fn () => response()->json(['status' => 'ok']))
         ->name('api.v1.ping');
 
+    // Sitemap for static site generators — public, unthrottled, server-side cached.
+    // Registered before the throttled `plants/{slug}` route so the literal segment wins.
+    Route::get('plants/sitemap', [PlantController::class, 'sitemap'])
+        ->name('api.v1.plants.sitemap');
+
     // Public routes with auth rate limiter (5/min - brute force protection)
     Route::middleware('throttle:auth')->group(function (): void {
         Route::post('register', [AuthController::class, 'register'])->name('api.v1.register');
