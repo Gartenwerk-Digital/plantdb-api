@@ -32,4 +32,19 @@ final class SitePageController extends Controller
 
         return view('site.home', ['featuredPlants' => $featuredPlants, 'approvedPlantCount' => $approvedPlantCount]);
     }
+
+    public function developers(): View
+    {
+        return view('site.developers');
+    }
+
+    public function contribute(): View
+    {
+        return view('site.contribute');
+    }
+
+    public function about(): View
+    {
+        return view('site.about');
+    }
 }
