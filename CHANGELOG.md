@@ -7,6 +7,62 @@ und dieses Projekt hält sich an [Semantic Versioning](https://semver.org/lang/d
 
 ## [Unreleased]
 
+## [0.8.0] — 2026-08-22
+
+Sprint 7 — MVP Launch. Öffentliche Blade-Website im API-Repo (Landing,
+Plant-Detailseiten, statische Seiten, Legal Pages), SEO-Basics und
+Produktions-Infrastruktur (Sentry, Backups, Health-Endpoint,
+Deploy-Skript, Runbook).
+
+### Added
+- Öffentlicher `GET /api/v1/plants/sitemap`-Endpoint (unlimitiert, gecacht)
+  für Frontend-Sitemap-Builds mit Slug + `updated_at` + Locales (#94)
+- Frontend-Grundgerüst im API-Repo: Vite + Tailwind v4, Site-Route-Group
+  und Blade-Layout unter `resources/views/site/` (#106)
+- Design-System mit OKLCH-Palette, self-hosted Fonts (Work Sans, Source
+  Serif 4, JetBrains Mono) und Blade-Base-Components (header, footer,
+  container, button, card, badge, plant-card, seo, prose) (#97)
+- Öffentliche Landing Page `/` mit Hero, USP-Block, Zielgruppen-Sektion
+  und gecachten Featured-Pflanzen (#98)
+- Pflanzen-Detailseite `GET /plants/{slug}` mit i18n, Response-Cache
+  (5 min pro slug+locale), Bildergalerie mit Attribution und JSON-LD
+  Thing-Markup (#99)
+- Statische Seiten `/developers`, `/contribute`, `/about` (#100)
+- Header-Navigation mit Hamburger-Dropdown und Links auf neue Seiten
+  (#100)
+- Legal Pages `/impressum` (§5 DDG) und `/datenschutz` (Art. 13 DSGVO)
+  mit sichtbaren TODO-Platzhaltern für Betreiber-Daten (#101)
+- SEO-Basics: `GET /sitemap.xml` via `spatie/laravel-sitemap` mit allen
+  approved Plants (lazy-gestreamt) und statischen Seiten (#102)
+- Erweiterte `<x-site.seo>`-Component: canonical-Link, Open Graph
+  (title/description/url/image/type/site_name/locale) und Twitter Cards;
+  JSON-LD bleibt plant-spezifisch (#102)
+- `public/robots.txt` mit Allow/Disallow-Struktur und Sitemap-Verweis
+  (Produktions-Domain als TODO für Go-Live) (#102)
+- `frontend-build`-Job in `.github/workflows/tests.yml`: `npm ci` +
+  `npm run build` bei jedem PR gegen `main`/`develop`, Node-Version
+  aus `.nvmrc` (#107)
+- Sentry-Integration (`sentry/sentry-laravel`): Handler in
+  `bootstrap/app.php`, neuer `sentry` Log-Channel und `production`-Stack
+  (`daily,sentry`) (#108)
+- Backup-System (`spatie/laravel-backup`): tägliches Backup 02:00 und
+  Cleanup 01:00 via Scheduler, Ziel-Disks konfigurierbar via
+  `BACKUP_DISKS` (#108)
+- `GET /health` Endpoint mit DB-, Cache- und Queue-Checks als JSON,
+  503 bei degradiertem System — separat vom Laravel-Standard `/up` (#108)
+- `.env.production.example` mit prod-safen Defaults und dokumentierten
+  Sentry-/Backup-Env-Vars (#108)
+- `deploy.sh` als Forge-Deploy-Skript (git pull, composer install,
+  npm build, migrate, config/route/view cache, queue restart) (#108)
+- `docs/DEPLOYMENT.md` — End-to-End-Runbook von Hetzner-VPS-Bestellung
+  bis Rollback (#108)
+
+### Changed
+- Scramble-API-Docs finalisiert für MVP-Launch (#93)
+- Footer-Links auf Route-Names statt hardcoded Pfade (#101)
+- `<x-site.seo>` bekommt einen `@stack('head')`-Slot im Layout; alle
+  Site-Views pushen ihre SEO-Tags einheitlich rein (#102)
+
 ## [0.7.0] — 2026-08-05
 
 Sprint 6 — Datenimport & i18n-Grundlage. Mehrsprachige API
@@ -200,7 +256,8 @@ Sprint 0 — Foundation. Erstes lauffähiges Skeleton der PlantDB API.
 - Bruno-Collection für lokale API-Exploration
 - `CLAUDE.md` mit Projekt-Konventionen und Git-Workflow
 
-[Unreleased]: https://github.com/Gartenwerk-Digital/plantdb-api/compare/v0.7.0...HEAD
+[Unreleased]: https://github.com/Gartenwerk-Digital/plantdb-api/compare/v0.8.0...HEAD
+[0.8.0]: https://github.com/Gartenwerk-Digital/plantdb-api/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/Gartenwerk-Digital/plantdb-api/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/Gartenwerk-Digital/plantdb-api/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/Gartenwerk-Digital/plantdb-api/compare/v0.4.0...v0.5.0
