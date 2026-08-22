@@ -47,4 +47,14 @@ final class SitePageController extends Controller
     {
         return view('site.about');
     }
+
+    public function impressum(): View
+    {
+        return view('site.impressum');
+    }
+
+    public function datenschutz(): View
+    {
+        return view('site.datenschutz');
+    }
 }
