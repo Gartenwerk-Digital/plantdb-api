@@ -1,7 +1,16 @@
+@php
+    $pageTitle = 'Über PlantDB';
+    $pageDescription = 'Vision, Roadmap und Team hinter PlantDB — der offenen, community-gepflegten Pflanzendatenbank.';
+@endphp
+
 @extends('site.layouts.base')
 
-@section('title', 'Über PlantDB')
-@section('description', 'Vision, Roadmap und Team hinter PlantDB — der offenen, community-gepflegten Pflanzendatenbank.')
+@section('title', $pageTitle)
+@section('description', $pageDescription)
+
+@push('head')
+    <x-site.seo :title="$pageTitle" :description="$pageDescription" />
+@endpush
 
 @section('content')
 

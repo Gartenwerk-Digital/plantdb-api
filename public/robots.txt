@@ -1,2 +1,7 @@
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /admin
+Disallow: /api
+
+# TODO (#108/#109): finale Produktions-Domain eintragen
+Sitemap: https://plantdb.example/sitemap.xml

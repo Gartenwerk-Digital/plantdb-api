@@ -1,7 +1,16 @@
+@php
+    $pageTitle = 'Impressum';
+    $pageDescription = 'Anbieterkennzeichnung gemäß §5 DDG für PlantDB.';
+@endphp
+
 @extends('site.layouts.base')
 
-@section('title', 'Impressum')
-@section('description', 'Anbieterkennzeichnung gemäß §5 DDG für PlantDB.')
+@section('title', $pageTitle)
+@section('description', $pageDescription)
+
+@push('head')
+    <x-site.seo :title="$pageTitle" :description="$pageDescription" />
+@endpush
 
 @section('content')
 

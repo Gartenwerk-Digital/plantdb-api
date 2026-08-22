@@ -1,7 +1,16 @@
+@php
+    $pageTitle = 'PlantDB — Die offene Pflanzendatenbank';
+    $pageDescription = 'PlantDB ist eine offene, community-gepflegte Pflanzendatenbank mit REST-API für Garten-Apps und Entwickler.';
+@endphp
+
 @extends('site.layouts.base')
 
-@section('title', 'PlantDB — Die offene Pflanzendatenbank')
-@section('description', 'PlantDB ist eine offene, community-gepflegte Pflanzendatenbank mit REST-API für Garten-Apps und Entwickler.')
+@section('title', $pageTitle)
+@section('description', $pageDescription)
+
+@push('head')
+    <x-site.seo :title="$pageTitle" :description="$pageDescription" />
+@endpush
 
 @section('content')
 

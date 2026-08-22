@@ -3,6 +3,9 @@
 
     $displayName = $translation?->common_name ?: $plant->scientific_name;
     $portraits = $plant->getMedia(\App\Enums\PlantImageType::Portrait->value);
+    $pageDescription = Str::limit($translation?->description ?: $plant->scientific_name.' — Pflanzendaten aus der PlantDB.', 160);
+    $portraitUrl = $plant->getFirstMediaUrl(\App\Enums\PlantImageType::Portrait->value, 'portrait');
+    $ogImage = $portraitUrl !== '' ? url($portraitUrl) : null;
 
     $careFields = array_filter([
         'Sonne' => $plant->sun_requirement?->value,
@@ -19,7 +22,18 @@
 @extends('site.layouts.base')
 
 @section('title', $displayName)
-@section('description', Str::limit($translation?->description ?: $plant->scientific_name.' — Pflanzendaten aus der PlantDB.', 160))
+@section('description', $pageDescription)
+
+@push('head')
+    <x-site.seo
+        :title="$displayName"
+        :description="$pageDescription"
+        :image="$ogImage"
+        type="article"
+        :plant="$plant"
+        :translation="$translation"
+    />
+@endpush
 
 @section('content')
 
@@ -117,7 +131,5 @@
     @endif
 
 </article>
-
-<x-site.seo :plant="$plant" :translation="$translation" />
 
 @endsection

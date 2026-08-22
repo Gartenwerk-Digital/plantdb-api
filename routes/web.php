@@ -2,11 +2,14 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Site\SitemapController;
 use App\Http\Controllers\Site\SitePageController;
 use App\Http\Controllers\Site\SitePlantController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/docs', '/docs/api');
+
+Route::get('/sitemap.xml', SitemapController::class)->name('site.sitemap');
 
 Route::get('/', [SitePageController::class, 'home'])->name('site.home');
 Route::get('/developers', [SitePageController::class, 'developers'])->name('site.developers');
