@@ -26,3 +26,17 @@ it('renders the about page', function (): void {
         ->assertSee('Über PlantDB')
         ->assertSee('Roadmap');
 });
+
+it('renders the impressum page', function (): void {
+    $this->get('/impressum')
+        ->assertOk()
+        ->assertSee('Impressum')
+        ->assertSee('Angaben gemäß §5 DDG');
+});
+
+it('renders the datenschutz page', function (): void {
+    $this->get('/datenschutz')
+        ->assertOk()
+        ->assertSee('Datenschutzerklärung')
+        ->assertSee('Server-Logfiles');
+});
