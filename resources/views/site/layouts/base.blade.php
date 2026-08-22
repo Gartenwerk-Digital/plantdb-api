@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>@yield('title', 'PlantDB') — Die offene Pflanzendatenbank</title>
         <meta name="description" content="@yield('description', 'PlantDB ist eine offene, community-gepflegte Pflanzendatenbank für Garten-Apps.')">
+        @stack('head')
         @vite(['resources/css/site.css', 'resources/js/site.js'])
     </head>
     <body>

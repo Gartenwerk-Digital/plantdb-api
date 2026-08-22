@@ -30,7 +30,8 @@
         "spatie/laravel-data": "^4.0",
         "spatie/laravel-medialibrary": "^11.0",
         "spatie/laravel-permission": "^6.0",
-        "spatie/laravel-query-builder": "^7.0"
+        "spatie/laravel-query-builder": "^7.0",
+        "spatie/laravel-sitemap": "^8.0"
     },
     "require-dev": {
         "driftingly/rector-laravel": "^2.0",

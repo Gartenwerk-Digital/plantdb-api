@@ -1,7 +1,16 @@
+@php
+    $pageTitle = 'Datenschutzerklärung';
+    $pageDescription = 'Datenschutzerklärung gemäß Art. 13 DSGVO für PlantDB — Umgang mit personenbezogenen Daten, Server-Logs, Rechte der Betroffenen.';
+@endphp
+
 @extends('site.layouts.base')
 
-@section('title', 'Datenschutzerklärung')
-@section('description', 'Datenschutzerklärung gemäß Art. 13 DSGVO für PlantDB — Umgang mit personenbezogenen Daten, Server-Logs, Rechte der Betroffenen.')
+@section('title', $pageTitle)
+@section('description', $pageDescription)
+
+@push('head')
+    <x-site.seo :title="$pageTitle" :description="$pageDescription" />
+@endpush
 
 @section('content')
 

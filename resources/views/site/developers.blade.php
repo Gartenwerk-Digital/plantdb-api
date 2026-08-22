@@ -1,7 +1,16 @@
+@php
+    $pageTitle = 'Für Entwickler';
+    $pageDescription = 'PlantDB REST-API für Entwickler: Getting Started, Authentifizierung, Rate Limits und Code-Beispiele.';
+@endphp
+
 @extends('site.layouts.base')
 
-@section('title', 'Für Entwickler')
-@section('description', 'PlantDB REST-API für Entwickler: Getting Started, Authentifizierung, Rate Limits und Code-Beispiele.')
+@section('title', $pageTitle)
+@section('description', $pageDescription)
+
+@push('head')
+    <x-site.seo :title="$pageTitle" :description="$pageDescription" />
+@endpush
 
 @section('content')
 
