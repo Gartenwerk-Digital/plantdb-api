@@ -1,7 +1,16 @@
+@php
+    $pageTitle = 'Mitmachen';
+    $pageDescription = 'PlantDB lebt von der Community: Pflanzen einreichen, moderieren, Code beisteuern. Alle Beiträge sind willkommen.';
+@endphp
+
 @extends('site.layouts.base')
 
-@section('title', 'Mitmachen')
-@section('description', 'PlantDB lebt von der Community: Pflanzen einreichen, moderieren, Code beisteuern. Alle Beiträge sind willkommen.')
+@section('title', $pageTitle)
+@section('description', $pageDescription)
+
+@push('head')
+    <x-site.seo :title="$pageTitle" :description="$pageDescription" />
+@endpush
 
 @section('content')
 
