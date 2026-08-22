@@ -60,6 +60,18 @@ return [
             'ignore_exceptions' => false,
         ],
 
+        'production' => [
+            'driver' => 'stack',
+            'channels' => ['daily', 'sentry'],
+            'ignore_exceptions' => false,
+        ],
+
+        'sentry' => [
+            'driver' => 'sentry',
+            'level' => env('LOG_LEVEL', 'error'),
+            'bubble' => true,
+        ],
+
         'single' => [
             'driver' => 'single',
             'path' => storage_path('logs/laravel.log'),
