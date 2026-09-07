@@ -27,10 +27,10 @@
     <section>
         <h2 class="text-2xl font-bold mb-4">Angaben gemäß §5 DDG</h2>
         <div class="space-y-2 text-foreground/90 leading-relaxed">
-            <p><strong>[TODO Betreiber: Vor- und Nachname / Firma]</strong></p>
-            <p>[TODO Straße und Hausnummer]</p>
-            <p>[TODO PLZ und Ort]</p>
-            <p>[TODO Land]</p>
+            <p><strong>Chris Ganzert</strong></p>
+            <p>Budapester Str. 9</p>
+            <p>99091 Erfurt</p>
+            <p>Deutschland</p>
         </div>
     </section>
 
@@ -38,7 +38,7 @@
     <section>
         <h2 class="text-2xl font-bold mb-4">Kontakt</h2>
         <div class="space-y-2 text-foreground/90 leading-relaxed">
-            <p>E-Mail: <a href="mailto:[TODO E-Mail-Adresse]" class="text-primary hover:underline">[TODO E-Mail-Adresse]</a></p>
+            <p>E-Mail: <a href="mailto:chrisganzert@gmail.com" class="text-primary hover:underline">chrisganzert@gmail.com</a></p>
         </div>
     </section>
 
@@ -46,8 +46,8 @@
     <section>
         <h2 class="text-2xl font-bold mb-4">Verantwortlich für den Inhalt nach §18 Abs. 2 MStV</h2>
         <div class="space-y-2 text-foreground/90 leading-relaxed">
-            <p><strong>[TODO Vor- und Nachname]</strong></p>
-            <p>[TODO Anschrift wie oben]</p>
+            <p><strong>Chris Ganzert</strong></p>
+            <p>Anschrift wie oben</p>
         </div>
     </section>
 
