@@ -39,8 +39,13 @@
         <h2 class="text-2xl font-bold mb-4">2. Hosting und Server-Logfiles</h2>
         <div class="space-y-4 text-foreground/90 leading-relaxed">
             <p>
-                Diese Website wird gehostet bei <strong>[TODO Hoster-Name, Anschrift, Land]</strong>.
+                Diese Website wird gehostet bei <strong>Laravel Cloud (Laravel Holdings, Inc.)</strong>
+                auf Infrastruktur von Amazon Web Services in der Region <em>eu-central-1 (Frankfurt am Main, Deutschland)</em>.
                 Mit dem Hoster besteht ein Auftragsverarbeitungsvertrag gemäß Art. 28 DSGVO.
+                DNS-Auflösung und Domain-Registrierung erfolgen über <strong>Cloudflare, Inc.</strong>
+                (101 Townsend St, San Francisco, CA 94107, USA); es wird kein Cloudflare-Proxy /
+                kein Cloudflare-CDN vor der Website eingesetzt, sodass keine Nutzerdaten an
+                Cloudflare übertragen werden, die über die reine DNS-Auflösung hinausgehen.
             </p>
             <p>
                 Bei jedem Aufruf der Website erhebt der Hoster automatisch technische Zugriffsdaten

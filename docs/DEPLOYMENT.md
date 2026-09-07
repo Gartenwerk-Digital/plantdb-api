@@ -1,120 +1,152 @@
 # Deployment Runbook — PlantDB API
 
-Zielumgebung: **Laravel Forge auf Hetzner VPS** (EU, DSGVO). Diese Doku beschreibt den End-to-End-Setup von Server-Bestellung bis Post-Deploy-Smoke-Test.
+Zielumgebung: **Laravel Cloud** (AWS `eu-central-1` / Frankfurt, DSGVO). DNS über Cloudflare (Proxy aus, „DNS only"), TLS von Laravel Cloud (Let's Encrypt).
 
-Repo-lokale Bausteine sind bereits vorbereitet (siehe #108): `deploy.sh`, `.env.production.example`, Sentry, Backups, `/health`.
+Repo-lokale Bausteine: `.env.production.example`, Sentry, spatie/laravel-backup, `/health`, `/up`, Mailgun-Mailer.
 
 ---
 
-## 1. Server-Provisioning (Hetzner)
+## 1. Projekt in Laravel Cloud anlegen
 
-- **VPS-Typ**: Hetzner CX22 oder CPX21 als Startpunkt (2 vCPU, 4 GB RAM, 40 GB SSD, Location Nürnberg/Falkenstein)
-- **OS**: Ubuntu 24.04 LTS (Forge-Standard)
-- **Netzwerk**: IPv4 + IPv6, keine zusätzliche Firewall (Forge managed UFW)
-- SSH-Key aus Forge in Hetzner-Cloud-Console eintragen, dann Server bestellen. IP notieren.
+1. cloud.laravel.com → **New Project**
+2. Repo `Gartenwerk-Digital/plantdb-api` verbinden, Branch `main`
+3. Region: **eu-central-1** (Frankfurt)
+4. PHP 8.3, Compute-Size „Small" (später skalierbar)
+5. **Automatic Deploys** auf `main` aktivieren
 
-## 2. Forge-Server verbinden
+## 2. Postgres-Datenbank
 
-1. Forge → **Create Server** → „Custom VPS"
-2. IP, Provider „Hetzner", PHP 8.4, Database „PostgreSQL 16", Meilisearch **nein**
-3. Warten bis Forge provisioniert ist (~10 min). Prüfen: SSH als `forge` funktioniert.
-4. Forge → Server → **Daemons**: Redis nachrüsten (optional, für Follow-up-Redis-Migration)
+1. Cloud → Project → **Add Database** → PostgreSQL 16, Name `plantdb_api`
+2. Cloud injiziert `DB_HOST/PORT/DATABASE/USERNAME/PASSWORD` automatisch. Nichts manuell setzen.
 
-## 3. Domain & DNS
+## 3. Object Storage (Media + Backups)
 
-- Domain-Provider (INWX, Namecheap, o. ä.) → DNS-Records:
-  - `A @ → <server-ip>`
-  - `AAAA @ → <server-ipv6>`
-  - `A www → <server-ip>` (redirect via Forge)
-- TTL 3600, warten bis Propagation durch (`dig plantdb.example`)
+1. Cloud → **Add Object Storage** → zwei Buckets:
+   - `plantdb-media` — Visibility **public**
+   - `plantdb-backups` — Visibility **private**
+2. Access Keys generieren
+3. Env-Vars in Cloud eintragen:
+   - `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`
+   - `AWS_DEFAULT_REGION=eu-central-1`
+   - `AWS_ENDPOINT=<Cloud Object Storage Endpoint>`
+   - `MEDIA_BUCKET=plantdb-media`
+   - `MEDIA_URL=<public URL des Media-Buckets>`
+   - `BACKUP_BUCKET=plantdb-backups`
 
-## 4. Site anlegen
+## 4. Environment Variables
 
-1. Forge → Server → **New Site**
-   - Root Domain: `plantdb.example`
-   - Project Type: „General PHP / Laravel"
-   - Web Directory: `/public`
-2. Site → **Git Repository**: `Gartenwerk-Digital/plantdb-api`, Branch `main`, Composer install: **an**
-3. Site → **Deploy Script**: Inhalt von `deploy.sh` einfügen (oder auf `bash deploy.sh` verweisen). Forge injiziert `$FORGE_PHP`, `$FORGE_COMPOSER`, `$FORGE_SITE_PATH`, `$FORGE_SITE_BRANCH`.
-4. Site → **Environment**: Inhalt von `.env.production.example` einfügen, alle `# set via Forge`-Werte ausfüllen (siehe Secrets-Sektion unten).
-
-## 5. Secrets (in Forge Environment)
+Vorlage: `.env.production.example`. Alle mit `# set via Cloud` markierten Werte manuell in der Cloud-UI eintragen.
 
 | Variable | Quelle |
 | --- | --- |
 | `APP_KEY` | `php artisan key:generate --show` lokal, dann eintragen |
-| `DB_USERNAME`, `DB_PASSWORD` | Forge → Database → User |
+| `APP_URL` | `https://plantdb.dev` |
 | `ADMIN_PASSWORD` | Erster Admin-Login (nach Seed rotieren) |
-| `MAIL_HOST/USERNAME/PASSWORD` | Postmark/SES-Credentials |
-| `R2_*` | Cloudflare Dashboard → R2 → API Token |
-| `SENTRY_LARAVEL_DSN` | Sentry-Projekt „plantdb-api" → Settings → Client Keys |
+| `MAILGUN_DOMAIN`, `MAILGUN_SECRET` | Mailgun-Dashboard → EU-Region → Sending API Key |
+| `SENTRY_LARAVEL_DSN` | Sentry-Projekt „plantdb-api" → Client Keys |
 | `BACKUP_ARCHIVE_PASSWORD` | `openssl rand -base64 32`, sicher ablegen |
 
-## 6. Database
+## 5. Queue-Worker
 
-1. Forge → Server → **Database** → neue Datenbank `plantdb_api`, User `plantdb`
-2. SSH auf Server: `cd /home/forge/plantdb.example && php artisan migrate --force && php artisan db:seed --force`
-3. Admin-User prüfen: Login unter `https://plantdb.example/admin`
-
-## 7. SSL
-
-Forge → Site → **SSL** → „Let's Encrypt" → aktivieren. Cert-Renewal läuft automatisch.
-
-## 8. Queue-Worker
-
-Forge → Site → **Queue** → New Worker:
+Cloud → Project → **Workers** → New Worker:
 - Connection: `database`
 - Queue: `default`
 - Processes: 2
-- Sleep: 3, Timeout: 60, Tries: 3
+- Timeout: 60, Tries: 3
 
-## 9. Scheduler
+## 6. Scheduler
 
-Forge → Server → **Scheduler** → „Add Scheduled Job"
-- Command: `php /home/forge/plantdb.example/artisan schedule:run`
-- Frequency: „Every Minute"
+Cloud → Project → **Scheduler** → Enable (Cloud ruft `php artisan schedule:run` jede Minute).
 
-Laravel-Scheduler ruft dann `backup:clean` (01:00) und `backup:run` (02:00) auf (definiert in `routes/console.php`).
+Definiert in `routes/console.php`:
+- `backup:clean` täglich 01:00
+- `backup:run` täglich 02:00
+
+## 7. Deploy-Hook
+
+Cloud → Project → **Deploy** → Build Command / Deploy Steps:
+
+```bash
+composer install --no-dev --prefer-dist --optimize-autoloader
+npm ci
+npm run build
+php artisan migrate --force
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+php artisan event:cache
+```
+
+## 8. Domain & SSL
+
+1. Cloud → Project → **Domains** → `plantdb.dev` hinzufügen. Cloud gibt CNAME/A-Records aus.
+2. Cloudflare → DNS → Records eintragen:
+   - Root/`@` → Cloud-Target (A oder CNAME laut Cloud-Instruktion)
+   - `www` → CNAME auf Root
+3. **Proxy-Status „DNS only" (graue Wolke)** — nicht orange, sonst kollidiert Cloudflare-SSL mit Cloud-SSL
+4. Cloud stellt Let's Encrypt-Zertifikat automatisch aus, sobald DNS aufgelöst
+
+## 9. Mailgun-Setup (EU)
+
+1. Mailgun-Account → EU-Region → Domain `plantdb.dev` hinzufügen
+2. DNS-Records (SPF/DKIM/MX) aus Mailgun in Cloudflare eintragen
+3. Verifikation abwarten
+4. Sending API Key → `MAILGUN_SECRET` in Cloud
+5. Test (Cloud-Console):
+   ```php
+   Mail::raw('cloud-test', fn($m) => $m->to('me@example.com')->subject('cloud-test'));
+   ```
 
 ## 10. Sentry
 
-1. Sentry-Projekt anlegen: Platform „Laravel", Org „gartenwerk"
+1. Sentry-Projekt „plantdb-api" (Platform Laravel) anlegen
 2. DSN in `SENTRY_LARAVEL_DSN` eintragen
-3. Test: SSH auf Server → `php artisan tinker` → `throw new RuntimeException('sentry-test')` → Event muss in Sentry auftauchen (Ausnahme wird durch `Integration::handles($exceptions)` in `bootstrap/app.php` reportet)
+3. Test (Cloud-Console): `php artisan tinker` → `throw new RuntimeException('sentry-test')` → Event muss auftauchen
 
-## 11. Backups
+## 11. Erster Deploy + Seed
 
-- Ziel: Cloudflare R2 Bucket `plantdb-prod-backups` (separat vom Media-Bucket!)
-- Test nach erstem Deploy: `php artisan backup:run` → Zip landet in R2 unter `PlantDB API/`
-- **Restore-Test einmal jährlich**: Zip aus R2 laden, in Test-DB einspielen, Login prüfen
-- Failure-Notifications: `BACKUP_NOTIFICATION_MAIL_TO` empfängt Mails bei Fehlern
+1. Push auf `main` → Cloud deployed automatisch
+2. Cloud-Console (SSH-artige Shell):
+   ```bash
+   php artisan migrate --force
+   php artisan db:seed --force   # nur beim allerersten Mal!
+   ```
+3. Admin-Login prüfen: `https://plantdb.dev/admin`
 
-## 12. Monitoring
-
-- **Uptime-Monitor**: Better Stack (kostenlos bis 10 Monitore) → HTTP-Check auf `https://plantdb.example/health`, Interval 3 min, Alert per Mail + Slack
-- `/up` (Laravel Standard) bleibt für Forge-interne Health-Checks; `/health` liefert DB/Cache/Queue-Detail (JSON, 200 oder 503)
-
-## 13. Erster Deploy
-
-Forge → Site → **Deploy Now**. Danach:
+## 12. Smoke-Test
 
 ```bash
-curl -s https://plantdb.example/health | jq
-curl -s https://plantdb.example/api/v1/ping
-curl -sI https://plantdb.example/                # 200 mit HTML
-curl -sI https://plantdb.example/sitemap.xml     # 200, application/xml
+curl -sI https://plantdb.dev/                   # 200 HTML
+curl -s  https://plantdb.dev/health | jq        # {"status":"ok",...}
+curl -s  https://plantdb.dev/api/v1/ping        # {"status":"ok"}
+curl -sI https://plantdb.dev/sitemap.xml        # 200 xml
+curl -sI https://plantdb.dev/impressum          # 200
+curl -sI https://plantdb.dev/datenschutz        # 200
 ```
 
-Alle 200 → Go-Live-Smoke-Test (#109) laufen lassen.
+## 13. Backup-Test
 
-## 14. Rollback
+Cloud-Console:
+```bash
+php artisan backup:run
+```
+Zip muss im `plantdb-backups`-Bucket unter `PlantDB API/` erscheinen. Failure-Mails gehen an `BACKUP_NOTIFICATION_MAIL_TO`.
 
-Forge zeigt letzte 10 Deploys. Bei Regression:
-1. Forge → Site → **Deploy History** → früheren Commit „Redeploy"
-2. Falls DB-Migration involviert: `php artisan migrate:rollback --step=1` **manuell auf Server** (Forge macht das nicht automatisch)
+**Restore-Test einmal jährlich**: Zip laden, in Test-DB einspielen, Admin-Login prüfen.
 
-## 15. Follow-ups
+## 14. Monitoring
 
-- Redis für Cache/Queue (Forge → Server → Daemons → Redis, dann `CACHE_STORE=redis`, `QUEUE_CONNECTION=redis`)
+- **Uptime-Monitor** (Better Stack o. ä.): HTTP-Check auf `https://plantdb.dev/health`, Intervall 3 min
+- `/up` = Cloud-interner Health-Check
+- `/health` = detaillierter DB/Cache/Queue-Status (JSON, 200 oder 503)
+
+## 15. Rollback
+
+Cloud → Deploy History → früheren Commit „Redeploy". Bei DB-Migration involved: `php artisan migrate:rollback --step=1` manuell in der Cloud-Console (Cloud rollt DB nicht automatisch zurück).
+
+## 16. Follow-ups
+
+- Redis für Cache/Queue (Cloud → Add Redis, dann `CACHE_STORE=redis`, `QUEUE_CONNECTION=redis`)
 - Laravel Pulse Dashboard (eigenes Issue)
-- CDN vor Media-Bucket (Cloudflare Domain-Fronting oder direkte R2-Public-URL)
+- Cloudflare-Proxy einschalten sobald sinnvoll (Origin-Rules + Cloud-IP-Whitelist beachten)
+- R2-Legacy-Disks aus `config/filesystems.php` entfernen, sobald Migration vollständig verifiziert
